@@ -1,4 +1,4 @@
-package com.netcracker.group5.repository;
+package com.netcracker.group5.medkit.repository;
 
 
 public class ApplicationRepository {

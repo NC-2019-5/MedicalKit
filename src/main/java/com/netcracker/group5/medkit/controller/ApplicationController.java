@@ -1,4 +1,4 @@
-package com.netcracker.group5.controller;
+package com.netcracker.group5.medkit.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package com.netcracker.group5.model.dto;
+package com.netcracker.group5.medkit.model.dto;
 
 
 public class ApplicationDTO {
