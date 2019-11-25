@@ -1,6 +1,5 @@
 package com.netcracker.group5.medkit.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApplicationController {
 
     @RequestMapping("/")
-    public String hello(){
-        return "Hello, world";
+    public String hello() {
+        return "Hello, world !";
     }
 }
