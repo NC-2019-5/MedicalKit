@@ -1,7 +1,7 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
 import com.netcracker.group5.medkit.model.domain.Location;
-import com.netcracker.group5.medkit.model.domain.MedicineKit;
+import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.enumeration.Sex;
@@ -27,6 +27,6 @@ public class Patient extends User implements Requestable {
     private String phoneNumber;
     private List<Doctor> attendingDoctors;
     private List<Purchase> purchases;
-    private MedicineKit medicineKit;
+    private List<MedicineInstance> medicineInstances;
     private List<Prescription> prescriptions;
 }
