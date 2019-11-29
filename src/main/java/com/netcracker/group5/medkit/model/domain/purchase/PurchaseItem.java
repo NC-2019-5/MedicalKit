@@ -2,24 +2,23 @@ package com.netcracker.group5.medkit.model.domain.purchase;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 
-
 public class PurchaseItem {
 
-    private long id;
+    private Long id;
     private Medicine medicine;
     private int amount;
 
-    public PurchaseItem(long id, Medicine medicine, int amount) {
+    public PurchaseItem(Long id, Medicine medicine, int amount) {
         this.id = id;
         this.medicine = medicine;
         this.amount = amount;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

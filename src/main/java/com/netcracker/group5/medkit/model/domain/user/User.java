@@ -1,18 +1,19 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
-import com.netcracker.group5.medkit.model.domain.request.Request;
 import com.netcracker.group5.medkit.model.domain.enumeration.UserRole;
+import com.netcracker.group5.medkit.model.domain.request.Request;
+
 import java.util.List;
 
 public abstract class User {
 
-    protected long id;
+    protected Long id;
     protected String email;
     protected String password;
     protected UserRole userRole;
     protected List<Request> notifications;
 
-    public User(long id, String email, String password, UserRole userRole, List<Request> notifications) {
+    public User(Long id, String email, String password, UserRole userRole, List<Request> notifications) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -20,11 +21,11 @@ public abstract class User {
         this.notifications = notifications;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,11 +1,11 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
 import com.netcracker.group5.medkit.model.domain.Location;
+import com.netcracker.group5.medkit.model.domain.Requestable;
+import com.netcracker.group5.medkit.model.domain.enumeration.Sex;
 import com.netcracker.group5.medkit.model.domain.enumeration.UserRole;
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
-import com.netcracker.group5.medkit.model.domain.Requestable;
-import com.netcracker.group5.medkit.model.domain.enumeration.Sex;
 import com.netcracker.group5.medkit.model.domain.purchase.Purchase;
 import com.netcracker.group5.medkit.model.domain.request.Request;
 
@@ -26,7 +26,7 @@ public class Patient extends User implements Requestable {
     private List<MedicineInstance> medicineInstances;
     private List<Prescription> prescriptions;
 
-    public Patient(long id, String email, String password, UserRole userRole, List<Request> notifications, String fullName, Date dateOfBirth, Sex sex, float weight, float height, Location location, String phoneNumber, List<Doctor> attendingDoctors, List<Purchase> purchases, List<MedicineInstance> medicineInstances, List<Prescription> prescriptions) {
+    public Patient(Long id, String email, String password, UserRole userRole, List<Request> notifications, String fullName, Date dateOfBirth, Sex sex, float weight, float height, Location location, String phoneNumber, List<Doctor> attendingDoctors, List<Purchase> purchases, List<MedicineInstance> medicineInstances, List<Prescription> prescriptions) {
         super(id, email, password, userRole, notifications);
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;

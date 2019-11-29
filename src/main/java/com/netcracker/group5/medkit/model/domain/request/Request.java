@@ -3,11 +3,12 @@ package com.netcracker.group5.medkit.model.domain.request;
 import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.enumeration.RequestType;
 import com.netcracker.group5.medkit.model.domain.user.User;
+
 import java.util.Date;
 
 public class Request<T extends Requestable> {
 
-    protected long id;
+    protected Long id;
     protected Date timeWhenDelivered;
     protected RequestType type;
     protected User sender;
@@ -15,7 +16,7 @@ public class Request<T extends Requestable> {
     protected T body;
     protected String template;
 
-    public Request(long id, Date timeWhenDelivered, RequestType type, User sender, User recipient, T body, String template) {
+    public Request(Long id, Date timeWhenDelivered, RequestType type, User sender, User recipient, T body, String template) {
         this.id = id;
         this.timeWhenDelivered = timeWhenDelivered;
         this.type = type;
@@ -25,11 +26,11 @@ public class Request<T extends Requestable> {
         this.template = template;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

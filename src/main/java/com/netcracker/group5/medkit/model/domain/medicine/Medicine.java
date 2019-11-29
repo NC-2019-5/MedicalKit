@@ -5,7 +5,7 @@ import com.netcracker.group5.medkit.model.domain.enumeration.TakingMethod;
 
 public class Medicine implements Requestable {
 
-    private long id;
+    private Long id;
     private String name;
     private String manufacturer;
     private String formOfProduction;
@@ -15,7 +15,7 @@ public class Medicine implements Requestable {
     private TakingMethod takingMethod;
     private String description;
 
-    public Medicine(long id, String name, String manufacturer, String formOfProduction, String contraindications, String interactions, String packageContent, TakingMethod takingMethod, String description) {
+    public Medicine(Long id, String name, String manufacturer, String formOfProduction, String contraindications, String interactions, String packageContent, TakingMethod takingMethod, String description) {
         this.id = id;
         this.name = name;
         this.manufacturer = manufacturer;
@@ -27,11 +27,11 @@ public class Medicine implements Requestable {
         this.description = description;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

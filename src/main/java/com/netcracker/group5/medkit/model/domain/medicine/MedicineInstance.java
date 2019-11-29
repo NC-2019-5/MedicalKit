@@ -1,27 +1,28 @@
 package com.netcracker.group5.medkit.model.domain.medicine;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
+
 import java.util.Date;
 
 public class MedicineInstance implements Requestable {
 
-    private long id;
+    private Long id;
     private Medicine medicine;
     private Date selfLife;
     private int amount;
 
-    public MedicineInstance(long id, Medicine medicine, Date selfLife, int amount) {
+    public MedicineInstance(Long id, Medicine medicine, Date selfLife, int amount) {
         this.id = id;
         this.medicine = medicine;
         this.selfLife = selfLife;
         this.amount = amount;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

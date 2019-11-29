@@ -1,13 +1,13 @@
 package com.netcracker.group5.medkit.model.domain;
 
 public class Location {
-    private long id;
+    private Long id;
     private String country;
     private String city;
     private String street;
     private String houseNumber;
 
-    public Location(long id, String country, String city, String street, String houseNumber) {
+    public Location(Long id, String country, String city, String street, String houseNumber) {
         this.id = id;
         this.country = country;
         this.city = city;
@@ -15,11 +15,11 @@ public class Location {
         this.houseNumber = houseNumber;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

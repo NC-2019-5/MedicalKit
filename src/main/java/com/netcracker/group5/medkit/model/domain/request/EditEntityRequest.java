@@ -11,7 +11,7 @@ public class EditEntityRequest<T extends Requestable> extends Request<T> {
 
     private Map<String, String> fields;
 
-    public EditEntityRequest(long id, Date timeWhenDelivered, RequestType type, User sender, User recipient, T body, String template, Map<String, String> fields) {
+    public EditEntityRequest(Long id, Date timeWhenDelivered, RequestType type, User sender, User recipient, T body, String template, Map<String, String> fields) {
         super(id, timeWhenDelivered, type, sender, recipient, body, template);
         this.fields = fields;
     }

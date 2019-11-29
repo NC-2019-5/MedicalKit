@@ -10,7 +10,7 @@ public class Reminder<T extends Requestable> extends Request<T> {
 
     private Date remindTime;
 
-    public Reminder(long id, Date timeWhenDelivered, RequestType type, User sender, User recipient, T body, String template, Date remindTime) {
+    public Reminder(Long id, Date timeWhenDelivered, RequestType type, User sender, User recipient, T body, String template, Date remindTime) {
         super(id, timeWhenDelivered, type, sender, recipient, body, template);
         this.remindTime = remindTime;
     }

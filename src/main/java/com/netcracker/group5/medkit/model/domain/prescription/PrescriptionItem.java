@@ -1,12 +1,13 @@
 package com.netcracker.group5.medkit.model.domain.prescription;
 
-import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.domain.Requestable;
+import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
+
 import java.util.Date;
 
 public class PrescriptionItem implements Requestable {
 
-    private long id;
+    private Long id;
     private Medicine medicine;
     private Date startDate;
     private Date endDate;
@@ -14,7 +15,7 @@ public class PrescriptionItem implements Requestable {
     private Date takingTime;
     private String description;
 
-    public PrescriptionItem(long id, Medicine medicine, Date startDate, Date endDate, int takingDurationDays, Date takingTime, String description) {
+    public PrescriptionItem(Long id, Medicine medicine, Date startDate, Date endDate, int takingDurationDays, Date takingTime, String description) {
         this.id = id;
         this.medicine = medicine;
         this.startDate = startDate;
@@ -24,11 +25,11 @@ public class PrescriptionItem implements Requestable {
         this.description = description;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
