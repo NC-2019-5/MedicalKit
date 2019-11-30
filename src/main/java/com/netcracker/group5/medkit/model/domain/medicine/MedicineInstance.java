@@ -3,6 +3,7 @@ package com.netcracker.group5.medkit.model.domain.medicine;
 import com.netcracker.group5.medkit.model.domain.Requestable;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class MedicineInstance implements Requestable {
 
@@ -48,5 +49,21 @@ public class MedicineInstance implements Requestable {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MedicineInstance that = (MedicineInstance) o;
+        return amount == that.amount &&
+                id.equals(that.id) &&
+                medicine.equals(that.medicine) &&
+                Objects.equals(selfLife, that.selfLife);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, medicine, selfLife, amount);
     }
 }

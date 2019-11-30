@@ -4,6 +4,7 @@ import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.user.User;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Request<T extends Requestable> {
 
@@ -79,5 +80,24 @@ public class Request<T extends Requestable> {
 
     public void setTemplate(String template) {
         this.template = template;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Request<?> request = (Request<?>) o;
+        return id.equals(request.id) &&
+                Objects.equals(deliveredTime, request.deliveredTime) &&
+                type == request.type &&
+                Objects.equals(sender, request.sender) &&
+                Objects.equals(recipient, request.recipient) &&
+                Objects.equals(body, request.body) &&
+                Objects.equals(template, request.template);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, deliveredTime, type, sender, recipient, body, template);
     }
 }

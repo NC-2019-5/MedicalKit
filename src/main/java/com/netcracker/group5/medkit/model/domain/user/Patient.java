@@ -8,6 +8,7 @@ import com.netcracker.group5.medkit.model.domain.request.Request;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class Patient extends User implements Requestable {
 
@@ -134,5 +135,30 @@ public class Patient extends User implements Requestable {
 
     public void setPrescriptions(List<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Patient patient = (Patient) o;
+        return Float.compare(patient.weight, weight) == 0 &&
+                Float.compare(patient.height, height) == 0 &&
+                Objects.equals(name, patient.name) &&
+                Objects.equals(surname, patient.surname) &&
+                Objects.equals(birthDate, patient.birthDate) &&
+                sex == patient.sex &&
+                Objects.equals(location, patient.location) &&
+                Objects.equals(phoneNumber, patient.phoneNumber) &&
+                Objects.equals(attendingDoctors, patient.attendingDoctors) &&
+                Objects.equals(purchases, patient.purchases) &&
+                Objects.equals(medicineInstances, patient.medicineInstances) &&
+                Objects.equals(prescriptions, patient.prescriptions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, surname, birthDate, sex, weight, height, location, phoneNumber, attendingDoctors, purchases, medicineInstances, prescriptions);
     }
 }

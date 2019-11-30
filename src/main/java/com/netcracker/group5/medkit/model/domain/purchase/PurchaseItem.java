@@ -2,6 +2,8 @@ package com.netcracker.group5.medkit.model.domain.purchase;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 
+import java.util.Objects;
+
 public class PurchaseItem {
 
     private Long id;
@@ -36,5 +38,20 @@ public class PurchaseItem {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PurchaseItem that = (PurchaseItem) o;
+        return amount == that.amount &&
+                id.equals(that.id) &&
+                Objects.equals(medicine, that.medicine);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, medicine, amount);
     }
 }

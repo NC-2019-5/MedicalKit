@@ -4,6 +4,7 @@ import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.user.User;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Reminder<T extends Requestable> extends Request<T> {
 
@@ -20,5 +21,18 @@ public class Reminder<T extends Requestable> extends Request<T> {
 
     public void setRemindTime(LocalDateTime remindTime) {
         this.remindTime = remindTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reminder<?> reminder = (Reminder<?>) o;
+        return remindTime.equals(reminder.remindTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(remindTime);
     }
 }

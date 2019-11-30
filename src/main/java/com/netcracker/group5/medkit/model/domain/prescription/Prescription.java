@@ -6,6 +6,7 @@ import com.netcracker.group5.medkit.model.domain.user.Patient;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class Prescription implements Requestable {
 
@@ -61,5 +62,22 @@ public class Prescription implements Requestable {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Prescription that = (Prescription) o;
+        return id.equals(that.id) &&
+                Objects.equals(doctor, that.doctor) &&
+                Objects.equals(patient, that.patient) &&
+                Objects.equals(prescriptionItems, that.prescriptionItems) &&
+                Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, doctor, patient, prescriptionItems, date);
     }
 }

@@ -3,6 +3,7 @@ package com.netcracker.group5.medkit.model.domain.medicine;
 import com.netcracker.group5.medkit.model.domain.Requestable;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Medicine implements Requestable {
 
@@ -98,5 +99,26 @@ public class Medicine implements Requestable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Medicine medicine = (Medicine) o;
+        return id.equals(medicine.id) &&
+                Objects.equals(name, medicine.name) &&
+                Objects.equals(manufacturer, medicine.manufacturer) &&
+                Objects.equals(productionForm, medicine.productionForm) &&
+                Objects.equals(contraindications, medicine.contraindications) &&
+                Objects.equals(interactions, medicine.interactions) &&
+                Objects.equals(packageContent, medicine.packageContent) &&
+                takingMethod == medicine.takingMethod &&
+                Objects.equals(description, medicine.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, manufacturer, productionForm, contraindications, interactions, packageContent, takingMethod, description);
     }
 }

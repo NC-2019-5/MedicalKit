@@ -5,6 +5,7 @@ import com.netcracker.group5.medkit.model.domain.user.User;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Objects;
 
 public class EditEntityRequest<T extends Requestable> extends Request<T> {
 
@@ -21,5 +22,18 @@ public class EditEntityRequest<T extends Requestable> extends Request<T> {
 
     public void setFields(Map<String, String> fields) {
         this.fields = fields;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EditEntityRequest<?> that = (EditEntityRequest<?>) o;
+        return fields.equals(that.fields);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fields);
     }
 }

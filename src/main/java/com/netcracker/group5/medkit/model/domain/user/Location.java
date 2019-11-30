@@ -1,5 +1,7 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
+import java.util.Objects;
+
 public class Location {
     private Long id;
     private String country;
@@ -53,5 +55,22 @@ public class Location {
 
     public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return id.equals(location.id) &&
+                Objects.equals(country, location.country) &&
+                Objects.equals(city, location.city) &&
+                Objects.equals(street, location.street) &&
+                Objects.equals(houseNumber, location.houseNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, country, city, street, houseNumber);
     }
 }
