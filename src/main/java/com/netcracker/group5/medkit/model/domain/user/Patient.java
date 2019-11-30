@@ -9,13 +9,13 @@ import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.purchase.Purchase;
 import com.netcracker.group5.medkit.model.domain.request.Request;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Patient extends User implements Requestable {
 
     private String fullName;
-    private Date dateOfBirth;
+    private LocalDateTime dateOfBirth;
     private Sex sex;
     private float weight;
     private float height;
@@ -26,7 +26,7 @@ public class Patient extends User implements Requestable {
     private List<MedicineInstance> medicineInstances;
     private List<Prescription> prescriptions;
 
-    public Patient(Long id, String email, String password, UserRole userRole, List<Request> notifications, String fullName, Date dateOfBirth, Sex sex, float weight, float height, Location location, String phoneNumber, List<Doctor> attendingDoctors, List<Purchase> purchases, List<MedicineInstance> medicineInstances, List<Prescription> prescriptions) {
+    public Patient(Long id, String email, String password, UserRole userRole, List<Request> notifications, String fullName, LocalDateTime dateOfBirth, Sex sex, float weight, float height, Location location, String phoneNumber, List<Doctor> attendingDoctors, List<Purchase> purchases, List<MedicineInstance> medicineInstances, List<Prescription> prescriptions) {
         super(id, email, password, userRole, notifications);
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
@@ -49,11 +49,11 @@ public class Patient extends User implements Requestable {
         this.fullName = fullName;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDateTime getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDateTime dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

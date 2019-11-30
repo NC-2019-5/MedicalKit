@@ -4,19 +4,19 @@ import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.enumeration.RequestType;
 import com.netcracker.group5.medkit.model.domain.user.User;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Request<T extends Requestable> {
 
     protected Long id;
-    protected Date timeWhenDelivered;
+    protected LocalDateTime timeWhenDelivered;
     protected RequestType type;
     protected User sender;
     protected User recipient;
     protected T body;
     protected String template;
 
-    public Request(Long id, Date timeWhenDelivered, RequestType type, User sender, User recipient, T body, String template) {
+    public Request(Long id, LocalDateTime timeWhenDelivered, RequestType type, User sender, User recipient, T body, String template) {
         this.id = id;
         this.timeWhenDelivered = timeWhenDelivered;
         this.type = type;
@@ -34,11 +34,11 @@ public class Request<T extends Requestable> {
         this.id = id;
     }
 
-    public Date getTimeWhenDelivered() {
+    public LocalDateTime getTimeWhenDelivered() {
         return timeWhenDelivered;
     }
 
-    public void setTimeWhenDelivered(Date timeWhenDelivered) {
+    public void setTimeWhenDelivered(LocalDateTime timeWhenDelivered) {
         this.timeWhenDelivered = timeWhenDelivered;
     }
 

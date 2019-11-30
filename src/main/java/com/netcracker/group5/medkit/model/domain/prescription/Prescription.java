@@ -4,7 +4,7 @@ import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.user.Doctor;
 import com.netcracker.group5.medkit.model.domain.user.Patient;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Prescription implements Requestable {
@@ -13,9 +13,9 @@ public class Prescription implements Requestable {
     private Doctor doctor;
     private Patient patient;
     private List<PrescriptionItem> prescriptionItems;
-    private Date date;
+    private LocalDateTime date;
 
-    public Prescription(Long id, Doctor doctor, Patient patient, List<PrescriptionItem> prescriptionItems, Date date) {
+    public Prescription(Long id, Doctor doctor, Patient patient, List<PrescriptionItem> prescriptionItems, LocalDateTime date) {
         this.id = id;
         this.doctor = doctor;
         this.patient = patient;
@@ -55,11 +55,11 @@ public class Prescription implements Requestable {
         this.prescriptionItems = prescriptionItems;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }

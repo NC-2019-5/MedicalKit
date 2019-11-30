@@ -6,20 +6,20 @@ import com.netcracker.group5.medkit.model.domain.enumeration.Speciality;
 import com.netcracker.group5.medkit.model.domain.enumeration.UserRole;
 import com.netcracker.group5.medkit.model.domain.request.Request;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Doctor extends User implements Requestable {
 
     private String fullName;
     private Speciality speciality;
-    private Date dateOfBirth;
+    private LocalDateTime dateOfBirth;
     private String workExperience;
     private Location placeOfWork;
     private String phoneNumber;
     private List<Patient> patients;
 
-    public Doctor(Long id, String email, String password, UserRole userRole, List<Request> notifications, String fullName, Speciality speciality, Date dateOfBirth, String workExperience, Location placeOfWork, String phoneNumber, List<Patient> patients) {
+    public Doctor(Long id, String email, String password, UserRole userRole, List<Request> notifications, String fullName, Speciality speciality, LocalDateTime dateOfBirth, String workExperience, Location placeOfWork, String phoneNumber, List<Patient> patients) {
         super(id, email, password, userRole, notifications);
         this.fullName = fullName;
         this.speciality = speciality;
@@ -46,11 +46,11 @@ public class Doctor extends User implements Requestable {
         this.speciality = speciality;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDateTime getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDateTime dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

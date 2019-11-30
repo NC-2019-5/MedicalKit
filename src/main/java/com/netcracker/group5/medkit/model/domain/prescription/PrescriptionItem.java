@@ -3,19 +3,19 @@ package com.netcracker.group5.medkit.model.domain.prescription;
 import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class PrescriptionItem implements Requestable {
 
     private Long id;
     private Medicine medicine;
-    private Date startDate;
-    private Date endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private int takingDurationDays;
-    private Date takingTime;
+    private LocalDateTime takingTime;
     private String description;
 
-    public PrescriptionItem(Long id, Medicine medicine, Date startDate, Date endDate, int takingDurationDays, Date takingTime, String description) {
+    public PrescriptionItem(Long id, Medicine medicine, LocalDateTime startDate, LocalDateTime endDate, int takingDurationDays, LocalDateTime takingTime, String description) {
         this.id = id;
         this.medicine = medicine;
         this.startDate = startDate;
@@ -41,19 +41,19 @@ public class PrescriptionItem implements Requestable {
         this.medicine = medicine;
     }
 
-    public Date getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 
@@ -65,11 +65,11 @@ public class PrescriptionItem implements Requestable {
         this.takingDurationDays = takingDurationDays;
     }
 
-    public Date getTakingTime() {
+    public LocalDateTime getTakingTime() {
         return takingTime;
     }
 
-    public void setTakingTime(Date takingTime) {
+    public void setTakingTime(LocalDateTime takingTime) {
         this.takingTime = takingTime;
     }
 

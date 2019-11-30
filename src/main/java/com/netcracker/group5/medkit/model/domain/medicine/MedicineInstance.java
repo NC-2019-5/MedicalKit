@@ -2,16 +2,16 @@ package com.netcracker.group5.medkit.model.domain.medicine;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class MedicineInstance implements Requestable {
 
     private Long id;
     private Medicine medicine;
-    private Date selfLife;
+    private LocalDateTime selfLife;
     private int amount;
 
-    public MedicineInstance(Long id, Medicine medicine, Date selfLife, int amount) {
+    public MedicineInstance(Long id, Medicine medicine, LocalDateTime selfLife, int amount) {
         this.id = id;
         this.medicine = medicine;
         this.selfLife = selfLife;
@@ -34,11 +34,11 @@ public class MedicineInstance implements Requestable {
         this.medicine = medicine;
     }
 
-    public Date getSelfLife() {
+    public LocalDateTime getSelfLife() {
         return selfLife;
     }
 
-    public void setSelfLife(Date selfLife) {
+    public void setSelfLife(LocalDateTime selfLife) {
         this.selfLife = selfLife;
     }
 

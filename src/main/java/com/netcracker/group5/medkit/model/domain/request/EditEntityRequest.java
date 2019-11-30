@@ -4,14 +4,14 @@ import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.enumeration.RequestType;
 import com.netcracker.group5.medkit.model.domain.user.User;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class EditEntityRequest<T extends Requestable> extends Request<T> {
 
     private Map<String, String> fields;
 
-    public EditEntityRequest(Long id, Date timeWhenDelivered, RequestType type, User sender, User recipient, T body, String template, Map<String, String> fields) {
+    public EditEntityRequest(Long id, LocalDateTime timeWhenDelivered, RequestType type, User sender, User recipient, T body, String template, Map<String, String> fields) {
         super(id, timeWhenDelivered, type, sender, recipient, body, template);
         this.fields = fields;
     }
