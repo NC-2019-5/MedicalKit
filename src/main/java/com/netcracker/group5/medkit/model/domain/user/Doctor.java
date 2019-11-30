@@ -3,7 +3,7 @@ package com.netcracker.group5.medkit.model.domain.user;
 import com.netcracker.group5.medkit.model.domain.Location;
 import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.enumeration.Speciality;
-import com.netcracker.group5.medkit.model.domain.enumeration.UserRole;
+import com.netcracker.group5.medkit.model.domain.enumeration.Role;
 import com.netcracker.group5.medkit.model.domain.request.Request;
 
 import java.time.LocalDateTime;
@@ -19,8 +19,8 @@ public class Doctor extends User implements Requestable {
     private String phoneNumber;
     private List<Patient> patients;
 
-    public Doctor(Long id, String email, String password, UserRole userRole, List<Request> notifications, String fullName, Speciality speciality, LocalDateTime dateOfBirth, String workExperience, Location placeOfWork, String phoneNumber, List<Patient> patients) {
-        super(id, email, password, userRole, notifications);
+    public Doctor(Long id, String email, String password, Role role, List<Request> notifications, String fullName, Speciality speciality, LocalDateTime dateOfBirth, String workExperience, Location placeOfWork, String phoneNumber, List<Patient> patients) {
+        super(id, email, password, role, notifications);
         this.fullName = fullName;
         this.speciality = speciality;
         this.dateOfBirth = dateOfBirth;

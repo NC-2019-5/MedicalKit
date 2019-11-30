@@ -3,7 +3,7 @@ package com.netcracker.group5.medkit.model.domain.user;
 import com.netcracker.group5.medkit.model.domain.Location;
 import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.enumeration.Sex;
-import com.netcracker.group5.medkit.model.domain.enumeration.UserRole;
+import com.netcracker.group5.medkit.model.domain.enumeration.Role;
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.purchase.Purchase;
@@ -15,7 +15,7 @@ import java.util.List;
 public class Patient extends User implements Requestable {
 
     private String fullName;
-    private LocalDateTime dateOfBirth;
+    private LocalDateTime birthDate;
     private Sex sex;
     private float weight;
     private float height;
@@ -26,10 +26,10 @@ public class Patient extends User implements Requestable {
     private List<MedicineInstance> medicineInstances;
     private List<Prescription> prescriptions;
 
-    public Patient(Long id, String email, String password, UserRole userRole, List<Request> notifications, String fullName, LocalDateTime dateOfBirth, Sex sex, float weight, float height, Location location, String phoneNumber, List<Doctor> attendingDoctors, List<Purchase> purchases, List<MedicineInstance> medicineInstances, List<Prescription> prescriptions) {
-        super(id, email, password, userRole, notifications);
+    public Patient(Long id, String email, String password, Role role, List<Request> notifications, String fullName, LocalDateTime birthDate, Sex sex, float weight, float height, Location location, String phoneNumber, List<Doctor> attendingDoctors, List<Purchase> purchases, List<MedicineInstance> medicineInstances, List<Prescription> prescriptions) {
+        super(id, email, password, role, notifications);
         this.fullName = fullName;
-        this.dateOfBirth = dateOfBirth;
+        this.birthDate = birthDate;
         this.sex = sex;
         this.weight = weight;
         this.height = height;
@@ -49,12 +49,12 @@ public class Patient extends User implements Requestable {
         this.fullName = fullName;
     }
 
-    public LocalDateTime getDateOfBirth() {
-        return dateOfBirth;
+    public LocalDateTime getBirthDate() {
+        return birthDate;
     }
 
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setBirthDate(LocalDateTime birthDate) {
+        this.birthDate = birthDate;
     }
 
     public Sex getSex() {

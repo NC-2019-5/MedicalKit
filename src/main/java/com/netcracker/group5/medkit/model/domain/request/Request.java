@@ -9,16 +9,16 @@ import java.time.LocalDateTime;
 public class Request<T extends Requestable> {
 
     protected Long id;
-    protected LocalDateTime timeWhenDelivered;
+    protected LocalDateTime deliveredTime;
     protected RequestType type;
     protected User sender;
     protected User recipient;
     protected T body;
     protected String template;
 
-    public Request(Long id, LocalDateTime timeWhenDelivered, RequestType type, User sender, User recipient, T body, String template) {
+    public Request(Long id, LocalDateTime deliveredTime, RequestType type, User sender, User recipient, T body, String template) {
         this.id = id;
-        this.timeWhenDelivered = timeWhenDelivered;
+        this.deliveredTime = deliveredTime;
         this.type = type;
         this.sender = sender;
         this.recipient = recipient;
@@ -34,12 +34,12 @@ public class Request<T extends Requestable> {
         this.id = id;
     }
 
-    public LocalDateTime getTimeWhenDelivered() {
-        return timeWhenDelivered;
+    public LocalDateTime getDeliveredTime() {
+        return deliveredTime;
     }
 
-    public void setTimeWhenDelivered(LocalDateTime timeWhenDelivered) {
-        this.timeWhenDelivered = timeWhenDelivered;
+    public void setDeliveredTime(LocalDateTime deliveredTime) {
+        this.deliveredTime = deliveredTime;
     }
 
     public RequestType getType() {

@@ -8,18 +8,18 @@ public class Medicine implements Requestable {
     private Long id;
     private String name;
     private String manufacturer;
-    private String formOfProduction;
+    private String productionForm;
     private String contraindications;
     private String interactions;
     private String packageContent;
     private TakingMethod takingMethod;
     private String description;
 
-    public Medicine(Long id, String name, String manufacturer, String formOfProduction, String contraindications, String interactions, String packageContent, TakingMethod takingMethod, String description) {
+    public Medicine(Long id, String name, String manufacturer, String productionForm, String contraindications, String interactions, String packageContent, TakingMethod takingMethod, String description) {
         this.id = id;
         this.name = name;
         this.manufacturer = manufacturer;
-        this.formOfProduction = formOfProduction;
+        this.productionForm = productionForm;
         this.contraindications = contraindications;
         this.interactions = interactions;
         this.packageContent = packageContent;
@@ -51,12 +51,12 @@ public class Medicine implements Requestable {
         this.manufacturer = manufacturer;
     }
 
-    public String getFormOfProduction() {
-        return formOfProduction;
+    public String getProductionForm() {
+        return productionForm;
     }
 
-    public void setFormOfProduction(String formOfProduction) {
-        this.formOfProduction = formOfProduction;
+    public void setProductionForm(String productionForm) {
+        this.productionForm = productionForm;
     }
 
     public String getContraindications() {
