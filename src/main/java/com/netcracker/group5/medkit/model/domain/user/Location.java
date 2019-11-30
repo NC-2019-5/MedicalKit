@@ -1,4 +1,4 @@
-package com.netcracker.group5.medkit.model.domain;
+package com.netcracker.group5.medkit.model.domain.user;
 
 public class Location {
     private Long id;

@@ -1,9 +1,8 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
-import com.netcracker.group5.medkit.model.domain.Location;
 import com.netcracker.group5.medkit.model.domain.Requestable;
-import com.netcracker.group5.medkit.model.domain.enumeration.Sex;
 import com.netcracker.group5.medkit.model.domain.enumeration.Role;
+import com.netcracker.group5.medkit.model.domain.enumeration.Sex;
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.purchase.Purchase;
@@ -14,7 +13,8 @@ import java.util.List;
 
 public class Patient extends User implements Requestable {
 
-    private String fullName;
+    private String name;
+    private String surname;
     private LocalDateTime birthDate;
     private Sex sex;
     private float weight;
@@ -26,9 +26,10 @@ public class Patient extends User implements Requestable {
     private List<MedicineInstance> medicineInstances;
     private List<Prescription> prescriptions;
 
-    public Patient(Long id, String email, String password, Role role, List<Request> notifications, String fullName, LocalDateTime birthDate, Sex sex, float weight, float height, Location location, String phoneNumber, List<Doctor> attendingDoctors, List<Purchase> purchases, List<MedicineInstance> medicineInstances, List<Prescription> prescriptions) {
+    public Patient(Long id, String email, String password, Role role, List<Request> notifications, String name, String surname, LocalDateTime birthDate, Sex sex, float weight, float height, Location location, String phoneNumber, List<Doctor> attendingDoctors, List<Purchase> purchases, List<MedicineInstance> medicineInstances, List<Prescription> prescriptions) {
         super(id, email, password, role, notifications);
-        this.fullName = fullName;
+        this.name = name;
+        this.surname = surname;
         this.birthDate = birthDate;
         this.sex = sex;
         this.weight = weight;
@@ -41,12 +42,20 @@ public class Patient extends User implements Requestable {
         this.prescriptions = prescriptions;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public LocalDateTime getBirthDate() {

@@ -1,9 +1,8 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
-import com.netcracker.group5.medkit.model.domain.Location;
 import com.netcracker.group5.medkit.model.domain.Requestable;
-import com.netcracker.group5.medkit.model.domain.enumeration.Speciality;
 import com.netcracker.group5.medkit.model.domain.enumeration.Role;
+import com.netcracker.group5.medkit.model.domain.enumeration.Speciality;
 import com.netcracker.group5.medkit.model.domain.request.Request;
 
 import java.time.LocalDateTime;
@@ -11,31 +10,41 @@ import java.util.List;
 
 public class Doctor extends User implements Requestable {
 
-    private String fullName;
+    private String name;
+    private String surname;
     private Speciality speciality;
-    private LocalDateTime dateOfBirth;
+    private LocalDateTime birthDate;
     private String workExperience;
-    private Location placeOfWork;
+    private Location workPlace;
     private String phoneNumber;
     private List<Patient> patients;
 
-    public Doctor(Long id, String email, String password, Role role, List<Request> notifications, String fullName, Speciality speciality, LocalDateTime dateOfBirth, String workExperience, Location placeOfWork, String phoneNumber, List<Patient> patients) {
+    public Doctor(Long id, String email, String password, Role role, List<Request> notifications, String name, String surname, Speciality speciality, LocalDateTime birthDate, String workExperience, Location workPlace, String phoneNumber, List<Patient> patients) {
         super(id, email, password, role, notifications);
-        this.fullName = fullName;
+        this.surname = surname;
+        this.name = name;
         this.speciality = speciality;
-        this.dateOfBirth = dateOfBirth;
+        this.birthDate = birthDate;
         this.workExperience = workExperience;
-        this.placeOfWork = placeOfWork;
+        this.workPlace = workPlace;
         this.phoneNumber = phoneNumber;
         this.patients = patients;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public Speciality getSpeciality() {
@@ -47,11 +56,11 @@ public class Doctor extends User implements Requestable {
     }
 
     public LocalDateTime getDateOfBirth() {
-        return dateOfBirth;
+        return birthDate;
     }
 
     public void setDateOfBirth(LocalDateTime dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+        this.birthDate = dateOfBirth;
     }
 
     public String getWorkExperience() {
@@ -62,12 +71,12 @@ public class Doctor extends User implements Requestable {
         this.workExperience = workExperience;
     }
 
-    public Location getPlaceOfWork() {
-        return placeOfWork;
+    public Location getWorkPlace() {
+        return workPlace;
     }
 
-    public void setPlaceOfWork(Location placeOfWork) {
-        this.placeOfWork = placeOfWork;
+    public void setWorkPlace(Location workPlace) {
+        this.workPlace = workPlace;
     }
 
     public String getPhoneNumber() {
