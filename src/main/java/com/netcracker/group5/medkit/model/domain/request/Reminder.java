@@ -1,7 +1,6 @@
 package com.netcracker.group5.medkit.model.domain.request;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
-import com.netcracker.group5.medkit.model.domain.enumeration.RequestType;
 import com.netcracker.group5.medkit.model.domain.user.User;
 
 import java.time.LocalDateTime;

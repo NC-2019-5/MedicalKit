@@ -1,6 +1,5 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
-import com.netcracker.group5.medkit.model.domain.enumeration.Role;
 import com.netcracker.group5.medkit.model.domain.request.Request;
 
 import java.util.List;

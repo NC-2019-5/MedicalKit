@@ -1,7 +1,8 @@
 package com.netcracker.group5.medkit.model.domain.medicine;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
-import com.netcracker.group5.medkit.model.domain.enumeration.TakingMethod;
+
+import java.util.List;
 
 public class Medicine implements Requestable {
 
@@ -10,12 +11,12 @@ public class Medicine implements Requestable {
     private String manufacturer;
     private String productionForm;
     private String contraindications;
-    private String interactions;
+    private List<Medicine> interactions;
     private String packageContent;
     private TakingMethod takingMethod;
     private String description;
 
-    public Medicine(Long id, String name, String manufacturer, String productionForm, String contraindications, String interactions, String packageContent, TakingMethod takingMethod, String description) {
+    public Medicine(Long id, String name, String manufacturer, String productionForm, String contraindications, List<Medicine> interactions, String packageContent, TakingMethod takingMethod, String description) {
         this.id = id;
         this.name = name;
         this.manufacturer = manufacturer;
@@ -67,11 +68,11 @@ public class Medicine implements Requestable {
         this.contraindications = contraindications;
     }
 
-    public String getInteractions() {
+    public List<Medicine> getInteractions() {
         return interactions;
     }
 
-    public void setInteractions(String interactions) {
+    public void setInteractions(List<Medicine> interactions) {
         this.interactions = interactions;
     }
 
