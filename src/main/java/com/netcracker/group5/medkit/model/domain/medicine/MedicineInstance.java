@@ -12,11 +12,7 @@ public class MedicineInstance implements Requestable {
     private LocalDateTime selfLife;
     private int amount;
 
-    public MedicineInstance(Long id, Medicine medicine, LocalDateTime selfLife, int amount) {
-        this.id = id;
-        this.medicine = medicine;
-        this.selfLife = selfLife;
-        this.amount = amount;
+    private MedicineInstance() {
     }
 
     public Long getId() {
@@ -65,5 +61,49 @@ public class MedicineInstance implements Requestable {
     @Override
     public int hashCode() {
         return Objects.hash(id, medicine, selfLife, amount);
+    }
+
+    @Override
+    public String toString() {
+        return "MedicineInstance{" +
+                "id=" + id +
+                ", medicine=" + medicine +
+                ", selfLife=" + selfLife +
+                ", amount=" + amount +
+                '}';
+    }
+
+    public static Builder newBuilder() {
+        return new MedicineInstance().new Builder();
+    }
+
+    public class Builder {
+
+        private Builder() {
+        }
+
+        public Builder setId(Long id) {
+            MedicineInstance.this.id = id;
+            return this;
+        }
+
+        public Builder setMedicine(Medicine medicine) {
+            MedicineInstance.this.medicine = medicine;
+            return this;
+        }
+
+        public Builder setSelfLife(LocalDateTime selfLife) {
+            MedicineInstance.this.selfLife = selfLife;
+            return this;
+        }
+
+        public Builder setAmount(int amount) {
+            MedicineInstance.this.amount = amount;
+            return this;
+        }
+
+        public MedicineInstance build() {
+            return MedicineInstance.this;
+        }
     }
 }

@@ -16,14 +16,7 @@ public class PrescriptionItem implements Requestable {
     private LocalDateTime takingTime;
     private String description;
 
-    public PrescriptionItem(Long id, Medicine medicine, LocalDateTime startDate, LocalDateTime endDate, int takingDurationDays, LocalDateTime takingTime, String description) {
-        this.id = id;
-        this.medicine = medicine;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.takingDurationDays = takingDurationDays;
-        this.takingTime = takingTime;
-        this.description = description;
+    private PrescriptionItem() {
     }
 
     public Long getId() {
@@ -99,5 +92,67 @@ public class PrescriptionItem implements Requestable {
     @Override
     public int hashCode() {
         return Objects.hash(id, medicine, startDate, endDate, takingDurationDays, takingTime, description);
+    }
+
+    @Override
+    public String toString() {
+        return "PrescriptionItem{" +
+                "id=" + id +
+                ", medicine=" + medicine +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", takingDurationDays=" + takingDurationDays +
+                ", takingTime=" + takingTime +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+    public static Builder newBuilder() {
+        return new PrescriptionItem().new Builder();
+    }
+
+    public class Builder {
+
+        private Builder() {
+        }
+
+        public Builder setId(Long id) {
+            PrescriptionItem.this.id = id;
+            return this;
+        }
+
+        public Builder setMedicine(Medicine medicine) {
+            PrescriptionItem.this.medicine = medicine;
+            return this;
+        }
+
+        public Builder setStartDate(LocalDateTime startDate) {
+            PrescriptionItem.this.startDate = startDate;
+            return this;
+        }
+
+        public Builder setEndDate(LocalDateTime endDate) {
+            PrescriptionItem.this.endDate = endDate;
+            return this;
+        }
+
+        public Builder setTakingDurationDays(int takingDurationDays) {
+            PrescriptionItem.this.takingDurationDays = takingDurationDays;
+            return this;
+        }
+
+        public Builder setTakingTime(LocalDateTime takingTime) {
+            PrescriptionItem.this.takingTime = takingTime;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            PrescriptionItem.this.description = description;
+            return this;
+        }
+
+        public PrescriptionItem build() {
+            return PrescriptionItem.this;
+        }
     }
 }

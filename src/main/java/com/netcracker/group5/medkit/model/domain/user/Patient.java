@@ -4,7 +4,6 @@ import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.purchase.Purchase;
-import com.netcracker.group5.medkit.model.domain.request.Request;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,20 +24,7 @@ public class Patient extends User implements Requestable {
     private List<MedicineInstance> medicineInstances;
     private List<Prescription> prescriptions;
 
-    public Patient(Long id, String email, String password, Role role, List<Request> notifications, String name, String surname, LocalDateTime birthDate, Sex sex, float weight, float height, Location location, String phoneNumber, List<Doctor> attendingDoctors, List<Purchase> purchases, List<MedicineInstance> medicineInstances, List<Prescription> prescriptions) {
-        super(id, email, password, role, notifications);
-        this.name = name;
-        this.surname = surname;
-        this.birthDate = birthDate;
-        this.sex = sex;
-        this.weight = weight;
-        this.height = height;
-        this.location = location;
-        this.phoneNumber = phoneNumber;
-        this.attendingDoctors = attendingDoctors;
-        this.purchases = purchases;
-        this.medicineInstances = medicineInstances;
-        this.prescriptions = prescriptions;
+    private Patient() {
     }
 
     public String getName() {
@@ -160,5 +146,98 @@ public class Patient extends User implements Requestable {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), name, surname, birthDate, sex, weight, height, location, phoneNumber, attendingDoctors, purchases, medicineInstances, prescriptions);
+    }
+
+    @Override
+    public String toString() {
+        return "Patient{" +
+                super.toString() +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", birthDate=" + birthDate +
+                ", sex=" + sex +
+                ", weight=" + weight +
+                ", height=" + height +
+                ", location=" + location +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", attendingDoctors=" + attendingDoctors +
+                ", purchases=" + purchases +
+                ", medicineInstances=" + medicineInstances +
+                ", prescriptions=" + prescriptions +
+                '}';
+    }
+
+    public static Builder newBuilder() {
+        return new Patient().new Builder();
+    }
+
+    public class Builder extends User.Builder<Builder> {
+
+        private Builder() {
+        }
+
+        public Builder setName(String name) {
+            Patient.this.name = name;
+            return this;
+        }
+
+        public Builder setSurname(String surname) {
+            Patient.this.surname = surname;
+            return this;
+        }
+
+        public Builder setBirthDate(LocalDateTime birthDate) {
+            Patient.this.birthDate = birthDate;
+            return this;
+        }
+
+        public Builder setSex(Sex sex) {
+            Patient.this.sex = sex;
+            return this;
+        }
+
+        public Builder setWeight(float weight) {
+            Patient.this.weight = weight;
+            return this;
+        }
+
+        public Builder setHeight(float height) {
+            Patient.this.height = height;
+            return this;
+        }
+
+        public Builder setLocation(Location location) {
+            Patient.this.location = location;
+            return this;
+        }
+
+        public Builder setPhoneNumber(String phoneNumber) {
+            Patient.this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Builder setAttendingDoctors(List<Doctor> attendingDoctors) {
+            Patient.this.attendingDoctors = attendingDoctors;
+            return this;
+        }
+
+        public Builder setPurchases(List<Purchase> purchases) {
+            Patient.this.purchases = purchases;
+            return this;
+        }
+
+        public Builder setMedicineInstances(List<MedicineInstance> medicineInstances) {
+            Patient.this.medicineInstances = medicineInstances;
+            return this;
+        }
+
+        public Builder setPrescriptions(List<Prescription> prescriptions) {
+            Patient.this.prescriptions = prescriptions;
+            return this;
+        }
+
+        public Patient build() {
+            return Patient.this;
+        }
     }
 }

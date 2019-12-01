@@ -1,9 +1,7 @@
 package com.netcracker.group5.medkit.model.domain.request;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
-import com.netcracker.group5.medkit.model.domain.user.User;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 
@@ -11,9 +9,7 @@ public class EditEntityRequest<T extends Requestable> extends Request<T> {
 
     private Map<String, String> fields;
 
-    public EditEntityRequest(Long id, LocalDateTime timeWhenDelivered, RequestType type, User sender, User recipient, T body, String template, Map<String, String> fields) {
-        super(id, timeWhenDelivered, type, sender, recipient, body, template);
-        this.fields = fields;
+    private EditEntityRequest() {
     }
 
     public Map<String, String> getFields() {
@@ -35,5 +31,39 @@ public class EditEntityRequest<T extends Requestable> extends Request<T> {
     @Override
     public int hashCode() {
         return Objects.hash(fields);
+    }
+
+    @Override
+    public String toString() {
+        return "EditEntityRequest{" +
+                "id=" + id +
+                ", fields=" + fields +
+                ", deliveredTime=" + deliveredTime +
+                ", type=" + type +
+                ", sender=" + sender +
+                ", recipient=" + recipient +
+                ", body=" + body +
+                ", template='" + template + '\'' +
+                '}';
+    }
+
+    public static <T extends Requestable> EditEntityRequest<T>.Builder newBuilder() {
+        return new EditEntityRequest<T>().new Builder();
+    }
+
+
+    public class Builder extends AbstractBuilder<Builder> {
+
+        private Builder() {
+        }
+
+        public Builder setFields(Map<String, String> fields) {
+            EditEntityRequest.this.fields = fields;
+            return this;
+        }
+
+        public EditEntityRequest<T> build() {
+            return EditEntityRequest.this;
+        }
     }
 }

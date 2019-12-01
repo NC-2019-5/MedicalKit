@@ -13,51 +13,46 @@ public abstract class User {
     protected Role role;
     protected List<Request> notifications;
 
-    public User(Long id, String email, String password, Role role, List<Request> notifications) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.notifications = notifications;
+    protected User() {
     }
 
-    public Long getId() {
+    protected Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    protected void setId(Long id) {
         this.id = id;
     }
 
-    public String getEmail() {
+    protected String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    protected void setEmail(String email) {
         this.email = email;
     }
 
-    public String getPassword() {
+    protected String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    protected void setPassword(String password) {
         this.password = password;
     }
 
-    public Role getRole() {
+    protected Role getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    protected void setRole(Role role) {
         this.role = role;
     }
 
-    public List<Request> getNotifications() {
+    protected List<Request> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(List<Request> notifications) {
+    protected void setNotifications(List<Request> notifications) {
         this.notifications = notifications;
     }
 
@@ -76,5 +71,49 @@ public abstract class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, email, password, role, notifications);
+    }
+
+    @Override
+    public String toString() {
+        return "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", notifications=" + notifications;
+    }
+
+    public abstract class Builder<B extends Builder<B>> {
+
+        protected Builder() {
+        }
+
+        public B setId(Long id) {
+            User.this.id = id;
+            return getThis();
+        }
+
+        public B setEmail(String email) {
+            User.this.email = email;
+            return getThis();
+        }
+
+        public B setPassword(String password) {
+            User.this.password = password;
+            return getThis();
+        }
+
+        public B setRole(Role role) {
+            User.this.role = role;
+            return getThis();
+        }
+
+        public B setNotifications(List<Request> notifications) {
+            User.this.notifications = notifications;
+            return getThis();
+        }
+
+        private B getThis() {
+            return (B) this;
+        }
     }
 }

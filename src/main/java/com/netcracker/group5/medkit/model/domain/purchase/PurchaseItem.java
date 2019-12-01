@@ -10,10 +10,7 @@ public class PurchaseItem {
     private Medicine medicine;
     private int amount;
 
-    public PurchaseItem(Long id, Medicine medicine, int amount) {
-        this.id = id;
-        this.medicine = medicine;
-        this.amount = amount;
+    private PurchaseItem() {
     }
 
     public Long getId() {
@@ -53,5 +50,43 @@ public class PurchaseItem {
     @Override
     public int hashCode() {
         return Objects.hash(id, medicine, amount);
+    }
+
+    @Override
+    public String toString() {
+        return "PurchaseItem{" +
+                "id=" + id +
+                ", medicine=" + medicine +
+                ", amount=" + amount +
+                '}';
+    }
+
+    public static Builder newBuilder() {
+        return new PurchaseItem().new Builder();
+    }
+
+    public class Builder {
+
+        private Builder() {
+        }
+
+        public Builder setId(Long id) {
+            PurchaseItem.this.id = id;
+            return this;
+        }
+
+        public Builder setMedicine(Medicine medicine) {
+            PurchaseItem.this.medicine = medicine;
+            return this;
+        }
+
+        public Builder setAmount(int amount) {
+            PurchaseItem.this.amount = amount;
+            return this;
+        }
+
+        public PurchaseItem build() {
+            return PurchaseItem.this;
+        }
     }
 }

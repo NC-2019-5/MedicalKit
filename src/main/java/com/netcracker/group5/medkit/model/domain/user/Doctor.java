@@ -1,7 +1,6 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
-import com.netcracker.group5.medkit.model.domain.request.Request;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,16 +17,7 @@ public class Doctor extends User implements Requestable {
     private String phoneNumber;
     private List<Patient> patients;
 
-    public Doctor(Long id, String email, String password, Role role, List<Request> notifications, String name, String surname, Speciality speciality, LocalDateTime birthDate, String workExperience, Location workPlace, String phoneNumber, List<Patient> patients) {
-        super(id, email, password, role, notifications);
-        this.surname = surname;
-        this.name = name;
-        this.speciality = speciality;
-        this.birthDate = birthDate;
-        this.workExperience = workExperience;
-        this.workPlace = workPlace;
-        this.phoneNumber = phoneNumber;
-        this.patients = patients;
+    private Doctor() {
     }
 
     public String getName() {
@@ -113,5 +103,74 @@ public class Doctor extends User implements Requestable {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), name, surname, speciality, birthDate, workExperience, workPlace, phoneNumber, patients);
+    }
+
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                super.toString() +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", speciality=" + speciality +
+                ", birthDate=" + birthDate +
+                ", workExperience='" + workExperience + '\'' +
+                ", workPlace=" + workPlace +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", patients=" + patients +
+                '}';
+    }
+
+    public static Builder newBuilder() {
+        return new Doctor().new Builder();
+    }
+
+    public class Builder extends User.Builder<Builder> {
+
+        private Builder() {
+        }
+
+        public Builder setName(String name) {
+            Doctor.this.name = name;
+            return this;
+        }
+
+        public Builder setSurname(String surname) {
+            Doctor.this.surname = surname;
+            return this;
+        }
+
+        public Builder setSpeciality(Speciality speciality) {
+            Doctor.this.speciality = speciality;
+            return this;
+        }
+
+        public Builder setDateOfBirth(LocalDateTime dateOfBirth) {
+            Doctor.this.birthDate = dateOfBirth;
+            return this;
+        }
+
+        public Builder setWorkExperience(String workExperience) {
+            Doctor.this.workExperience = workExperience;
+            return this;
+        }
+
+        public Builder setWorkPlace(Location workPlace) {
+            Doctor.this.workPlace = workPlace;
+            return this;
+        }
+
+        public Builder setPhoneNumber(String phoneNumber) {
+            Doctor.this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Builder setPatients(List<Patient> patients) {
+            Doctor.this.patients = patients;
+            return this;
+        }
+
+        public Doctor build() {
+            return Doctor.this;
+        }
     }
 }

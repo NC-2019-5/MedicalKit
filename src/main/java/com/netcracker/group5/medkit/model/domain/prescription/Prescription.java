@@ -16,12 +16,7 @@ public class Prescription implements Requestable {
     private List<PrescriptionItem> prescriptionItems;
     private LocalDateTime date;
 
-    public Prescription(Long id, Doctor doctor, Patient patient, List<PrescriptionItem> prescriptionItems, LocalDateTime date) {
-        this.id = id;
-        this.doctor = doctor;
-        this.patient = patient;
-        this.prescriptionItems = prescriptionItems;
-        this.date = date;
+    private Prescription() {
     }
 
     public Long getId() {
@@ -79,5 +74,55 @@ public class Prescription implements Requestable {
     @Override
     public int hashCode() {
         return Objects.hash(id, doctor, patient, prescriptionItems, date);
+    }
+
+    @Override
+    public String toString() {
+        return "Prescription{" +
+                "id=" + id +
+                ", doctor=" + doctor +
+                ", patient=" + patient +
+                ", prescriptionItems=" + prescriptionItems +
+                ", date=" + date +
+                '}';
+    }
+
+    public static Builder newBuilder() {
+        return new Prescription().new Builder();
+    }
+
+    public class Builder {
+
+        private Builder() {
+        }
+
+        public Builder setId(Long id) {
+            Prescription.this.id = id;
+            return this;
+        }
+
+        public Builder setDoctor(Doctor doctor) {
+            Prescription.this.doctor = doctor;
+            return this;
+        }
+
+        public Builder setPatient(Patient patient) {
+            Prescription.this.patient = patient;
+            return this;
+        }
+
+        public Builder setPrescriptionItems(List<PrescriptionItem> prescriptionItems) {
+            Prescription.this.prescriptionItems = prescriptionItems;
+            return this;
+        }
+
+        public Builder setDate(LocalDateTime date) {
+            Prescription.this.date = date;
+            return this;
+        }
+
+        public Prescription build() {
+            return Prescription.this;
+        }
     }
 }

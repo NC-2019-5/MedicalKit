@@ -16,14 +16,7 @@ public class Request<T extends Requestable> {
     protected T body;
     protected String template;
 
-    public Request(Long id, LocalDateTime deliveredTime, RequestType type, User sender, User recipient, T body, String template) {
-        this.id = id;
-        this.deliveredTime = deliveredTime;
-        this.type = type;
-        this.sender = sender;
-        this.recipient = recipient;
-        this.body = body;
-        this.template = template;
+    protected Request() {
     }
 
     public Long getId() {
@@ -99,5 +92,77 @@ public class Request<T extends Requestable> {
     @Override
     public int hashCode() {
         return Objects.hash(id, deliveredTime, type, sender, recipient, body, template);
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "id=" + id +
+                ", deliveredTime=" + deliveredTime +
+                ", type=" + type +
+                ", sender=" + sender +
+                ", recipient=" + recipient +
+                ", body=" + body +
+                ", template='" + template + '\'' +
+                '}';
+    }
+
+    public static <T extends Requestable> Request<T>.Builder newRequestBuilder() {
+        return new Request<T>().new Builder();
+    }
+
+    public class Builder extends AbstractBuilder<Builder> {
+
+        private Builder() {
+        }
+
+        public Request<T> build() {
+            return Request.this;
+        }
+    }
+
+    public class AbstractBuilder<B extends AbstractBuilder<B>> {
+
+        protected AbstractBuilder() {
+        }
+
+        public B setId(Long id) {
+            Request.this.id = id;
+            return getThis();
+        }
+
+        public B setDeliveredTime(LocalDateTime deliveredTime) {
+            Request.this.deliveredTime = deliveredTime;
+            return getThis();
+        }
+
+        public B setType(RequestType type) {
+            Request.this.type = type;
+            return getThis();
+        }
+
+        public B setSender(User sender) {
+            Request.this.sender = sender;
+            return getThis();
+        }
+
+        public B setRecipient(User recipient) {
+            Request.this.recipient = recipient;
+            return getThis();
+        }
+
+        public B setBody(T body) {
+            Request.this.body = body;
+            return getThis();
+        }
+
+        public B setTemplate(String template) {
+            Request.this.template = template;
+            return getThis();
+        }
+
+        private B getThis() {
+            return (B) this;
+        }
     }
 }

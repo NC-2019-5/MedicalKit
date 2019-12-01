@@ -17,16 +17,7 @@ public class Medicine implements Requestable {
     private TakingMethod takingMethod;
     private String description;
 
-    public Medicine(Long id, String name, String manufacturer, String productionForm, String contraindications, List<Medicine> interactions, String packageContent, TakingMethod takingMethod, String description) {
-        this.id = id;
-        this.name = name;
-        this.manufacturer = manufacturer;
-        this.productionForm = productionForm;
-        this.contraindications = contraindications;
-        this.interactions = interactions;
-        this.packageContent = packageContent;
-        this.takingMethod = takingMethod;
-        this.description = description;
+    private Medicine() {
     }
 
     public Long getId() {
@@ -120,5 +111,79 @@ public class Medicine implements Requestable {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, manufacturer, productionForm, contraindications, interactions, packageContent, takingMethod, description);
+    }
+
+    @Override
+    public String toString() {
+        return "Medicine{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", productionForm='" + productionForm + '\'' +
+                ", contraindications='" + contraindications + '\'' +
+                ", interactions=" + interactions +
+                ", packageContent='" + packageContent + '\'' +
+                ", takingMethod=" + takingMethod +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+    public static Builder newBuilder() {
+        return new Medicine().new Builder();
+    }
+
+    public class Builder {
+
+        private Builder() {
+        }
+
+        public Builder setId(Long id) {
+            Medicine.this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            Medicine.this.name = name;
+            return this;
+        }
+
+        public Builder setManufacturer(String manufacturer) {
+            Medicine.this.manufacturer = manufacturer;
+            return this;
+        }
+
+        public Builder setProductionForm(String productionForm) {
+            Medicine.this.productionForm = productionForm;
+            return this;
+        }
+
+        public Builder setContraindications(String contraindications) {
+            Medicine.this.contraindications = contraindications;
+            return this;
+        }
+
+        public Builder setInteractions(List<Medicine> interactions) {
+            Medicine.this.interactions = interactions;
+            return this;
+        }
+
+        public Builder setPackageContent(String packageContent) {
+            Medicine.this.packageContent = packageContent;
+            return this;
+        }
+
+        public Builder setTakingMethod(TakingMethod takingMethod) {
+            Medicine.this.takingMethod = takingMethod;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            Medicine.this.description = description;
+            return this;
+        }
+
+        public Medicine build() {
+            return Medicine.this;
+        }
     }
 }

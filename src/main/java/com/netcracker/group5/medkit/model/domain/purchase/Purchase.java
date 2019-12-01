@@ -31,4 +31,11 @@ public class Purchase {
     public int hashCode() {
         return Objects.hash(purchaseItems);
     }
+
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "purchaseItems=" + purchaseItems +
+                '}';
+    }
 }
