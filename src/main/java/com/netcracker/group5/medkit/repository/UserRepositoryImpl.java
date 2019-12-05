@@ -28,20 +28,11 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
 
         NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(getJdbcTemplate());
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("email", email);
 
         String query = "SELECT id, email, password ,role FROM AppUser WHERE email = :email";
+        params.addValue("email", email);
 
         final SqlRowSet rowSet = namedParameterJdbcTemplate.queryForRowSet(query, params);
-
-        while (rowSet.next()) {
-            Logger.getAnonymousLogger().info(String.valueOf(rowSet.getLong(1)));
-            Logger.getAnonymousLogger().info(String.valueOf(rowSet.getString(2)));
-            Logger.getAnonymousLogger().info(String.valueOf(rowSet.getString(3)));
-            Logger.getAnonymousLogger().info(String.valueOf(rowSet.getString(4)));
-        }
-
-        rowSet.beforeFirst();
 
         if (rowSet.next()) {
             return User.newUserBuilder()

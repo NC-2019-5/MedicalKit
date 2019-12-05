@@ -15,6 +15,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping("/login")
+    @ResponseBody
     public LoginUserResponseItem login(@RequestParam String login, @RequestParam String password) {
         return userService.login(login, password);
     }
