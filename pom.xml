@@ -55,7 +55,6 @@
                                 <encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
                                 <java.source>${maven.compiler.source}</java.source>
                                 <java.target>${maven.compiler.target}</java.target>
-                                <spring-boot.run.jvmArguments>-Duser.timezone=EET</spring-boot.run.jvmArguments>
                             </additionalProperties>
                         </configuration>
                     </execution>
