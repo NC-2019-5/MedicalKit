@@ -55,6 +55,7 @@
                                 <encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
                                 <java.source>${maven.compiler.source}</java.source>
                                 <java.target>${maven.compiler.target}</java.target>
+                                <spring-boot.run.jvmArguments>-Doracle.jdbc.timezoneAsRegion=false</spring-boot.run.jvmArguments>
                             </additionalProperties>
                         </configuration>
                     </execution>
