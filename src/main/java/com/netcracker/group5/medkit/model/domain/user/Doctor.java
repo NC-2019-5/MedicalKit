@@ -1,12 +1,10 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
-import com.netcracker.group5.medkit.model.domain.Requestable;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-public class Doctor extends User implements Requestable {
+public class Doctor extends User {
 
     private String name;
     private String surname;
@@ -124,7 +122,7 @@ public class Doctor extends User implements Requestable {
         return new Doctor().new Builder();
     }
 
-    public class Builder extends User.Builder<Builder> {
+    public class Builder extends User.AbstractBuilder<Builder> {
 
         private Builder() {
         }

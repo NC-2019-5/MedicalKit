@@ -16,7 +16,7 @@ public class Administrator extends User {
         return new Administrator().new Builder();
     }
 
-    public class Builder extends User.Builder<Builder> {
+    public class Builder extends User.AbstractBuilder<Builder> {
 
         private Builder() {
         }

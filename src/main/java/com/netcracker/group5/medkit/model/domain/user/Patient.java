@@ -1,6 +1,5 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
-import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.purchase.Purchase;
@@ -9,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-public class Patient extends User implements Requestable {
+public class Patient extends User {
 
     private String name;
     private String surname;
@@ -171,7 +170,7 @@ public class Patient extends User implements Requestable {
         return new Patient().new Builder();
     }
 
-    public class Builder extends User.Builder<Builder> {
+    public class Builder extends User.AbstractBuilder<Builder> {
 
         private Builder() {
         }

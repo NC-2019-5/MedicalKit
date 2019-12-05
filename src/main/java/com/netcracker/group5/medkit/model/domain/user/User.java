@@ -1,58 +1,59 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
+import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.request.Request;
 
 import java.util.List;
 import java.util.Objects;
 
-public abstract class User {
+public class User implements Requestable {
 
     protected Long id;
     protected String email;
     protected String password;
     protected Role role;
-    protected List<Request> notifications;
+    protected List<Request<?>> notifications;
 
     protected User() {
     }
 
-    protected Long getId() {
+    public Long getId() {
         return id;
     }
 
-    protected void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    protected String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    protected void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    protected String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    protected void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    protected Role getRole() {
+    public Role getRole() {
         return role;
     }
 
-    protected void setRole(Role role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
-    protected List<Request> getNotifications() {
+    public List<Request<?>> getNotifications() {
         return notifications;
     }
 
-    protected void setNotifications(List<Request> notifications) {
+    public void setNotifications(List<Request<?>> notifications) {
         this.notifications = notifications;
     }
 
@@ -82,9 +83,22 @@ public abstract class User {
                 ", notifications=" + notifications;
     }
 
-    public abstract class Builder<B extends Builder<B>> {
+    public static Builder newUserBuilder() {
+        return new User().new Builder();
+    }
 
-        protected Builder() {
+    public class Builder extends AbstractBuilder<Builder> {
+        private Builder() {
+        }
+
+        public User build() {
+            return User.this;
+        }
+    }
+
+    public abstract class AbstractBuilder<B extends AbstractBuilder<B>> {
+
+        protected AbstractBuilder() {
         }
 
         public B setId(Long id) {
@@ -107,7 +121,7 @@ public abstract class User {
             return getThis();
         }
 
-        public B setNotifications(List<Request> notifications) {
+        public B setNotifications(List<Request<?>> notifications) {
             User.this.notifications = notifications;
             return getThis();
         }
