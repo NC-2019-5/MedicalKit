@@ -121,7 +121,7 @@ public class Request<T extends Requestable> {
         }
     }
 
-    public class AbstractBuilder<B extends AbstractBuilder<B>> {
+    public abstract class AbstractBuilder<B extends AbstractBuilder<B>> {
 
         protected AbstractBuilder() {
         }
