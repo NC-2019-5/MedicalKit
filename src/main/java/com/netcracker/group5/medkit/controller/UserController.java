@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.TimeZone;
+
 @RestController
 public class UserController {
 
@@ -17,6 +19,7 @@ public class UserController {
     @RequestMapping("/login")
     @ResponseBody
     public LoginUserResponseItem login(@RequestParam String login, @RequestParam String password) {
+        System.out.println(TimeZone.getDefault());
         return userService.login(login, password);
     }
 }
