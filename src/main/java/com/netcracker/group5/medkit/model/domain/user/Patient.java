@@ -2,7 +2,7 @@ package com.netcracker.group5.medkit.model.domain.user;
 
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
-import com.netcracker.group5.medkit.model.domain.purchase.Purchase;
+import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +19,7 @@ public class Patient extends User {
     private Location location;
     private String phoneNumber;
     private List<Doctor> attendingDoctors;
-    private List<Purchase> purchases;
+    private List<PurchaseItem> purchaseItems;
     private List<MedicineInstance> medicineInstances;
     private List<Prescription> prescriptions;
 
@@ -98,12 +98,12 @@ public class Patient extends User {
         this.attendingDoctors = attendingDoctors;
     }
 
-    public List<Purchase> getPurchases() {
-        return purchases;
+    public List<PurchaseItem> getPurchaseItems() {
+        return purchaseItems;
     }
 
-    public void setPurchases(List<Purchase> purchases) {
-        this.purchases = purchases;
+    public void setPurchaseItems(List<PurchaseItem> purchaseItems) {
+        this.purchaseItems = purchaseItems;
     }
 
     public List<MedicineInstance> getMedicineInstances() {
@@ -137,14 +137,14 @@ public class Patient extends User {
                 Objects.equals(location, patient.location) &&
                 Objects.equals(phoneNumber, patient.phoneNumber) &&
                 Objects.equals(attendingDoctors, patient.attendingDoctors) &&
-                Objects.equals(purchases, patient.purchases) &&
+                Objects.equals(purchaseItems, patient.purchaseItems) &&
                 Objects.equals(medicineInstances, patient.medicineInstances) &&
                 Objects.equals(prescriptions, patient.prescriptions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, surname, birthDate, sex, weight, height, location, phoneNumber, attendingDoctors, purchases, medicineInstances, prescriptions);
+        return Objects.hash(super.hashCode(), name, surname, birthDate, sex, weight, height, location, phoneNumber, attendingDoctors, purchaseItems, medicineInstances, prescriptions);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class Patient extends User {
                 ", location=" + location +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", attendingDoctors=" + attendingDoctors +
-                ", purchases=" + purchases +
+                ", purchaseItems=" + purchaseItems +
                 ", medicineInstances=" + medicineInstances +
                 ", prescriptions=" + prescriptions +
                 '}';
@@ -220,8 +220,8 @@ public class Patient extends User {
             return this;
         }
 
-        public Builder setPurchases(List<Purchase> purchases) {
-            Patient.this.purchases = purchases;
+        public Builder setPurchaseItems(List<PurchaseItem> purchaseItems) {
+            Patient.this.purchaseItems = purchaseItems;
             return this;
         }
 

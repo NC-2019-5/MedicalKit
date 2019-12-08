@@ -13,7 +13,6 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping("/login")
-    @ResponseBody
     public LoginUserResponseItem login(@RequestBody LoginUserRequestItem loginUserRequestItem) {
         return userService.login(loginUserRequestItem);
     }
