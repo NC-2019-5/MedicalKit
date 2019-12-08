@@ -1,6 +1,7 @@
 package com.netcracker.group5.medkit.service;
 
 import com.netcracker.group5.medkit.model.domain.user.User;
+import com.netcracker.group5.medkit.model.dto.user.LoginUserRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.LoginUserResponseItem;
 import com.netcracker.group5.medkit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,11 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public LoginUserResponseItem login(String login, String password) {
-        User user = userRepository.findUserByEmail(login);
+    public LoginUserResponseItem login(LoginUserRequestItem loginUserRequestItem) {
+        User user = userRepository.findUserByEmail(loginUserRequestItem.getEmail());
         LoginUserResponseItem responseItem = new LoginUserResponseItem();
 
-        if (user.getEmail().equals(login) && user.getPassword().equals(password)) {
+        if (user != null && user.getPassword().equals(loginUserRequestItem.getPassword())) {
             responseItem.setId(user.getId());
             responseItem.setEmail(user.getEmail());
             responseItem.setRole(user.getRole());

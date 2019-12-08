@@ -1,14 +1,10 @@
 package com.netcracker.group5.medkit.controller;
 
+import com.netcracker.group5.medkit.model.dto.user.LoginUserRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.LoginUserResponseItem;
 import com.netcracker.group5.medkit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.TimeZone;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -18,8 +14,7 @@ public class UserController {
 
     @RequestMapping("/login")
     @ResponseBody
-    public LoginUserResponseItem login(@RequestParam String login, @RequestParam String password) {
-        System.out.println(TimeZone.getDefault());
-        return userService.login(login, password);
+    public LoginUserResponseItem login(@RequestBody LoginUserRequestItem loginUserRequestItem) {
+        return userService.login(loginUserRequestItem);
     }
 }
