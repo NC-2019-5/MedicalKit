@@ -12,6 +12,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @CrossOrigin
     @RequestMapping("/login")
     @ResponseBody
     public LoginUserResponseItem login(@RequestBody LoginUserRequestItem loginUserRequestItem) {
