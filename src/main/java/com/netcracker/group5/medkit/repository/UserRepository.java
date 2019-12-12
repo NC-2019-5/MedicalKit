@@ -7,5 +7,5 @@ public interface UserRepository {
 
     User findUserByEmail(String email);
 
-    User savePatient(User user);
+    User save(User user);
 }

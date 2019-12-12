@@ -34,6 +34,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public RegisterUserResponseItem registerUser(RegisterUserRequestItem registerUserRequestItem) {
-        return null;
+        User patient = Patient.newBuilder()
+                .setId(21L)
+                .setName(registerUserRequestItem.getName())
+                .setSurname(registerUserRequestItem.getSurname())
+                .setBirthDate(registerUserRequestItem.getBirthDate())
+                .setPhoneNumber(registerUserRequestItem.getPhoneNumber())
+                .setHeight(registerUserRequestItem.getHeight())
+                .setWeight(registerUserRequestItem.getWeight())
+                .setEmail(registerUserRequestItem.getEmail())
+                .setPassword(registerUserRequestItem.getPassword())
+                .setLocation(registerUserRequestItem.getLocation())
+                .setSex(registerUserRequestItem.getSex())
+                .setRole(Role.PATIENT)
+                .build();
+
+        RegisterUserResponseItem responseItem = new RegisterUserResponseItem();
+        Patient savedPatient = (Patient) userRepository.save(patient);
+
+        responseItem.setId(savedPatient.getId());
+        responseItem.setEmail(savedPatient.getEmail());
+        responseItem.setPassword(savedPatient.getPassword());
+        responseItem.setRole(savedPatient.getRole());
+
+        return responseItem;
     }
 }
