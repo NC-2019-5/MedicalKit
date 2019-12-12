@@ -1,19 +1,27 @@
 package com.netcracker.group5.medkit.model.dto.user;
 
-import com.netcracker.group5.medkit.model.domain.user.Location;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.netcracker.group5.medkit.model.domain.user.Sex;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class RegisterUserRequestItem {
 
     private String name;
     private String surname;
-    private LocalDateTime birthDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDate birthDate;
     private Sex sex;
     private float weight;
     private float height;
-    private Location location;
+    private String location; // type must be Location (or need to split variable)
     private String phoneNumber;
     private String email;
     private String password;
@@ -37,11 +45,11 @@ public class RegisterUserRequestItem {
         this.surname = surname;
     }
 
-    public LocalDateTime getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDateTime birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -69,11 +77,11 @@ public class RegisterUserRequestItem {
         this.height = height;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
