@@ -1,5 +1,6 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +10,7 @@ public class Doctor extends User {
     private String name;
     private String surname;
     private Speciality speciality;
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
     private String workExperience;
     private Location workPlace;
     private String phoneNumber;
@@ -42,11 +43,11 @@ public class Doctor extends User {
         this.speciality = speciality;
     }
 
-    public LocalDateTime getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return birthDate;
     }
 
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.birthDate = dateOfBirth;
     }
 
@@ -142,7 +143,7 @@ public class Doctor extends User {
             return this;
         }
 
-        public Builder setDateOfBirth(LocalDateTime dateOfBirth) {
+        public Builder setDateOfBirth(LocalDate dateOfBirth) {
             Doctor.this.birthDate = dateOfBirth;
             return this;
         }

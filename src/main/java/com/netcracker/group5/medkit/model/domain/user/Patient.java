@@ -4,7 +4,7 @@ import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.purchase.Purchase;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +12,7 @@ public class Patient extends User {
 
     private String name;
     private String surname;
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
     private Sex sex;
     private float weight;
     private float height;
@@ -42,11 +42,11 @@ public class Patient extends User {
         this.surname = surname;
     }
 
-    public LocalDateTime getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDateTime birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -185,7 +185,7 @@ public class Patient extends User {
             return this;
         }
 
-        public Builder setBirthDate(LocalDateTime birthDate) {
+        public Builder setBirthDate(LocalDate birthDate) {
             Patient.this.birthDate = birthDate;
             return this;
         }
