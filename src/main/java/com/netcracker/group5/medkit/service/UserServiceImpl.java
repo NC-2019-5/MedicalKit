@@ -1,5 +1,6 @@
 package com.netcracker.group5.medkit.service;
 
+import com.netcracker.group5.medkit.model.domain.user.Location;
 import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.User;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserService {
                 .setWeight(registerUserRequestItem.getWeight())
                 .setEmail(registerUserRequestItem.getEmail())
                 .setPassword(registerUserRequestItem.getPassword())
-                .setLocation(registerUserRequestItem.getLocation())
+                .setLocation(new Location(1L, registerUserRequestItem.getLocation(), "test", "test", "1"))
                 .setSex(registerUserRequestItem.getSex())
                 .setRole(Role.PATIENT)
                 .build();
@@ -53,6 +54,14 @@ public class UserServiceImpl implements UserService {
         Patient savedPatient = (Patient) userRepository.save(patient);
 
         responseItem.setId(savedPatient.getId());
+        responseItem.setName(savedPatient.getName());
+        responseItem.setSurname(savedPatient.getSurname());
+        responseItem.setBirthDate(savedPatient.getBirthDate());
+        responseItem.setSex(savedPatient.getSex());
+        responseItem.setWeight(savedPatient.getWeight());
+        responseItem.setHeight(savedPatient.getHeight());
+        responseItem.setLocation(savedPatient.getLocation());
+        responseItem.setPhoneNumber(savedPatient.getPhoneNumber());
         responseItem.setEmail(savedPatient.getEmail());
         responseItem.setPassword(savedPatient.getPassword());
         responseItem.setRole(savedPatient.getRole());

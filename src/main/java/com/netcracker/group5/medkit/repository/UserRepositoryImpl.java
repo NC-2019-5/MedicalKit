@@ -39,6 +39,10 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
                 .build());
     }
 
+    /*
+     * Invokes method from Patient/Doctor repository
+     * (depends on user.role)
+     */
     @Override
     public User save(User user) {
         return patientRepository.save((Patient) user);

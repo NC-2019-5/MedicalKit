@@ -1,10 +1,5 @@
 package com.netcracker.group5.medkit.model.dto.user;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.netcracker.group5.medkit.model.domain.user.Sex;
 
 import java.time.LocalDate;
@@ -13,10 +8,6 @@ public class RegisterUserRequestItem {
 
     private String name;
     private String surname;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDate birthDate;
     private Sex sex;
     private float weight;
