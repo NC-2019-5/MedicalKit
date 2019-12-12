@@ -34,4 +34,10 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
                 .setRole(Role.valueOf(resultSet.getString("role")))
                 .build());
     }
+
+    @Override
+    public User savePatient(User user) {
+
+        return null;
+    }
 }

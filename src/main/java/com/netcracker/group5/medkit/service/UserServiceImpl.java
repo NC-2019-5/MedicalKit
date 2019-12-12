@@ -1,8 +1,12 @@
 package com.netcracker.group5.medkit.service;
 
+import com.netcracker.group5.medkit.model.domain.user.Patient;
+import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.User;
 import com.netcracker.group5.medkit.model.dto.user.LoginUserRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.LoginUserResponseItem;
+import com.netcracker.group5.medkit.model.dto.user.RegisterUserRequestItem;
+import com.netcracker.group5.medkit.model.dto.user.RegisterUserResponseItem;
 import com.netcracker.group5.medkit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,5 +30,10 @@ public class UserServiceImpl implements UserService {
         }
 
         return responseItem;
+    }
+
+    @Override
+    public RegisterUserResponseItem registerUser(RegisterUserRequestItem registerUserRequestItem) {
+        return null;
     }
 }
