@@ -1,6 +1,5 @@
 package com.netcracker.group5.medkit.repository;
 
-import com.netcracker.group5.medkit.model.domain.user.Location;
 import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.Sex;
@@ -26,7 +25,7 @@ public class PatientRepositoryImpl implements PatientRepository {
                 patient.getSex().toString(),
                 patient.getWeight(),
                 patient.getHeight(),
-                patient.getLocation().getCountry(),
+                patient.getLocation(),
                 patient.getPhoneNumber(),
                 patient.getEmail(),
                 patient.getPassword()};
@@ -44,7 +43,7 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .setSex(Sex.valueOf(resultSet.getString("sex")))
                 .setHeight(resultSet.getFloat("height"))
                 .setWeight(resultSet.getFloat("weight"))
-                .setLocation(new Location(1L, resultSet.getString("location"), "", "", ""))
+                .setLocation(resultSet.getString("location"))
                 .setPhoneNumber(resultSet.getString("phoneNumber"))
                 .setEmail(resultSet.getString("email"))
                 .setPassword(resultSet.getString("password"))
