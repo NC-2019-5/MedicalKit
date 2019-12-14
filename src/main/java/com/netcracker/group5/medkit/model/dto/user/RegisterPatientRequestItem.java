@@ -4,7 +4,7 @@ import com.netcracker.group5.medkit.model.domain.user.Sex;
 
 import java.time.LocalDate;
 
-public class RegisterUserRequestItem {
+public class RegisterPatientRequestItem {
 
     private String name;
     private String surname;
@@ -12,12 +12,12 @@ public class RegisterUserRequestItem {
     private Sex sex;
     private float weight;
     private float height;
-    private String location; // type must be Location (or need to split variable)
+    private String location;
     private String phoneNumber;
     private String email;
     private String password;
 
-    public RegisterUserRequestItem() {
+    public RegisterPatientRequestItem() {
     }
 
     public String getName() {

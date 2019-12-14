@@ -1,12 +1,10 @@
 package com.netcracker.group5.medkit.model.dto.user;
 
-import com.netcracker.group5.medkit.model.domain.user.Location;
-import com.netcracker.group5.medkit.model.domain.user.Role;
-import com.netcracker.group5.medkit.model.domain.user.Sex;
+import com.netcracker.group5.medkit.model.domain.user.*;
 
 import java.time.LocalDate;
 
-public class RegisterUserResponseItem {
+public class RegisterPatientResponseItem {
 
     private Long id;
     private String name;
@@ -21,7 +19,7 @@ public class RegisterUserResponseItem {
     private String password;
     private Role role;
 
-    public RegisterUserResponseItem() {
+    public RegisterPatientResponseItem(Patient patient) {
     }
 
     public Long getId() {
