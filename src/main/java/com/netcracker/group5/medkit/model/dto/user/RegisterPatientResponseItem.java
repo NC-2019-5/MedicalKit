@@ -1,6 +1,8 @@
 package com.netcracker.group5.medkit.model.dto.user;
 
-import com.netcracker.group5.medkit.model.domain.user.*;
+import com.netcracker.group5.medkit.model.domain.user.Patient;
+import com.netcracker.group5.medkit.model.domain.user.Role;
+import com.netcracker.group5.medkit.model.domain.user.Sex;
 
 import java.time.LocalDate;
 
@@ -13,13 +15,25 @@ public class RegisterPatientResponseItem {
     private Sex sex;
     private float weight;
     private float height;
-    private Location location;
+    private String location;
     private String phoneNumber;
     private String email;
     private String password;
     private Role role;
 
     public RegisterPatientResponseItem(Patient patient) {
+        this.id = patient.getId();
+        this.name = patient.getName();
+        this.surname = patient.getSurname();
+        this.birthDate = patient.getBirthDate();
+        this.sex = patient.getSex();
+        this.weight = patient.getWeight();
+        this.height = patient.getHeight();
+        this.location = patient.getLocation();
+        this.phoneNumber = patient.getPhoneNumber();
+        this.email = patient.getEmail();
+        this.password = patient.getPassword();
+        this.role = patient.getRole();
     }
 
     public Long getId() {
@@ -78,11 +92,11 @@ public class RegisterPatientResponseItem {
         this.height = height;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
