@@ -9,6 +9,8 @@ import com.netcracker.group5.medkit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @CrossOrigin
 @RestController
 public class UserController {
@@ -20,7 +22,7 @@ public class UserController {
             consumes = "application/json",
             produces = "application/json",
             method = RequestMethod.POST)
-    public LoginUserResponseItem login(@RequestBody LoginUserRequestItem loginUserRequestItem) {
+    public LoginUserResponseItem login(@Valid @RequestBody LoginUserRequestItem loginUserRequestItem) {
         return userService.login(loginUserRequestItem);
     }
 
@@ -28,7 +30,7 @@ public class UserController {
             consumes = "application/json",
             produces = "application/json",
             method = RequestMethod.POST)
-    public RegisterPatientResponseItem registerUser(@RequestBody RegisterPatientRequestItem registerPatientRequestItem) {
+    public RegisterPatientResponseItem registerUser(@Valid @RequestBody RegisterPatientRequestItem registerPatientRequestItem) {
         Patient patient = new Patient(registerPatientRequestItem);
         return new RegisterPatientResponseItem((Patient) userService.registerUser(patient));
     }

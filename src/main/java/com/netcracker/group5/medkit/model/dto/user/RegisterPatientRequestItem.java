@@ -2,19 +2,31 @@ package com.netcracker.group5.medkit.model.dto.user;
 
 import com.netcracker.group5.medkit.model.domain.user.Sex;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 public class RegisterPatientRequestItem {
 
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String surname;
     private LocalDate birthDate;
     private Sex sex;
     private float weight;
     private float height;
     private String location;
+
+    @Pattern(regexp = "^[+][0-9]{12}$")
     private String phoneNumber;
+
+    @Email
     private String email;
+
+    @NotBlank
     private String password;
 
     public RegisterPatientRequestItem() {
