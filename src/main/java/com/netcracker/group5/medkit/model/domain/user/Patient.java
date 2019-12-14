@@ -16,7 +16,7 @@ public class Patient extends User {
     private Sex sex;
     private float weight;
     private float height;
-    private Location location;
+    private String location;
     private String phoneNumber;
     private List<Doctor> attendingDoctors;
     private List<Purchase> purchases;
@@ -74,11 +74,11 @@ public class Patient extends User {
         this.height = height;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -205,7 +205,7 @@ public class Patient extends User {
             return this;
         }
 
-        public Builder setLocation(Location location) {
+        public Builder setLocation(String location) {
             Patient.this.location = location;
             return this;
         }

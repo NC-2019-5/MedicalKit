@@ -12,7 +12,7 @@ public class Doctor extends User {
     private Speciality speciality;
     private LocalDate birthDate;
     private String workExperience;
-    private Location workPlace;
+    private String workPlace;
     private String phoneNumber;
     private List<Patient> patients;
 
@@ -59,11 +59,11 @@ public class Doctor extends User {
         this.workExperience = workExperience;
     }
 
-    public Location getWorkPlace() {
+    public String getWorkPlace() {
         return workPlace;
     }
 
-    public void setWorkPlace(Location workPlace) {
+    public void setWorkPlace(String workPlace) {
         this.workPlace = workPlace;
     }
 
@@ -153,7 +153,7 @@ public class Doctor extends User {
             return this;
         }
 
-        public Builder setWorkPlace(Location workPlace) {
+        public Builder setWorkPlace(String workPlace) {
             Doctor.this.workPlace = workPlace;
             return this;
         }
