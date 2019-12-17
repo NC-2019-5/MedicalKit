@@ -1,5 +1,6 @@
 package com.netcracker.group5.medkit.repository;
 
+import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import javax.sql.DataSource;
 
 @Repository
 public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository {
+
+    @Autowired
+    private PatientRepository patientRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -33,5 +37,14 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
                 .setPassword(resultSet.getString("password"))
                 .setRole(Role.valueOf(resultSet.getString("role")))
                 .build());
+    }
+
+    /*
+     * Invokes method from Patient/Doctor repository
+     * (depends on user.role)
+     */
+    @Override
+    public User save(User user) {
+        return patientRepository.save((Patient) user);
     }
 }

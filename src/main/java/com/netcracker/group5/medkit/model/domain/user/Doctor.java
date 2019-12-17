@@ -1,6 +1,6 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,9 +9,9 @@ public class Doctor extends User {
     private String name;
     private String surname;
     private Speciality speciality;
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
     private String workExperience;
-    private Location workPlace;
+    private String workPlace;
     private String phoneNumber;
     private List<Patient> patients;
 
@@ -42,11 +42,11 @@ public class Doctor extends User {
         this.speciality = speciality;
     }
 
-    public LocalDateTime getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return birthDate;
     }
 
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.birthDate = dateOfBirth;
     }
 
@@ -58,11 +58,11 @@ public class Doctor extends User {
         this.workExperience = workExperience;
     }
 
-    public Location getWorkPlace() {
+    public String getWorkPlace() {
         return workPlace;
     }
 
-    public void setWorkPlace(Location workPlace) {
+    public void setWorkPlace(String workPlace) {
         this.workPlace = workPlace;
     }
 
@@ -142,7 +142,7 @@ public class Doctor extends User {
             return this;
         }
 
-        public Builder setDateOfBirth(LocalDateTime dateOfBirth) {
+        public Builder setDateOfBirth(LocalDate dateOfBirth) {
             Doctor.this.birthDate = dateOfBirth;
             return this;
         }
@@ -152,7 +152,7 @@ public class Doctor extends User {
             return this;
         }
 
-        public Builder setWorkPlace(Location workPlace) {
+        public Builder setWorkPlace(String workPlace) {
             Doctor.this.workPlace = workPlace;
             return this;
         }
