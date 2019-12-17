@@ -1,18 +1,16 @@
 package com.netcracker.group5.medkit.controller;
 
 import com.netcracker.group5.medkit.model.domain.user.Patient;
+import com.netcracker.group5.medkit.model.dto.user.EditPatientRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.GetPatientResponseItem;
 import com.netcracker.group5.medkit.service.PatientService;
-import com.netcracker.group5.medkit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @CrossOrigin
 @RestController
-
 public class PatientController {
+
     @Autowired
     private PatientService patientService;
 
@@ -24,5 +22,12 @@ public class PatientController {
     }
 
 
-
+    @RequestMapping(value = "/profile/edit",
+            consumes = "application/json",
+            produces = "application/json",
+            method = RequestMethod.PUT)
+    public GetPatientResponseItem editPatient(@RequestBody EditPatientRequestItem requestItem) {
+        Patient patient = new Patient(requestItem);
+        return new GetPatientResponseItem(patientService.editPatient(patient));
+    }
 }
