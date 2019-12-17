@@ -20,7 +20,7 @@ public class PatientController {
     @RequestMapping(value = "/profile/account",
             produces = "application/json",
             method = RequestMethod.GET)
-    public GetPatientResponseItem onLoad(@NotNull @RequestParam long id) {
+    public GetPatientResponseItem getPatient(@NotNull @RequestParam long id) {
         return new GetPatientResponseItem(patientService.getPatient(id));
     }
 
