@@ -19,8 +19,11 @@ public class PatientRepositoryImpl implements PatientRepository {
     @Override
     public Patient save(Patient patient) {
         if (isPatientExists(patient)) {
+            System.out.println("patient exists. " + patient);
+
             String queryUpdate = "UPDATE Patient SET " +
-                    "name = ?, surname = ?, birthDate = ?, sex = ?, weight = ?, height  = ?, location = ?, phoneNumber = ?, email = ?";
+                    "name = ?, surname = ?, birthDate = ?, sex = ?, weight = ?, height  = ?, location = ?, phoneNumber = ?, email = ? " +
+                    "WHERE id = ?";
             Object[] paramsUpdate = new Object[]{
                     patient.getName(),
                     patient.getSurname(),
@@ -30,10 +33,13 @@ public class PatientRepositoryImpl implements PatientRepository {
                     patient.getHeight(),
                     patient.getLocation(),
                     patient.getPhoneNumber(),
-                    patient.getEmail()};
+                    patient.getEmail(),
+                    patient.getId()};
 
             jdbcTemplate.update(queryUpdate, paramsUpdate);
         } else {
+            System.out.println("patient does not exist");
+
             String queryInsert = "INSERT INTO Patient VALUES(patientSeq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             Object[] paramsInsert = new Object[]{
                     patient.getName(),
