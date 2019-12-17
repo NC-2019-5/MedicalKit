@@ -26,6 +26,7 @@ public class Patient extends User {
     private List<Prescription> prescriptions;
 
     public Patient(RegisterPatientRequestItem requestItem) {
+
         this.email = requestItem.getEmail();
         this.password = requestItem.getPassword();
         this.name = requestItem.getName();
@@ -40,6 +41,7 @@ public class Patient extends User {
     }
 
     public Patient(EditPatientRequestItem requestItem) {
+        this.id = requestItem.getId();
         this.email = requestItem.getEmail();
         this.name = requestItem.getName();
         this.surname = requestItem.getSurname();
