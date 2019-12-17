@@ -51,4 +51,25 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .build()
         );
     }
+
+    @Override
+    public Patient findById(long id) {
+        String querySelect = "SELECT * FROM Patient WHERE id = ?";
+        Object[] paramsSelect = new Object[]{id};
+        return jdbcTemplate.queryForObject(querySelect, paramsSelect, (resultSet, i) -> Patient.newBuilder()
+                .setId(resultSet.getLong("id"))
+                .setName(resultSet.getString("name"))
+                .setSurname(resultSet.getString("surname"))
+                .setBirthDate(resultSet.getObject("birthDate", LocalDate.class))
+                .setSex(Sex.valueOf(resultSet.getString("sex")))
+                .setHeight(resultSet.getFloat("height"))
+                .setWeight(resultSet.getFloat("weight"))
+                .setLocation(resultSet.getString("location"))
+                .setPhoneNumber(resultSet.getString("phoneNumber"))
+                .setEmail(resultSet.getString("email"))
+                .setPassword(resultSet.getString("password"))
+                .setRole(Role.PATIENT)
+                .build()
+        );
+    }
 }
