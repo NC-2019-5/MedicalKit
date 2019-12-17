@@ -14,4 +14,9 @@ public class PatientServiceImpl implements PatientService {
     public Patient getPatient(long id) {
         return patientRepository.findById(id);
     }
+
+    @Override
+    public Patient editPatient(Patient patient) {
+        return patientRepository.save(patient);
+    }
 }
