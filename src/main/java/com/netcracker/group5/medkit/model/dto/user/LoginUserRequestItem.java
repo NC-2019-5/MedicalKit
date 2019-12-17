@@ -1,8 +1,13 @@
 package com.netcracker.group5.medkit.model.dto.user;
 
+import javax.validation.constraints.NotBlank;
+
 public class LoginUserRequestItem {
 
+    @NotBlank
     private String email;
+
+    @NotBlank
     private String password;
 
     public LoginUserRequestItem() {

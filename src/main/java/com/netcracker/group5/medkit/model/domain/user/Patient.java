@@ -3,8 +3,9 @@ package com.netcracker.group5.medkit.model.domain.user;
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.purchase.Purchase;
+import com.netcracker.group5.medkit.model.dto.user.RegisterPatientRequestItem;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,16 +13,30 @@ public class Patient extends User {
 
     private String name;
     private String surname;
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
     private Sex sex;
     private float weight;
     private float height;
-    private Location location;
+    private String location;
     private String phoneNumber;
     private List<Doctor> attendingDoctors;
     private List<Purchase> purchases;
     private List<MedicineInstance> medicineInstances;
     private List<Prescription> prescriptions;
+
+    public Patient(RegisterPatientRequestItem requestItem) {
+        this.email = requestItem.getEmail();
+        this.password = requestItem.getPassword();
+        this.name = requestItem.getName();
+        this.surname = requestItem.getSurname();
+        this.birthDate = requestItem.getBirthDate();
+        this.location = requestItem.getLocation();
+        this.weight = requestItem.getWeight();
+        this.height = requestItem.getHeight();
+        this.phoneNumber = requestItem.getPhoneNumber();
+        this.sex = requestItem.getSex();
+        this.role = Role.PATIENT;
+    }
 
     private Patient() {
     }
@@ -42,11 +57,11 @@ public class Patient extends User {
         this.surname = surname;
     }
 
-    public LocalDateTime getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDateTime birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -74,11 +89,11 @@ public class Patient extends User {
         this.height = height;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -185,7 +200,7 @@ public class Patient extends User {
             return this;
         }
 
-        public Builder setBirthDate(LocalDateTime birthDate) {
+        public Builder setBirthDate(LocalDate birthDate) {
             Patient.this.birthDate = birthDate;
             return this;
         }
@@ -205,7 +220,7 @@ public class Patient extends User {
             return this;
         }
 
-        public Builder setLocation(Location location) {
+        public Builder setLocation(String location) {
             Patient.this.location = location;
             return this;
         }
