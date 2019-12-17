@@ -6,4 +6,6 @@ public interface PatientRepository {
     Patient save(Patient patient);
 
     Patient findById(long id);
+
+    boolean isPatientExists(Patient id);
 }

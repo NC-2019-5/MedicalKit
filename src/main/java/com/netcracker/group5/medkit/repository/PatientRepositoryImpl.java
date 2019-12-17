@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Repository
 public class PatientRepositoryImpl implements PatientRepository {
@@ -17,23 +18,40 @@ public class PatientRepositoryImpl implements PatientRepository {
 
     @Override
     public Patient save(Patient patient) {
-        String queryInsert = "INSERT INTO Patient VALUES(patientSeq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        Object[] paramsInsert = new Object[]{
-                patient.getName(),
-                patient.getSurname(),
-                patient.getBirthDate(),
-                patient.getSex().toString(),
-                patient.getWeight(),
-                patient.getHeight(),
-                patient.getLocation(),
-                patient.getPhoneNumber(),
-                patient.getEmail(),
-                patient.getPassword()};
+        if (isPatientExists(patient)) {
+            String queryUpdate = "UPDATE Patient SET " +
+                    "name = ?, surname = ?, birthDate = ?, sex = ?, weight = ?, height  = ?, location = ?, phoneNumber = ?, email = ?";
+            Object[] paramsUpdate = new Object[]{
+                    patient.getName(),
+                    patient.getSurname(),
+                    patient.getBirthDate(),
+                    patient.getSex().toString(),
+                    patient.getWeight(),
+                    patient.getHeight(),
+                    patient.getLocation(),
+                    patient.getPhoneNumber(),
+                    patient.getEmail()};
+
+            jdbcTemplate.update(queryUpdate, paramsUpdate);
+        } else {
+            String queryInsert = "INSERT INTO Patient VALUES(patientSeq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            Object[] paramsInsert = new Object[]{
+                    patient.getName(),
+                    patient.getSurname(),
+                    patient.getBirthDate(),
+                    patient.getSex().toString(),
+                    patient.getWeight(),
+                    patient.getHeight(),
+                    patient.getLocation(),
+                    patient.getPhoneNumber(),
+                    patient.getEmail(),
+                    patient.getPassword()};
+
+            jdbcTemplate.update(queryInsert, paramsInsert);
+        }
 
         String querySelect = "SELECT * FROM Patient WHERE email = ?";
         Object[] paramsSelect = new Object[]{patient.getEmail()};
-
-        jdbcTemplate.update(queryInsert, paramsInsert);
 
         return jdbcTemplate.queryForObject(querySelect, paramsSelect, (resultSet, i) -> Patient.newBuilder()
                 .setId(resultSet.getLong("id"))
@@ -56,6 +74,7 @@ public class PatientRepositoryImpl implements PatientRepository {
     public Patient findById(long id) {
         String querySelect = "SELECT * FROM Patient WHERE id = ?";
         Object[] paramsSelect = new Object[]{id};
+
         return jdbcTemplate.queryForObject(querySelect, paramsSelect, (resultSet, i) -> Patient.newBuilder()
                 .setId(resultSet.getLong("id"))
                 .setName(resultSet.getString("name"))
@@ -71,5 +90,12 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .setRole(Role.PATIENT)
                 .build()
         );
+    }
+
+    public boolean isPatientExists(Patient patient) {
+        String queryExist = "SELECT COUNT(*) FROM Patient WHERE email = ?";
+        Object[] paramsExist = new Object[]{patient.getEmail()};
+
+        return Objects.equals(jdbcTemplate.queryForObject(queryExist, paramsExist, Integer.class), 1);
     }
 }
