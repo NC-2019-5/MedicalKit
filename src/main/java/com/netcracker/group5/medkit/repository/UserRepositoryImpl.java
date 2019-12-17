@@ -45,6 +45,12 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
      */
     @Override
     public User save(User user) {
-        return patientRepository.save((Patient) user);
+        Patient patient = (Patient) user;
+
+        if (patientRepository.isPatientExists(patient)) {
+            throw new IllegalArgumentException("Can not register: email " + patient.getEmail() + " is already taken.");
+        }
+
+        return patientRepository.save(patient);
     }
 }
