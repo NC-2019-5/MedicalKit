@@ -7,6 +7,9 @@ import com.netcracker.group5.medkit.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 @CrossOrigin
 @RestController
 public class PatientController {
@@ -17,7 +20,7 @@ public class PatientController {
     @RequestMapping(value = "/profile/account",
             produces = "application/json",
             method = RequestMethod.GET)
-    public GetPatientResponseItem onLoad(@RequestParam long id) {
+    public GetPatientResponseItem onLoad(@NotNull @RequestParam long id) {
         return new GetPatientResponseItem(patientService.getPatient(id));
     }
 
@@ -26,7 +29,7 @@ public class PatientController {
             consumes = "application/json",
             produces = "application/json",
             method = RequestMethod.PUT)
-    public GetPatientResponseItem editPatient(@RequestBody EditPatientRequestItem requestItem) {
+    public GetPatientResponseItem editPatient(@Valid @RequestBody EditPatientRequestItem requestItem) {
         Patient patient = new Patient(requestItem);
         return new GetPatientResponseItem(patientService.editPatient(patient));
     }

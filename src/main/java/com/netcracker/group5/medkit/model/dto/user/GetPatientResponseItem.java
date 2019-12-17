@@ -7,6 +7,7 @@ import com.netcracker.group5.medkit.model.domain.user.Sex;
 import java.time.LocalDate;
 
 public class GetPatientResponseItem {
+
     private Long id;
     private String name;
     private String surname;

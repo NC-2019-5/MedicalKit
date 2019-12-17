@@ -14,11 +14,6 @@ public class RegisterPatientRequestItem {
 
     @NotBlank
     private String surname;
-    private LocalDate birthDate;
-    private Sex sex;
-    private float weight;
-    private float height;
-    private String location;
 
     @Pattern(regexp = "^[+][0-9]{12}$")
     private String phoneNumber;
@@ -28,6 +23,12 @@ public class RegisterPatientRequestItem {
 
     @NotBlank
     private String password;
+
+    private LocalDate birthDate;
+    private Sex sex;
+    private float weight;
+    private float height;
+    private String location;
 
     public RegisterPatientRequestItem() {
     }
