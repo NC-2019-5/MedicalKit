@@ -3,6 +3,7 @@ package com.netcracker.group5.medkit.model.domain.user;
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.purchase.Purchase;
+import com.netcracker.group5.medkit.model.dto.user.EditPatientRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.RegisterPatientRequestItem;
 
 import java.time.LocalDate;
@@ -27,6 +28,19 @@ public class Patient extends User {
     public Patient(RegisterPatientRequestItem requestItem) {
         this.email = requestItem.getEmail();
         this.password = requestItem.getPassword();
+        this.name = requestItem.getName();
+        this.surname = requestItem.getSurname();
+        this.birthDate = requestItem.getBirthDate();
+        this.location = requestItem.getLocation();
+        this.weight = requestItem.getWeight();
+        this.height = requestItem.getHeight();
+        this.phoneNumber = requestItem.getPhoneNumber();
+        this.sex = requestItem.getSex();
+        this.role = Role.PATIENT;
+    }
+
+    public Patient(EditPatientRequestItem requestItem) {
+        this.email = requestItem.getEmail();
         this.name = requestItem.getName();
         this.surname = requestItem.getSurname();
         this.birthDate = requestItem.getBirthDate();
