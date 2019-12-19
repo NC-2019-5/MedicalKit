@@ -14,7 +14,7 @@ public class Medicine implements Requestable {
     private String contraindications;
     private List<Medicine> interactions;
     private String packageContent;
-    private TakingMethod takingMethod;
+    private String takingMethod;
     private String description;
 
     private Medicine() {
@@ -76,11 +76,11 @@ public class Medicine implements Requestable {
         this.packageContent = packageContent;
     }
 
-    public TakingMethod getTakingMethod() {
+    public String getTakingMethod() {
         return takingMethod;
     }
 
-    public void setTakingMethod(TakingMethod takingMethod) {
+    public void setTakingMethod(String takingMethod) {
         this.takingMethod = takingMethod;
     }
 
@@ -104,7 +104,7 @@ public class Medicine implements Requestable {
                 Objects.equals(contraindications, medicine.contraindications) &&
                 Objects.equals(interactions, medicine.interactions) &&
                 Objects.equals(packageContent, medicine.packageContent) &&
-                takingMethod == medicine.takingMethod &&
+                takingMethod.equals(medicine.takingMethod) &&
                 Objects.equals(description, medicine.description);
     }
 
@@ -172,7 +172,7 @@ public class Medicine implements Requestable {
             return this;
         }
 
-        public Builder setTakingMethod(TakingMethod takingMethod) {
+        public Builder setTakingMethod(String takingMethod) {
             Medicine.this.takingMethod = takingMethod;
             return this;
         }
