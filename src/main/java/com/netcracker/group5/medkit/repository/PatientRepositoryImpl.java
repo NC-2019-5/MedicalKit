@@ -1,14 +1,18 @@
 package com.netcracker.group5.medkit.repository;
 
 import com.netcracker.group5.medkit.model.domain.user.Patient;
-import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.Sex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
-import java.util.Objects;
+import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Map;
 
 @Repository
 public class PatientRepositoryImpl implements PatientRepository {
@@ -16,92 +20,66 @@ public class PatientRepositoryImpl implements PatientRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @PostConstruct
+    private void postConstruct() {
+        jdbcTemplate.setResultsMapCaseInsensitive(true);
+    }
+
     @Override
     public Patient save(Patient patient) {
-        if (isPatientExists(patient)) {
-            System.out.println("patient exists. " + patient);
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_patient_object_id", patient.getId())
+                .addValue("p_patient_full_name", patient.getName() + " " + patient.getSurname())
+                .addValue("p_patient_name", patient.getName())
+                .addValue("p_patient_surname", patient.getSurname())
+                .addValue("p_patient_birth_date", patient.getBirthDate())
+                .addValue("p_patient_sex", patient.getSex())
+                .addValue("p_patient_weight", patient.getWeight())
+                .addValue("p_patient_height", patient.getWeight())
+                .addValue("p_patient_location_id", patient.getLocation())
+                .addValue("p_patient_phone_number", patient.getPhoneNumber())
+                .addValue("p_patient_user_id", null);
 
-            String queryUpdate = "UPDATE Patient SET " +
-                    "name = ?, surname = ?, birthDate = ?, sex = ?, weight = ?, height  = ?, location = ?, phoneNumber = ?, email = ? " +
-                    "WHERE id = ?";
-            Object[] paramsUpdate = new Object[]{
-                    patient.getName(),
-                    patient.getSurname(),
-                    patient.getBirthDate(),
-                    patient.getSex().toString(),
-                    patient.getWeight(),
-                    patient.getHeight(),
-                    patient.getLocation(),
-                    patient.getPhoneNumber(),
-                    patient.getEmail(),
-                    patient.getId()};
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("PATIENT_PKG")
+                .withProcedureName("savePatientObject_2")
+                .execute(parameterSource);
 
-            jdbcTemplate.update(queryUpdate, paramsUpdate);
-        } else {
-            System.out.println("patient does not exist");
+        System.out.println(result);
 
-            String queryInsert = "INSERT INTO Patient VALUES(patientSeq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            Object[] paramsInsert = new Object[]{
-                    patient.getName(),
-                    patient.getSurname(),
-                    patient.getBirthDate(),
-                    patient.getSex().toString(),
-                    patient.getWeight(),
-                    patient.getHeight(),
-                    patient.getLocation(),
-                    patient.getPhoneNumber(),
-                    patient.getEmail(),
-                    patient.getPassword()};
-
-            jdbcTemplate.update(queryInsert, paramsInsert);
-        }
-
-        String querySelect = "SELECT * FROM Patient WHERE email = ?";
-        Object[] paramsSelect = new Object[]{patient.getEmail()};
-
-        return jdbcTemplate.queryForObject(querySelect, paramsSelect, (resultSet, i) -> Patient.newBuilder()
-                .setId(resultSet.getLong("id"))
-                .setName(resultSet.getString("name"))
-                .setSurname(resultSet.getString("surname"))
-                .setBirthDate(resultSet.getObject("birthDate", LocalDate.class))
-                .setSex(Sex.valueOf(resultSet.getString("sex")))
-                .setHeight(resultSet.getFloat("height"))
-                .setWeight(resultSet.getFloat("weight"))
-                .setLocation(resultSet.getString("location"))
-                .setPhoneNumber(resultSet.getString("phoneNumber"))
-                .setEmail(resultSet.getString("email"))
-                .setPassword(resultSet.getString("password"))
-                .setRole(Role.PATIENT)
-                .build()
-        );
+        return buildPatientFromResult(result);
     }
 
     @Override
-    public Patient findById(long id) {
-        String querySelect = "SELECT * FROM Patient WHERE id = ?";
-        Object[] paramsSelect = new Object[]{id};
+    public Patient findById(Long id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_patient_object_id", id);
 
-        return jdbcTemplate.queryForObject(querySelect, paramsSelect, (resultSet, i) -> Patient.newBuilder()
-                .setId(resultSet.getLong("id"))
-                .setName(resultSet.getString("name"))
-                .setSurname(resultSet.getString("surname"))
-                .setBirthDate(resultSet.getObject("birthDate", LocalDate.class))
-                .setSex(Sex.valueOf(resultSet.getString("sex")))
-                .setHeight(resultSet.getFloat("height"))
-                .setWeight(resultSet.getFloat("weight"))
-                .setLocation(resultSet.getString("location"))
-                .setPhoneNumber(resultSet.getString("phoneNumber"))
-                .setEmail(resultSet.getString("email"))
-                .setPassword(resultSet.getString("password"))
-                .setRole(Role.PATIENT)
-                .build()
-        );
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("PATIENT_PKG")
+                .withProcedureName("getPatientById")
+                .execute(parameterSource);
+
+        System.out.println(result);
+
+        return buildPatientFromResult(result);
     }
 
-    public boolean isPatientExists(Patient patient) {
-        String queryExist = "SELECT COUNT(*) FROM Patient WHERE email = ?";
-        Object[] paramsExist = new Object[]{patient.getEmail()};
+    private Patient buildPatientFromResult(Map<String, Object> result) {
+        Patient patient = Patient.newBuilder()
+                .setName((String) result.get("p_patient_name"))
+                .setSurname((String) result.get("p_patient_surname"))
+                .setBirthDate(((Timestamp) result.get("p_patient_birth_date")).toLocalDateTime().toLocalDate())
+                .setSex(Sex.valueOf((String) result.get("p_patient_sex")))
+                .setWeight(Float.parseFloat((String) result.get("p_patient_weight")))
+                .setHeight(Float.parseFloat((String) result.get("p_patient_height")))
+                .setLocation((String) result.get("p_patient_location_id"))
+                .setPhoneNumber((String) result.get("p_patient_phone_number"))
+                .build();
 
-        return Objects.equals(jdbcTemplate.queryForObject(queryExist, paramsExist, Integer.class), 1);
+        Object patientId = result.get("p_patient_object_id");
+        patient.setId(patientId == null ? -1L : ((BigDecimal) patientId).longValue());
+
+        return patient;
     }
 }
