@@ -123,7 +123,7 @@ public class Medicine implements Requestable {
                 ", contraindications='" + contraindications + '\'' +
                 ", interactions=" + interactions +
                 ", packageContent='" + packageContent + '\'' +
-                ", takingMethod=" + takingMethod +
+                ", takingMethod='" + takingMethod + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }
