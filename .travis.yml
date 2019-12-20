@@ -4,5 +4,6 @@ notifications:
     recipients:
       - alex638000@gmail.com
       - ir.prikhodko@gmail.com
+      - pafkan1993@gmail.com
     on_success: always
     on_failure: always

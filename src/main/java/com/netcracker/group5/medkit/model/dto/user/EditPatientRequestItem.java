@@ -1,42 +1,37 @@
 package com.netcracker.group5.medkit.model.dto.user;
 
-import com.netcracker.group5.medkit.model.domain.user.Patient;
-import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.Sex;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
-public class GetPatientResponseItem {
+public class EditPatientRequestItem {
 
+    @NotNull
     private Long id;
+
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String surname;
+
+    @Pattern(regexp = "^[+][0-9]{12}$")
+    private String phoneNumber;
+
+    @Email
+    private String email;
+
     private LocalDate birthDate;
     private Sex sex;
     private float weight;
     private float height;
     private String location;
-    private String phoneNumber;
-    private String email;
-    private String password;
-    private Role role;
 
-    public GetPatientResponseItem() {
-    }
-
-    public GetPatientResponseItem(Patient patient) {
-        this.id = patient.getId();
-        this.name = patient.getName();
-        this.surname = patient.getSurname();
-        this.birthDate = patient.getBirthDate();
-        this.sex = patient.getSex();
-        this.weight = patient.getWeight();
-        this.height = patient.getHeight();
-        this.location = patient.getLocation();
-        this.phoneNumber = patient.getPhoneNumber();
-        this.email = patient.getEmail();
-        this.password = patient.getPassword();
-        this.role = patient.getRole();
+    public EditPatientRequestItem() {
     }
 
     public Long getId() {
@@ -117,21 +112,5 @@ public class GetPatientResponseItem {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 }
