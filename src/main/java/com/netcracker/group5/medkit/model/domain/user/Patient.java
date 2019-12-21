@@ -28,14 +28,14 @@ public class Patient extends User {
     public Patient(RegisterPatientRequestItem requestItem) {
         this.email = requestItem.getEmail();
         this.password = requestItem.getPassword();
-        this.name = requestItem.getName();
-        this.surname = requestItem.getSurname();
-        this.birthDate = requestItem.getBirthDate();
+        this.name = requestItem.getFirstName();
+        this.surname = requestItem.getLastName();
+        this.birthDate = requestItem.getDateOfBirth();
         this.location = requestItem.getLocation();
         this.weight = requestItem.getWeight();
         this.height = requestItem.getHeight();
         this.phoneNumber = requestItem.getPhoneNumber();
-        this.sex = requestItem.getSex();
+        this.sex = requestItem.getGender();
         this.role = Role.PATIENT;
     }
 
