@@ -6,7 +6,7 @@ import com.netcracker.group5.medkit.model.dto.user.LoginUserResponseItem;
 
 public interface UserService {
 
-    LoginUserResponseItem login(LoginUserRequestItem loginUserRequestItem);
+    String login(String email, String password);
 
     User registerUser(User user);
 }
