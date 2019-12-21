@@ -20,6 +20,9 @@ import java.util.Map;
 public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository {
 
     @Autowired
+    private DataSource dataSource;
+
+    @Autowired
     private PatientRepository patientRepository;
 
     @Autowired
@@ -27,6 +30,7 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
 
     @PostConstruct
     private void postConstruct() {
+        setDataSource(dataSource);
         jdbcTemplate.setResultsMapCaseInsensitive(true);
     }
 
