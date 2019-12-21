@@ -21,8 +21,8 @@ public class UserController {
             consumes = "application/json",
             produces = "application/json",
             method = RequestMethod.POST)
-    public LoginUserResponseItem login(@Valid @RequestBody LoginUserRequestItem loginUserRequestItem) {
-        return userService.login(loginUserRequestItem);
+    public String login(@Valid @RequestBody LoginUserRequestItem loginUserRequestItem) {
+        return userService.login(loginUserRequestItem.getEmail(), loginUserRequestItem.getPassword());
     }
 
     @RequestMapping(value = "/register",
