@@ -26,7 +26,7 @@ public class EditPatientRequestItem {
     private String email;
 
     private LocalDate dateOfBirth;
-    private String sex;
+    private Sex gender;
     private float weight;
     private float height;
     private String location;
@@ -66,12 +66,12 @@ public class EditPatientRequestItem {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getSex() {
-        return sex;
+    public Sex getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(Sex gender) {
+        this.gender = gender;
     }
 
     public float getWeight() {
