@@ -112,4 +112,20 @@ public class RegisterPatientRequestItem {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "RegisterPatientRequestItem{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", birthDate=" + birthDate +
+                ", sex=" + sex +
+                ", weight=" + weight +
+                ", height=" + height +
+                ", location='" + location + '\'' +
+                '}';
+    }
 }
