@@ -35,21 +35,21 @@ public class Patient extends User {
         this.weight = requestItem.getWeight();
         this.height = requestItem.getHeight();
         this.phoneNumber = requestItem.getPhoneNumber();
-        this.sex = requestItem.getGender();
+        this.sex = Sex.valueOf(requestItem.getGender());
         this.role = Role.PATIENT;
     }
 
     public Patient(EditPatientRequestItem requestItem) {
         this.id = requestItem.getId();
         this.email = requestItem.getEmail();
-        this.name = requestItem.getName();
-        this.surname = requestItem.getSurname();
-        this.birthDate = requestItem.getBirthDate();
+        this.name = requestItem.getFirstName();
+        this.surname = requestItem.getLastName();
+        this.birthDate = requestItem.getDateOfBirth();
         this.location = requestItem.getLocation();
         this.weight = requestItem.getWeight();
         this.height = requestItem.getHeight();
         this.phoneNumber = requestItem.getPhoneNumber();
-        this.sex = requestItem.getSex();
+        this.sex = Sex.valueOf(requestItem.getSex());
         this.role = Role.PATIENT;
     }
 

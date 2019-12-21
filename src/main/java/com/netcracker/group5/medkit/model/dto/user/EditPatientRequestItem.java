@@ -14,10 +14,10 @@ public class EditPatientRequestItem {
     private Long id;
 
     @NotBlank
-    private String name;
+    private String firstName;
 
     @NotBlank
-    private String surname;
+    private String lastName;
 
     @Pattern(regexp = "^[+][0-9]{12}$")
     private String phoneNumber;
@@ -25,8 +25,8 @@ public class EditPatientRequestItem {
     @Email
     private String email;
 
-    private LocalDate birthDate;
-    private Sex sex;
+    private LocalDate dateOfBirth;
+    private String sex;
     private float weight;
     private float height;
     private String location;
@@ -42,35 +42,35 @@ public class EditPatientRequestItem {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public LocalDate getBirthDate() {
-        return birthDate;
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public Sex getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Sex sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
