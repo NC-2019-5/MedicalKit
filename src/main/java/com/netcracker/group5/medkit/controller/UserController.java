@@ -30,9 +30,9 @@ public class UserController {
             consumes = "application/json",
             produces = "application/json",
             method = RequestMethod.POST)
-    public RegisterPatientResponseItem registerUser(@Valid @RequestBody RegisterPatientRequestItem registerPatientRequestItem) {
+    public String registerUser(@Valid @RequestBody RegisterPatientRequestItem registerPatientRequestItem) {
         System.out.println(registerPatientRequestItem);
         Patient patient = new Patient(registerPatientRequestItem);
-        return new RegisterPatientResponseItem((Patient) userService.registerUser(patient));
+        return userService.registerUser(patient).getEmail();
     }
 }
