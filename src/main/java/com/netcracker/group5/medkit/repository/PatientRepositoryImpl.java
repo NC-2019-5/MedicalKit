@@ -70,7 +70,6 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .setName((String) result.get("p_patient_name"))
                 .setSurname((String) result.get("p_patient_surname"))
                 .setBirthDate(((Timestamp) result.get("p_patient_birth_date")).toLocalDateTime().toLocalDate())
-                .setSex(Sex.valueOf((String) result.get("p_patient_sex")))
                 .setWeight(Float.parseFloat((String) result.get("p_patient_weight")))
                 .setHeight(Float.parseFloat((String) result.get("p_patient_height")))
                 .setLocation((String) result.get("p_patient_location_id"))
@@ -78,7 +77,10 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .build();
 
         Object patientId = result.get("p_patient_object_id");
+        Object patientSex = result.get("p_patient_sex");
+
         patient.setId(patientId == null ? -1L : ((BigDecimal) patientId).longValue());
+        patient.setSex(patientSex == null ? null : Sex.valueOf((String) patientSex));
 
         return patient;
     }
