@@ -31,6 +31,7 @@ public class UserController {
             method = RequestMethod.POST)
     public String registerUser(@Valid @RequestBody RegisterPatientRequestItem registerPatientRequestItem) {
         System.out.println(registerPatientRequestItem);
-        return userService.registerUser(new Patient(registerPatientRequestItem)).getEmail();
+        Patient patient = (Patient) userService.registerUser(new Patient(registerPatientRequestItem));
+        return patient.getName();
     }
 }
