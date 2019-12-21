@@ -35,7 +35,7 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .addValue("p_patient_birth_date", patient.getBirthDate())
                 .addValue("p_patient_sex", patient.getSex())
                 .addValue("p_patient_weight", patient.getWeight())
-                .addValue("p_patient_height", patient.getWeight())
+                .addValue("p_patient_height", patient.getHeight())
                 .addValue("p_patient_location_id", patient.getLocation())
                 .addValue("p_patient_phone_number", patient.getPhoneNumber())
                 .addValue("p_patient_user_id", null);
