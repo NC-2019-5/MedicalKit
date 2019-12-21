@@ -1,5 +1,7 @@
 package com.netcracker.group5.medkit.model.dto.user;
 
+import com.netcracker.group5.medkit.model.domain.user.Sex;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -23,7 +25,7 @@ public class RegisterPatientRequestItem {
     private String password;
 
     private LocalDate dateOfBirth;
-    private String gender;
+    private Sex gender;
     private float weight;
     private float height;
     private String location;
@@ -55,11 +57,11 @@ public class RegisterPatientRequestItem {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getGender() {
+    public Sex getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Sex gender) {
         this.gender = gender;
     }
 

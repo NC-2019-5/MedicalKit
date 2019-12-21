@@ -35,7 +35,7 @@ public class Patient extends User {
         this.weight = requestItem.getWeight();
         this.height = requestItem.getHeight();
         this.phoneNumber = requestItem.getPhoneNumber();
-        this.sex = Sex.valueOf(requestItem.getGender());
+        this.sex = requestItem.getGender();
         this.role = Role.PATIENT;
     }
 
@@ -49,7 +49,7 @@ public class Patient extends User {
         this.weight = requestItem.getWeight();
         this.height = requestItem.getHeight();
         this.phoneNumber = requestItem.getPhoneNumber();
-        this.sex = Sex.valueOf(requestItem.getSex());
+        this.sex = requestItem.getGender();
         this.role = Role.PATIENT;
     }
 
