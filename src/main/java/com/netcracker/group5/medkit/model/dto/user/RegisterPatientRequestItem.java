@@ -10,10 +10,10 @@ import java.time.LocalDate;
 public class RegisterPatientRequestItem {
 
     @NotBlank
-    private String name;
+    private String firstName;
 
     @NotBlank
-    private String surname;
+    private String lastName;
 
     @Pattern(regexp = "^[+][0-9]{12}$")
     private String phoneNumber;
@@ -24,8 +24,8 @@ public class RegisterPatientRequestItem {
     @NotBlank
     private String password;
 
-    private LocalDate birthDate;
-    private Sex sex;
+    private LocalDate dateOfBirth;
+    private Sex gender;
     private float weight;
     private float height;
     private String location;
@@ -33,36 +33,36 @@ public class RegisterPatientRequestItem {
     public RegisterPatientRequestItem() {
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public LocalDate getBirthDate() {
-        return birthDate;
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public Sex getSex() {
-        return sex;
+    public Sex getGender() {
+        return gender;
     }
 
-    public void setSex(Sex sex) {
-        this.sex = sex;
+    public void setGender(Sex gender) {
+        this.gender = gender;
     }
 
     public float getWeight() {
@@ -111,5 +111,21 @@ public class RegisterPatientRequestItem {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "RegisterPatientRequestItem{" +
+                "name='" + firstName + '\'' +
+                ", surname='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", birthDate=" + dateOfBirth +
+                ", sex=" + gender +
+                ", weight=" + weight +
+                ", height=" + height +
+                ", location='" + location + '\'' +
+                '}';
     }
 }
