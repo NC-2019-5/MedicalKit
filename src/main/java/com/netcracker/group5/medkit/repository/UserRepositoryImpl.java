@@ -5,11 +5,16 @@ import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.math.BigDecimal;
+import java.util.Map;
 
 @Repository
 public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository {
@@ -20,23 +25,27 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    public void setDs(DataSource dataSource) {
-        setDataSource(dataSource);
+    @PostConstruct
+    private void postConstruct() {
+        jdbcTemplate.setResultsMapCaseInsensitive(true);
     }
 
     @Override
-    @Transactional
     public User findUserByEmail(String email) {
-        String query = "SELECT id, email, password ,role FROM AppUser WHERE email = ?";
-        Object[] params = new Object[]{email};
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_input_word", email);
 
-        return jdbcTemplate.queryForObject(query, params, (resultSet, i) -> User.newUserBuilder()
-                .setId(resultSet.getLong("id"))
-                .setEmail(resultSet.getString("email"))
-                .setPassword(resultSet.getString("password"))
-                .setRole(Role.valueOf(resultSet.getString("role")))
-                .build());
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("USER_PKG")
+                .withProcedureName("getUserByEmail")
+                .execute(parameterSource);
+
+        return User.newUserBuilder()
+                .setId(((BigDecimal) result.get("p_user_object_id")).longValue())
+                .setEmail((String) result.get("p_user_email"))
+                .setPassword((String) result.get("p_user_password"))
+                .setRole(Role.valueOf((String) result.get("p_user_role")))
+                .build();
     }
 
     /*
