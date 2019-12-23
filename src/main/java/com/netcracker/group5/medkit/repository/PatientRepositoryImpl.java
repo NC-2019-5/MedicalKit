@@ -69,7 +69,6 @@ public class PatientRepositoryImpl implements PatientRepository {
         Patient patient = Patient.newBuilder()
                 .setName((String) result.get("p_patient_name"))
                 .setSurname((String) result.get("p_patient_surname"))
-                .setBirthDate(((Timestamp) result.get("p_patient_birth_date")).toLocalDateTime().toLocalDate())
                 .setWeight(Float.parseFloat((String) result.get("p_patient_weight")))
                 .setHeight(Float.parseFloat((String) result.get("p_patient_height")))
                 .setLocation((String) result.get("p_patient_location_id"))
@@ -77,9 +76,11 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .build();
 
         Object patientId = result.get("p_patient_object_id");
+        Object patientBirthDate = result.get("p_patient_birth_date");
         Object patientSex = result.get("p_patient_sex");
 
         patient.setId(patientId == null ? -1L : ((BigDecimal) patientId).longValue());
+        patient.setBirthDate(patientBirthDate == null ? null : ((Timestamp) patientBirthDate).toLocalDateTime().toLocalDate());
         patient.setSex(patientSex == null ? null : Sex.valueOf((String) patientSex));
 
         return patient;
