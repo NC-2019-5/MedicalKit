@@ -15,6 +15,7 @@ public class RegisterPatientRequestItem {
     @NotBlank
     private String lastName;
 
+    @NotBlank
     @Pattern(regexp = "^[+][0-9]{12}$")
     private String phoneNumber;
 
