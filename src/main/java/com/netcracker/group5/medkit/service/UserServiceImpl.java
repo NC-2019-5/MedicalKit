@@ -8,8 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -34,6 +32,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return new CustomUserDetails(userRepository.findUserByEmail(email));
+        try {
+            return new CustomUserDetails(userRepository.findUserByEmail(email));
+        } catch (Exception e) {
+            throw new UsernameNotFoundException("User with email " + email + " wan not found.");
+        }
     }
 }
