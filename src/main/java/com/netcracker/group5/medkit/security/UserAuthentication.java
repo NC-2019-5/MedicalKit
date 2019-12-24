@@ -1,23 +1,23 @@
 package com.netcracker.group5.medkit.security;
 
-import com.netcracker.group5.medkit.model.domain.user.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 
 public class UserAuthentication implements Authentication {
 
-    private final User user;
+    private final UserDetails user;
     private boolean authenticated = true;
-    public UserAuthentication(User user) {
+
+    public UserAuthentication(UserDetails user) {
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(user.getRole());
+        return user.getAuthorities();
     }
 
     @Override
@@ -47,6 +47,6 @@ public class UserAuthentication implements Authentication {
 
     @Override
     public String getName() {
-        return user.getEmail();
+        return user.getUsername();
     }
 }
