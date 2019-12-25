@@ -22,7 +22,7 @@ public class TokenAuthService {
         return Optional
                 .ofNullable(request.getHeader(AUTH_HEADER_NAME))
                 .flatMap(tokenHandler::extractUserEmail)
-                .flatMap(userService::loadUserByUsername)
+                .flatMap(s -> Optional.of(userService.loadUserByUsername(s)))
                 .map(UserAuthentication::new);
     }
 }
