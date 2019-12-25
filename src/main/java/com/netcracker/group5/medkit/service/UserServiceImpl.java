@@ -1,5 +1,6 @@
 package com.netcracker.group5.medkit.service;
 
+import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.User;
 import com.netcracker.group5.medkit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return null;
+        User user = userRepository.findUserByEmail(s);
+        System.out.println("user.getUsername() = " + user.getUsername());
+        return user;
     }
 }
