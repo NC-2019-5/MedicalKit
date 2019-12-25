@@ -28,4 +28,9 @@ public class UserServiceImpl implements UserService {
     public User registerUser(User user) {
         return userRepository.save(user);
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return null;
+    }
 }
