@@ -9,6 +9,9 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -23,9 +26,12 @@ public class MedicineRepositoryImpl implements MedicineRepository {
     }
 
     @Override
-    public Medicine findAll(Long id) {
+    public List<Medicine> findAll(int limit, long offset) {
+        System.out.println("limit = " + limit);
+        System.out.println("offset = " + offset);
+
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_med_object_id", id);
+                .addValue("p_med_object_id", 5);
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("MEDICINE_PKG")
@@ -47,6 +53,6 @@ public class MedicineRepositoryImpl implements MedicineRepository {
         System.out.println("result = " + result);
         System.out.println(medicine);
 
-        return null;
+        return Collections.singletonList(medicine);
     }
 }
