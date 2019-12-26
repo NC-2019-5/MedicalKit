@@ -10,9 +10,6 @@ import java.time.LocalDate;
 
 public class EditPatientRequestItem {
 
-    @NotNull
-    private Long id;
-
     @NotBlank
     private String firstName;
 
@@ -32,14 +29,6 @@ public class EditPatientRequestItem {
     private String location;
 
     public EditPatientRequestItem() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
