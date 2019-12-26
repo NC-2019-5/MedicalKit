@@ -1,8 +1,13 @@
 package com.netcracker.group5.medkit.model.dto.user;
 
+import javax.validation.constraints.NotBlank;
+
 public class EditPasswordRequestItem {
 
+    @NotBlank
     private String oldPassword;
+
+    @NotBlank
     private String newPassword;
 
     public EditPasswordRequestItem() {
