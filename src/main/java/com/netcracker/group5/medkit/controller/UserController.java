@@ -17,18 +17,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/login",
-            consumes = "application/json",
-            produces = "application/json",
-            method = RequestMethod.POST)
+    @PostMapping("/login")
     public String login(@Valid @RequestBody LoginUserRequestItem loginUserRequestItem) {
         return userService.login(loginUserRequestItem.getEmail(), loginUserRequestItem.getPassword());
     }
 
-    @RequestMapping(value = "/register",
-            consumes = "application/json",
-            produces = "application/json",
-            method = RequestMethod.POST)
+    @PostMapping("/register")
     public RegisterPatientResponseItem registerUser(@Valid @RequestBody RegisterPatientRequestItem registerPatientRequestItem) {
         System.out.println(registerPatientRequestItem);
         Patient patient = (Patient) userService.registerUser(new Patient(registerPatientRequestItem));

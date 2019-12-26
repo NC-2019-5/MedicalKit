@@ -11,6 +11,7 @@ import java.util.Objects;
 public class Prescription implements Requestable {
 
     private Long id;
+    private String name;
     private Doctor doctor;
     private Patient patient;
     private List<PrescriptionItem> prescriptionItems;
@@ -64,7 +65,8 @@ public class Prescription implements Requestable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Prescription that = (Prescription) o;
-        return id.equals(that.id) &&
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
                 Objects.equals(doctor, that.doctor) &&
                 Objects.equals(patient, that.patient) &&
                 Objects.equals(prescriptionItems, that.prescriptionItems) &&
@@ -73,18 +75,27 @@ public class Prescription implements Requestable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, doctor, patient, prescriptionItems, date);
+        return Objects.hash(id, name, doctor, patient, prescriptionItems, date);
     }
 
     @Override
     public String toString() {
         return "Prescription{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
                 ", doctor=" + doctor +
                 ", patient=" + patient +
                 ", prescriptionItems=" + prescriptionItems +
                 ", date=" + date +
                 '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public static Builder newBuilder() {
@@ -98,6 +109,11 @@ public class Prescription implements Requestable {
 
         public Builder setId(Long id) {
             Prescription.this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            Prescription.this.name = name;
             return this;
         }
 

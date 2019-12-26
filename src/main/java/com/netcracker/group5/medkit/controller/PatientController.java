@@ -17,18 +17,13 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
-    @RequestMapping(value = "/profile/account",
-            produces = "application/json",
-            method = RequestMethod.GET)
+    @GetMapping("/profile/account")
     public GetPatientResponseItem getPatient(@NotNull @RequestParam Long id) {
         return new GetPatientResponseItem(patientService.getPatient(id));
     }
 
 
-    @RequestMapping(value = "/profile/edit",
-            consumes = "application/json",
-            produces = "application/json",
-            method = RequestMethod.PUT)
+    @PutMapping("/profile/edit")
     public GetPatientResponseItem editPatient(@Valid @RequestBody EditPatientRequestItem requestItem) {
         Patient patient = new Patient(requestItem);
         return new GetPatientResponseItem(patientService.editPatient(patient));

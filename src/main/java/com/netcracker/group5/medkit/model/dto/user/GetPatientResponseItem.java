@@ -1,82 +1,69 @@
 package com.netcracker.group5.medkit.model.dto.user;
 
 import com.netcracker.group5.medkit.model.domain.user.Patient;
-import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.Sex;
 
 import java.time.LocalDate;
 
 public class GetPatientResponseItem {
 
-    private Long id;
-    private String name;
-    private String surname;
-    private LocalDate birthDate;
-    private Sex sex;
+    private String firstName;
+    private String lastName;
+    private LocalDate dateOfBirth;
+    private Sex gender;
     private float weight;
     private float height;
     private String location;
     private String phoneNumber;
     private String email;
-    private String password;
-    private Role role;
+    private String password; // -
 
     public GetPatientResponseItem() {
     }
 
     public GetPatientResponseItem(Patient patient) {
-        this.id = patient.getId();
-        this.name = patient.getName();
-        this.surname = patient.getSurname();
-        this.birthDate = patient.getBirthDate();
-        this.sex = patient.getSex();
+        this.firstName = patient.getName();
+        this.lastName = patient.getSurname();
+        this.dateOfBirth = patient.getBirthDate();
+        this.gender = patient.getSex();
         this.weight = patient.getWeight();
         this.height = patient.getHeight();
         this.location = patient.getLocation();
         this.phoneNumber = patient.getPhoneNumber();
         this.email = patient.getEmail();
         this.password = patient.getPassword();
-        this.role = patient.getRole();
     }
 
-    public Long getId() {
-        return id;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getName() {
-        return name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getSurname() {
-        return surname;
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public LocalDate getBirthDate() {
-        return birthDate;
+    public Sex getGender() {
+        return gender;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public Sex getSex() {
-        return sex;
-    }
-
-    public void setSex(Sex sex) {
-        this.sex = sex;
+    public void setGender(Sex gender) {
+        this.gender = gender;
     }
 
     public float getWeight() {
@@ -125,13 +112,5 @@ public class GetPatientResponseItem {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 }
