@@ -1,11 +1,14 @@
 package com.netcracker.group5.medkit.controller;
 
 import com.netcracker.group5.medkit.model.domain.user.Patient;
+import com.netcracker.group5.medkit.model.domain.user.User;
+import com.netcracker.group5.medkit.model.dto.user.EditPasswordRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.LoginUserRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.RegisterPatientRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.RegisterPatientResponseItem;
 import com.netcracker.group5.medkit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,5 +30,10 @@ public class UserController {
         System.out.println(registerPatientRequestItem);
         Patient patient = (Patient) userService.registerUser(new Patient(registerPatientRequestItem));
         return new RegisterPatientResponseItem(patient.getName());
+    }
+
+    public ResponseEntity<?> editPassword(@RequestBody EditPasswordRequestItem requestItem) {
+        userService.editPassword(user, requestItem.getOldPassword(), requestItem.getNewPassword());
+        return ResponseEntity.ok().build();
     }
 }
