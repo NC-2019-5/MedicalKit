@@ -16,12 +16,6 @@ public class MedicineServiceImpl implements MedicineService {
 
     @Override
     public List<Medicine> findMedicines(Pageable pageable) {
-        System.out.println("pageable = " + pageable);
-        System.out.println("pageable.getPageSize() = " + pageable.getPageSize());
-        System.out.println("pageable.getOffset() = " + pageable.getOffset());
-        System.out.println("pageable.getPageNumber() = " + pageable.getPageNumber());
-
-        medicineRepository.findAll(5L);
-        return null;
+        return medicineRepository.findAll(pageable.getPageSize(), pageable.getOffset());
     }
 }
