@@ -26,4 +26,14 @@ public class UserServiceImpl implements UserService {
     public User registerUser(User user) {
         return userRepository.save(user);
     }
+
+    @Override
+    public void editPassword(User user, String oldPassword, String newPassword) {
+        if (oldPassword.equals(user.getPassword())) {
+            user.setPassword(newPassword);
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("Incorrect password");
+        }
+    }
 }

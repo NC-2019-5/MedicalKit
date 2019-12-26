@@ -9,4 +9,6 @@ public interface UserService {
     String login(String email, String password);
 
     User registerUser(User user);
+
+    void editPassword(User user, String oldPassword, String newPassword);
 }
