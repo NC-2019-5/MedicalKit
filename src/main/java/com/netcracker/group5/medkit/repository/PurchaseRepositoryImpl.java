@@ -1,21 +1,14 @@
 package com.netcracker.group5.medkit.repository;
 
+import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
-import com.netcracker.group5.medkit.model.domain.user.Role;
-import com.netcracker.group5.medkit.model.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -31,26 +24,39 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
 
     @Override
     public Optional<List<PurchaseItem>> findPurchaseItems(int limit, long offset, String searchQuery) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_input_word", "Aybo");
+        List<PurchaseItem> purchaseItems = new ArrayList<>(3);
 
-        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
-                .withCatalogName("USER_PKG")
-                .withProcedureName("getUserByEmail")
-                .execute(parameterSource);
-
-        System.out.println("result = " + result);
-
-        User user = User.newUserBuilder()
-                .setId(((BigDecimal) result.get("p_user_object_id")).longValue())
-                .setRole(Role.PATIENT)
-                .setPassword((String) result.get("p_user_password"))
-                .setEmail((String) result.get("p_user_email"))
+        Medicine medicine1 = Medicine.newBuilder()
+                .setName("med 1")
                 .build();
 
-        System.out.println("user = " + user);
+        Medicine medicine2 = Medicine.newBuilder()
+                .setName("med 2")
+                .build();
 
-        return Optional.empty();
+        Medicine medicine3 = Medicine.newBuilder()
+                .setName("med 3")
+                .build();
+
+        purchaseItems.add(PurchaseItem.newBuilder()
+                .setMedicine(medicine1)
+                .setAmount(2)
+                .setId(1L)
+                .build());
+
+        purchaseItems.add(PurchaseItem.newBuilder()
+                .setMedicine(medicine2)
+                .setAmount(15)
+                .setId(2L)
+                .build());
+
+        purchaseItems.add(PurchaseItem.newBuilder()
+                .setMedicine(medicine3)
+                .setAmount(5)
+                .setId(3L)
+                .build());
+
+        return Optional.of(purchaseItems);
     }
 
 }
