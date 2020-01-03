@@ -59,4 +59,13 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
         return Optional.of(purchaseItems);
     }
 
+    @Override
+    public PurchaseItem save(PurchaseItem purchaseItem) {
+        return null;
+    }
+
+    @Override
+    public PurchaseItem removePurchaseItem(Long id) {
+        return null;
+    }
 }

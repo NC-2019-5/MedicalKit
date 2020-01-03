@@ -18,4 +18,14 @@ public class PurchaseServiceImpl implements PurchaseService {
     public List<PurchaseItem> findPurchaseItems(Pageable pageable, String searchQuery) {
         return purchaseRepository.findPurchaseItems(pageable.getPageSize(), pageable.getOffset(), searchQuery).orElse(null);
     }
+
+    @Override
+    public void addPurchaseItem(PurchaseItem purchaseItem) {
+        purchaseRepository.save(purchaseItem);
+    }
+
+    @Override
+    public void deletePurchaseItem(Long id) {
+        purchaseRepository.removePurchaseItem(id);
+    }
 }

@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface PurchaseService {
     List<PurchaseItem> findPurchaseItems(Pageable pageable, String searchQuery);
+
+    void addPurchaseItem(PurchaseItem purchaseItem);
+
+    void deletePurchaseItem(Long id);
 }
