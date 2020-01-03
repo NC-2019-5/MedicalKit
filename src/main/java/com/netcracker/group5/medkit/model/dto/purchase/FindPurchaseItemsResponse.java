@@ -5,11 +5,11 @@ import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
 
 import java.util.List;
 
-public class PurchaseItemResponseItem {
+public class FindPurchaseItemsResponse {
 
     private List<PurchaseItem> purchaseItems;
 
-    public PurchaseItemResponseItem(List<PurchaseItem> purchaseItems) {
+    public FindPurchaseItemsResponse(List<PurchaseItem> purchaseItems) {
         this.purchaseItems = purchaseItems;
     }
 
