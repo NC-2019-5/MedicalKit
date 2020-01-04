@@ -27,27 +27,44 @@ public class PatientRepositoryImpl implements PatientRepository {
 
     @Override
     public Patient save(Patient patient) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
+        SqlParameterSource parameterSourceUser = new MapSqlParameterSource()
+                .addValue("p_user_object_id", patient.getId())
+                .addValue("p_user_email", patient.getEmail())
+                .addValue("p_user_password", patient.getPassword())
+                .addValue("p_user_role", patient.getRole().toString());
+
+        SqlParameterSource parameterSourcePatient = new MapSqlParameterSource()
                 .addValue("p_patient_object_id", patient.getId())
-                .addValue("p_patient_full_name", patient.getName() + " " + patient.getSurname())
                 .addValue("p_patient_name", patient.getName())
                 .addValue("p_patient_surname", patient.getSurname())
                 .addValue("p_patient_birth_date", patient.getBirthDate())
                 .addValue("p_patient_sex", patient.getSex())
                 .addValue("p_patient_weight", patient.getWeight())
                 .addValue("p_patient_height", patient.getHeight())
-                .addValue("p_patient_location_id", patient.getLocation())
+                .addValue("p_patient_location", patient.getLocation())
                 .addValue("p_patient_phone_number", patient.getPhoneNumber())
-                .addValue("p_patient_user_id", null);
+                .addValue("p_patient_user_id", patient.getId());
 
-        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+        Map<String, Object> resultUser = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("USER_PKG")
+                .withProcedureName("saveUserObject")
+                .execute(parameterSourceUser);
+
+        Map<String, Object> resultPatient = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("PATIENT_PKG")
-                .withProcedureName("savePatientObject_2")
-                .execute(parameterSource);
+                .withProcedureName("savePatientObject")
+                .execute(parameterSourcePatient);
 
-        System.out.println(result);
+        System.out.println("resultUser = " + resultUser);
+        System.out.println("resultPatient = " + resultPatient);
 
-        return buildPatientFromResult(result);
+        Patient patientFromDb = buildPatientFromResult(resultPatient);
+
+        patientFromDb.setEmail(resultUser.get("p_user_email").toString());
+        patientFromDb.setPassword(resultUser.get("p_user_password").toString());
+        patientFromDb.setSex(Sex.valueOf(resultUser.get("p_user_role").toString()));
+
+        return patientFromDb;
     }
 
     @Override
@@ -65,23 +82,23 @@ public class PatientRepositoryImpl implements PatientRepository {
         return buildPatientFromResult(result);
     }
 
-    private Patient buildPatientFromResult(Map<String, Object> result) {
+    private Patient buildPatientFromResult(Map<String, Object> resultPatient) {
         Patient patient = Patient.newBuilder()
-                .setName((String) result.get("p_patient_name"))
-                .setSurname((String) result.get("p_patient_surname"))
-                .setWeight(Float.parseFloat((String) result.get("p_patient_weight")))
-                .setHeight(Float.parseFloat((String) result.get("p_patient_height")))
-                .setLocation((String) result.get("p_patient_location_id"))
-                .setPhoneNumber((String) result.get("p_patient_phone_number"))
+                .setName(resultPatient.get("p_patient_name").toString())
+                .setSurname(resultPatient.get("p_patient_surname").toString())
+                .setWeight(Float.parseFloat(resultPatient.get("p_patient_weight").toString()))
+                .setHeight(Float.parseFloat(resultPatient.get("p_patient_height").toString()))
+                .setLocation(resultPatient.get("p_patient_location").toString())
+                .setPhoneNumber(resultPatient.get("p_patient_phone_number").toString())
                 .build();
 
-        Object patientId = result.get("p_patient_object_id");
-        Object patientBirthDate = result.get("p_patient_birth_date");
-        Object patientSex = result.get("p_patient_sex");
+        Object patientId = resultPatient.get("p_patient_object_id");
+        Object patientBirthDate = resultPatient.get("p_patient_birth_date");
+        Object patientSex = resultPatient.get("p_patient_sex");
 
         patient.setId(patientId == null ? -1L : ((BigDecimal) patientId).longValue());
         patient.setBirthDate(patientBirthDate == null ? null : ((Timestamp) patientBirthDate).toLocalDateTime().toLocalDate());
-        patient.setSex(patientSex == null ? null : Sex.valueOf((String) patientSex));
+        patient.setSex(patientSex == null ? null : Sex.valueOf(patientSex.toString()));
 
         return patient;
     }
