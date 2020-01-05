@@ -1,6 +1,7 @@
 package com.netcracker.group5.medkit.repository;
 
 import com.netcracker.group5.medkit.model.domain.user.Patient;
+import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.Sex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -62,7 +63,7 @@ public class PatientRepositoryImpl implements PatientRepository {
 
         patientFromDb.setEmail(resultUser.get("p_user_email").toString());
         patientFromDb.setPassword(resultUser.get("p_user_password").toString());
-        patientFromDb.setSex(Sex.valueOf(resultUser.get("p_user_role").toString()));
+        patientFromDb.setRole(Role.valueOf(resultUser.get("p_user_role").toString()));
 
         return patientFromDb;
     }

@@ -36,6 +36,8 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginUserRequestItem requestItem) throws Exception {
+        System.out.println("login: " + requestItem.getEmail() + "; password: " + requestItem.getPassword());
+
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestItem.getEmail(), requestItem.getPassword()));
         } catch (BadCredentialsException e) {
