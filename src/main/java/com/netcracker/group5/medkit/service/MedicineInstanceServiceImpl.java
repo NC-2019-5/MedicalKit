@@ -18,4 +18,10 @@ public class MedicineInstanceServiceImpl implements MedicineInstanceService {
     public List<MedicineInstance> findMedicineInstances(Pageable pageable, String searchQuery) {
         return medicineInstanceRepository.findMedicineInstances(pageable.getPageSize(), pageable.getOffset(), searchQuery).orElse(null);
     }
+
+    @Override
+    public MedicineInstance createMedicineInstance(MedicineInstance medicineInstance) {
+        return medicineInstanceRepository.save(medicineInstance);
+    }
 }
+
