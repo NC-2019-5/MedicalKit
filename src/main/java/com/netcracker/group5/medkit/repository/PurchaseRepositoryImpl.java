@@ -28,7 +28,14 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
 
         for (int i = (int) offset; i < limit; i++) {
             Medicine medicine = Medicine.newBuilder()
-                    .setName("med i")
+                    .setId((long) (i * i))
+                    .setName("Medicine " + i)
+                    .setDescription("Med " + i + " description")
+                    .setManufacturer("Manufactured by " + i)
+                    .setTakingMethod(i + " spoons before meal")
+                    .setPackageContent("Contents " + i + " pills")
+                    .setContraindications("For " + i + " years old people")
+                    .setProductionForm("Form №" + i)
                     .build();
 
             PurchaseItem purchaseItem = PurchaseItem.newBuilder()
@@ -36,6 +43,8 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
                     .setMedicine(medicine)
                     .setAmount(i)
                     .build();
+
+            purchaseItems.add(purchaseItem);
         }
 
         return Optional.of(purchaseItems);
