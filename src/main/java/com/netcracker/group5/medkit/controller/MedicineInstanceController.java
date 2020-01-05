@@ -6,8 +6,6 @@ import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineInstanceReque
 import com.netcracker.group5.medkit.model.dto.medicine.GetMedicineInstanceResponseItem;
 import com.netcracker.group5.medkit.model.dto.medicine.MedicineInstanceRequestItem;
 import com.netcracker.group5.medkit.model.dto.medicine.MedicineInstanceResponseItem;
-import com.netcracker.group5.medkit.model.dto.user.EditPatientRequestItem;
-import com.netcracker.group5.medkit.model.dto.user.GetPatientResponseItem;
 import com.netcracker.group5.medkit.service.MedicineInstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +24,7 @@ public class MedicineInstanceController {
     private MedicineInstanceService medicineInstanceService;
 
     @GetMapping("/profile/medicine-kit")
-    public ResponseEntity<?> findMedicineInstances(@PageableDefault Pageable pageable, String searchQuery){
+    public ResponseEntity<?> findMedicineInstances(@PageableDefault Pageable pageable, String searchQuery) {
         MedicineInstanceResponseItem responseItem = new MedicineInstanceResponseItem(medicineInstanceService.findMedicineInstances(pageable, searchQuery));
         return ResponseEntity.ok(responseItem);
     }
@@ -38,8 +36,15 @@ public class MedicineInstanceController {
     }
 
     @PutMapping("/profile/medicine-kit")
-    public GetMedicineInstanceResponseItem editMedicineInstance(@Valid @RequestBody EditMedicineInstanceRequestItem requestItem) {
+    public ResponseEntity<?> editMedicineInstance(@Valid @RequestBody EditMedicineInstanceRequestItem requestItem) {
         MedicineInstance medicineInstance = new MedicineInstance(requestItem);
-        return new GetMedicineInstanceResponseItem(medicineInstanceService.editMedicineInstance(medicineInstance));
+        GetMedicineInstanceResponseItem responseItem = new GetMedicineInstanceResponseItem(medicineInstanceService.editMedicineInstance(medicineInstance));
+        return ResponseEntity.ok(responseItem);
+    }
+
+    @DeleteMapping("/profile/medicine-kit")
+    public ResponseEntity<?> deleteMedicineInstance(@Valid @RequestParam Long id) {
+        medicineInstanceService.deleteMedicineInstance(id);
+        return ResponseEntity.ok().build();
     }
 }

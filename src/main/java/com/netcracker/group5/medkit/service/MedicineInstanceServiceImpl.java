@@ -26,7 +26,13 @@ public class MedicineInstanceServiceImpl implements MedicineInstanceService {
 
     @Override
     public MedicineInstance editMedicineInstance(MedicineInstance medicineInstance) {
-        return medicineInstanceRepository.edit(medicineInstance);
+        return medicineInstanceRepository.save(medicineInstance);
+    }
+
+    @Override
+    public void deleteMedicineInstance(Long id) {
+
+        medicineInstanceRepository.delete(id);
     }
 }
 

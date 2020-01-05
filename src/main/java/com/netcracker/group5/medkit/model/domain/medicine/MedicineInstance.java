@@ -15,16 +15,16 @@ public class MedicineInstance implements Requestable {
     private int amount;
 
     public MedicineInstance(MedicineInstanceRequestItem medicineInstanceRequestItem) {
-        this.name = name;
-        this.manufacturer = manufacturer;
-        this.selfLife = selfLife;
-        this.amount = amount;
+        this.name = medicineInstanceRequestItem.getName();
+        this.manufacturer = medicineInstanceRequestItem.getManufacturer();
+        this.selfLife = medicineInstanceRequestItem.getSelfLife();
+        this.amount = medicineInstanceRequestItem.getAmount();
     }
 
     public MedicineInstance(EditMedicineInstanceRequestItem editMedicineInstanceRequestItem) {
-        this.id = id;
-        this.selfLife = selfLife;
-        this.amount = amount;
+        this.id = editMedicineInstanceRequestItem.getId();
+        this.selfLife = editMedicineInstanceRequestItem.getSelfLife();
+        this.amount = editMedicineInstanceRequestItem.getAmount();
     }
 
     private MedicineInstance() {

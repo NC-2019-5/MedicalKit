@@ -14,7 +14,6 @@ public class EditMedicineInstanceRequestItem {
     @NotBlank
     private int amount;
 
-
     public EditMedicineInstanceRequestItem() {
     }
 

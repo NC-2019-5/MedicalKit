@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,7 +23,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
     private JdbcTemplate jdbcTemplate;
 
     @PostConstruct
-    private void postConstruct(){
+    private void postConstruct() {
         jdbcTemplate.setResultsMapCaseInsensitive(true);
     }
 
@@ -44,42 +46,39 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
     }
 
     @Override
-    public MedicineInstance edit(MedicineInstance medicineInstance) {
+    public MedicineInstance save(MedicineInstance medicineInstance) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_", medicineInstance.getSelfLife())
-                .addValue("p_", medicineInstance.getAmount())
+                .addValue("p_n", medicineInstance.getName())
+                .addValue("p_m", medicineInstance.getManufacturer())
+                .addValue("p_s", medicineInstance.getSelfLife())
+                .addValue("p_a", medicineInstance.getAmount())
                 .addValue("p_id", medicineInstance.getId());
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("MEDICINE_INSTANCE_PKG")
                 .withProcedureName("save")
-                .returningResultSet("my_result", BeanPropertyRowMapper.newInstance(MedicineInstance.class))
                 .execute(parameterSource);
 
-        MedicineInstance medicineInstance1 = (MedicineInstance) result.get("my_result");
+        MedicineInstance medicineInstanceDB = MedicineInstance.newBuilder()
+                .setId(((BigDecimal) result.get("p_id")).longValue())
+                .setName(result.get("p_n").toString())
+                .setManufacturer(result.get("p_m").toString())
+                .setSelfLife((LocalDate) result.get("p_s"))
+                .setAmount((int) result.get("p_a"))
+                .build();
 
 
-        return medicineInstance1;
+        return medicineInstanceDB;
     }
 
     @Override
-    public MedicineInstance save(MedicineInstance medicineInstance) {
+    public void delete(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_", medicineInstance.getName())
-                .addValue("p_", medicineInstance.getManufacturer())
-                .addValue("p_", medicineInstance.getSelfLife())
-                .addValue("p_", medicineInstance.getAmount())
-                .addValue("p_id", null);
+                .addValue("p_id", id);
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("MEDICINE_INSTANCE_PKG")
-                .withProcedureName("save")
-                .returningResultSet("my_result", BeanPropertyRowMapper.newInstance(MedicineInstance.class))
+                .withProcedureName("delete")
                 .execute(parameterSource);
-
-        MedicineInstance medicineInstance1 = (MedicineInstance) result.get("my_result");
-
-
-        return medicineInstance1;
     }
 }

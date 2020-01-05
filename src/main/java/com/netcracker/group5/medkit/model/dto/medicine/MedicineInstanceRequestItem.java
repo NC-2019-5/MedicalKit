@@ -1,7 +1,5 @@
 package com.netcracker.group5.medkit.model.dto.medicine;
 
-import com.netcracker.group5.medkit.model.domain.user.Sex;
-
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
@@ -17,7 +15,7 @@ public class MedicineInstanceRequestItem {
     private LocalDate selfLife;
 
     @NotBlank
-    private long amount;
+    private int amount;
 
     public MedicineInstanceRequestItem() {
     }
@@ -46,11 +44,11 @@ public class MedicineInstanceRequestItem {
         this.selfLife = selfLife;
     }
 
-    public long getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(long amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
