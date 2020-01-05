@@ -63,7 +63,7 @@ public class TokenHandler {
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setId(user.getId().toString())
                 .claim("email", user.getEmail())
-                .claim("role", user.getRole().name())
+                .claim("role", user.getRole().toString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(Date.from(expiresIn.atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(signatureAlgorithm, secretKey)
