@@ -1,6 +1,7 @@
 package com.netcracker.group5.medkit.model.domain.medicine;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
+import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineInstanceRequestItem;
 import com.netcracker.group5.medkit.model.dto.medicine.MedicineInstanceRequestItem;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -16,6 +17,12 @@ public class MedicineInstance implements Requestable {
     public MedicineInstance(MedicineInstanceRequestItem medicineInstanceRequestItem) {
         this.name = name;
         this.manufacturer = manufacturer;
+        this.selfLife = selfLife;
+        this.amount = amount;
+    }
+
+    public MedicineInstance(EditMedicineInstanceRequestItem editMedicineInstanceRequestItem) {
+        this.id = id;
         this.selfLife = selfLife;
         this.amount = amount;
     }

@@ -23,5 +23,10 @@ public class MedicineInstanceServiceImpl implements MedicineInstanceService {
     public MedicineInstance createMedicineInstance(MedicineInstance medicineInstance) {
         return medicineInstanceRepository.save(medicineInstance);
     }
+
+    @Override
+    public MedicineInstance editMedicineInstance(MedicineInstance medicineInstance) {
+        return medicineInstanceRepository.edit(medicineInstance);
+    }
 }
 

@@ -8,4 +8,5 @@ import java.util.List;
 public interface MedicineInstanceService {
     List<MedicineInstance> findMedicineInstances(Pageable pageable, String searchQuary);
     MedicineInstance createMedicineInstance(MedicineInstance medicineInstance);
+    MedicineInstance editMedicineInstance(MedicineInstance medicineInstance);
 }

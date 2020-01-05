@@ -44,6 +44,25 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
     }
 
     @Override
+    public MedicineInstance edit(MedicineInstance medicineInstance) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_", medicineInstance.getSelfLife())
+                .addValue("p_", medicineInstance.getAmount())
+                .addValue("p_id", medicineInstance.getId());
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("MEDICINE_INSTANCE_PKG")
+                .withProcedureName("save")
+                .returningResultSet("my_result", BeanPropertyRowMapper.newInstance(MedicineInstance.class))
+                .execute(parameterSource);
+
+        MedicineInstance medicineInstance1 = (MedicineInstance) result.get("my_result");
+
+
+        return medicineInstance1;
+    }
+
+    @Override
     public MedicineInstance save(MedicineInstance medicineInstance) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_", medicineInstance.getName())
