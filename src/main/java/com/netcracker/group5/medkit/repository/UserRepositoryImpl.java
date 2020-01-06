@@ -52,7 +52,7 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
                 .setId(((BigDecimal) result.get("p_user_object_id")).longValue())
                 .setEmail((String) result.get("p_user_email"))
                 .setPassword((String) result.get("p_user_password"))
-                .setRole(Role.valueOf(result.get("p_user_role").toString()))
+                .setRole(Role.valueOf(result.get("p_user_role").toString().toUpperCase()))
                 .build();
     }
 
