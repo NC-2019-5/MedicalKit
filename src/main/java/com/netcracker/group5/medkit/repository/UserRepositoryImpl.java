@@ -36,10 +36,10 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
 
     @Override
     public User findUserByEmail(String email) {
-        System.out.println("email = " + email);;
+        System.out.println("email = " + email);
 
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_input_word", email);
+                .addValue("p_user_email", email);
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("USER_PKG")
@@ -52,7 +52,7 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
                 .setId(((BigDecimal) result.get("p_user_object_id")).longValue())
                 .setEmail((String) result.get("p_user_email"))
                 .setPassword((String) result.get("p_user_password"))
-                .setRole(Role.PATIENT)
+                .setRole(Role.valueOf(result.get("p_user_role").toString().toUpperCase()))
                 .build();
     }
 
@@ -63,5 +63,18 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
     @Override
     public User save(User user) {
         return patientRepository.save((Patient) user);
+    }
+
+    @Override
+    public boolean isExistUserWithEmail(String email) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_user_email", email);
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("USER_PKG")
+                .withProcedureName("isExistUserWithEmail")
+                .execute(parameterSource);
+
+        return Boolean.parseBoolean(result.get("p_return_statement").toString());
     }
 }
