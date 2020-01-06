@@ -26,7 +26,10 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
     public Optional<List<PurchaseItem>> findPurchaseItems(int limit, long offset, String searchQuery) {
         List<PurchaseItem> purchaseItems = new ArrayList<>(3);
 
-        for (int i = (int) offset; i < limit; i++) {
+        System.out.println("limit = " + limit);
+        System.out.println("offset = " + offset);
+
+        for (int i = limit; i < offset; i++) {
             Medicine medicine = Medicine.newBuilder()
                     .setId((long) (i * i))
                     .setName("Medicine " + i)
