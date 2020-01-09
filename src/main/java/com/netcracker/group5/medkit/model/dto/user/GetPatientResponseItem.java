@@ -31,7 +31,6 @@ public class GetPatientResponseItem {
         this.location = patient.getLocation();
         this.phoneNumber = patient.getPhoneNumber();
         this.email = patient.getEmail();
-        this.password = patient.getPassword();
     }
 
     public String getFirstName() {

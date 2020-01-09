@@ -5,7 +5,7 @@ import javax.validation.constraints.NotBlank;
 public class EditPasswordRequestItem {
 
     @NotBlank
-    private String oldPassword;
+    private String password;
 
     @NotBlank
     private String newPassword;
@@ -13,12 +13,12 @@ public class EditPasswordRequestItem {
     public EditPasswordRequestItem() {
     }
 
-    public String getOldPassword() {
-        return oldPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setOldPassword(String oldPassword) {
-        this.oldPassword = oldPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getNewPassword() {
