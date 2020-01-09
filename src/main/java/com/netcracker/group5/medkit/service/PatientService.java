@@ -6,4 +6,6 @@ public interface PatientService {
     Patient getPatient(Long id);
 
     Patient editPatient(Patient patient);
+
+    Patient getPatientByUserId(Long id);
 }

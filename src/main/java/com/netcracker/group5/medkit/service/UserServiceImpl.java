@@ -33,9 +33,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(s);
-        System.out.println("user.getUsername() = " + user.getUsername());
-        return user;
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return getUserByEmail(username);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
+    @Override
+    public void editPassword(User user, String oldPassword, String newPassword) {
+        if (oldPassword.equals(user.getPassword())) {
+            user.setPassword(newPassword);
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("Incorrect password");
+        }
     }
 }

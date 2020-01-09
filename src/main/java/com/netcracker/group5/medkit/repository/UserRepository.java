@@ -5,6 +5,8 @@ import com.netcracker.group5.medkit.model.domain.user.User;
 
 public interface UserRepository {
 
+    User findUserById(Long id);
+
     User findUserByEmail(String email);
 
     User save(User user);

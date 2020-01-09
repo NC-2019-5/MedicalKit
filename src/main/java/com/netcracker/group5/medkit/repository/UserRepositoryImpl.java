@@ -35,9 +35,25 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
     }
 
     @Override
-    public User findUserByEmail(String email) {
-        System.out.println("email = " + email);
+    public User findUserById(Long id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_user_object_id", id);
 
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("USER_PKG")
+                .withProcedureName("getUserObject")
+                .execute(parameterSource);
+
+        return User.newUserBuilder()
+                .setId(((BigDecimal) result.get("p_user_object_id")).longValue())
+                .setEmail(result.get("p_user_email").toString())
+                .setPassword(result.get("p_user_password").toString())
+                .setRole(Role.getRoleByName((String) result.get("p_user_role")))
+                .build();
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_user_email", email);
 
@@ -46,13 +62,11 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
                 .withProcedureName("getUserByEmail")
                 .execute(parameterSource);
 
-        System.out.println("result = " + result);
-
         return User.newUserBuilder()
                 .setId(((BigDecimal) result.get("p_user_object_id")).longValue())
                 .setEmail((String) result.get("p_user_email"))
                 .setPassword((String) result.get("p_user_password"))
-                .setRole(Role.valueOf(result.get("p_user_role").toString().toUpperCase()))
+                .setRole(Role.getRoleByName((String) result.get("p_user_role")))
                 .build();
     }
 

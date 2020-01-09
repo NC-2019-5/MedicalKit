@@ -3,12 +3,14 @@ package com.netcracker.group5.medkit.controller;
 import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.dto.user.EditPatientRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.GetPatientResponseItem;
+import com.netcracker.group5.medkit.security.TokenHandler;
 import com.netcracker.group5.medkit.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 @CrossOrigin
 @RestController
@@ -17,15 +19,20 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
+    @Autowired
+    private TokenHandler tokenHandler;
+
     @GetMapping("/profile/account")
-    public GetPatientResponseItem getPatient(@NotNull @RequestParam Long id) {
-        return new GetPatientResponseItem(patientService.getPatient(id));
+    public ResponseEntity<?> getPatient(HttpServletRequest request) {
+        Long id = tokenHandler.extractUserId(tokenHandler.getTokenFromHttpRequest(request));
+
+        return ResponseEntity.ok(new GetPatientResponseItem(patientService.getPatientByUserId(id)));
     }
 
-
     @PutMapping("/profile/edit")
-    public GetPatientResponseItem editPatient(@Valid @RequestBody EditPatientRequestItem requestItem) {
+    public ResponseEntity<?> editPatient(@Valid @RequestBody EditPatientRequestItem requestItem) {
         Patient patient = new Patient(requestItem);
-        return new GetPatientResponseItem(patientService.editPatient(patient));
+
+        return ResponseEntity.ok(new GetPatientResponseItem(patientService.editPatient(patient)));
     }
 }

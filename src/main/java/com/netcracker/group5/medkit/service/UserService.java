@@ -8,4 +8,8 @@ public interface UserService extends UserDetailsService {
     String login(String email, String password);
 
     User registerUser(User user);
+
+    User getUserByEmail(String email);
+
+    void editPassword(User user, String oldPassword, String newPassword);
 }
