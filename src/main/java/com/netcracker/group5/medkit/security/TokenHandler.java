@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -18,6 +19,9 @@ public class TokenHandler {
     private final SecretKey secretKey;
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
     private final int tokenTimeToLive = 7;
+
+    public static final String AUTH_HEADER_NAME = "Authorization";
+    public static final String AUTH_TOKEN_PREFIX = "Bearer ";
 
     public TokenHandler() {
         String jwtKey = "coolJwtKeyForMedKit";
@@ -68,5 +72,16 @@ public class TokenHandler {
                 .setExpiration(Date.from(expiresIn.atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(signatureAlgorithm, secretKey)
                 .compact();
+    }
+
+    public String getTokenFromHttpRequest(HttpServletRequest request) {
+        String authHeader = request.getHeader(TokenHandler.AUTH_HEADER_NAME);
+        String token = null;
+
+        if (authHeader != null && authHeader.startsWith(TokenHandler.AUTH_TOKEN_PREFIX)) {
+            token = authHeader.substring(TokenHandler.AUTH_TOKEN_PREFIX.length());
+        }
+
+        return token;
     }
 }

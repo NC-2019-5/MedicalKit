@@ -20,9 +20,6 @@ import java.io.IOException;
 @Component
 public class AuthFilter extends OncePerRequestFilter {
 
-    private static final String AUTH_HEADER_NAME = "Authorization";
-    private static final String AUTH_TOKEN_PREFIX = "Bearer ";
-
     @Autowired
     private UserService userService;
 
@@ -31,16 +28,12 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = httpServletRequest.getHeader(AUTH_HEADER_NAME);
-
-        String token = null;
+        String token = tokenHandler.getTokenFromHttpRequest(httpServletRequest);
         Long id = null;
         String email = null;
         Role role = null;
 
-        if (authHeader != null && authHeader.startsWith(AUTH_TOKEN_PREFIX)) {
-            token = authHeader.substring(AUTH_TOKEN_PREFIX.length());
-
+        if (token != null) {
             try {
                 id = tokenHandler.extractUserId(token);
                 email = tokenHandler.extractUserEmail(token);
