@@ -26,7 +26,7 @@ public class PatientController {
     public ResponseEntity<?> getPatient(HttpServletRequest request) {
         Long id = tokenHandler.extractUserId(tokenHandler.getTokenFromHttpRequest(request));
 
-        return ResponseEntity.ok(new GetPatientResponseItem(patientService.getPatient(id)));
+        return ResponseEntity.ok(new GetPatientResponseItem(patientService.getPatientByUserId(id)));
     }
 
     @PutMapping("/profile/edit")
