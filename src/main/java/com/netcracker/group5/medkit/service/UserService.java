@@ -9,5 +9,7 @@ public interface UserService extends UserDetailsService {
 
     User registerUser(User user);
 
+    User getUserByEmail(String email);
+
     void editPassword(User user, String oldPassword, String newPassword);
 }

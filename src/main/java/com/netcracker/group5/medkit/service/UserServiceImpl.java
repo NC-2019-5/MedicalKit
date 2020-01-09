@@ -33,8 +33,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(s);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return getUserByEmail(username);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        User user = userRepository.findUserByEmail(email);
         System.out.println("user.getUsername() = " + user.getUsername());
         return user;
     }
