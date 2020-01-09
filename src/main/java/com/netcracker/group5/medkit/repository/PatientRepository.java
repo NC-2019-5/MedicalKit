@@ -6,4 +6,6 @@ public interface PatientRepository {
     Patient save(Patient patient);
 
     Patient findById(Long id);
+
+    Patient findByUserId(Long id);
 }

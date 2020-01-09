@@ -35,15 +35,10 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .addValue("p_user_password", patient.getPassword())
                 .addValue("p_user_role", patient.getRole().getRoleName());
 
-        System.out.println("patient = " + patient);
-        System.out.println("parameterSourceUser = " + parameterSourceUser);
-
         Map<String, Object> resultUser = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("USER_PKG")
                 .withProcedureName("saveUserObject")
                 .execute(parameterSourceUser);
-
-        System.out.println("resultUser = " + resultUser);
 
         User savedUser = User.newUserBuilder()
                 .setId(((BigDecimal) resultUser.get("p_user_object_id")).longValue())
@@ -69,8 +64,6 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .withProcedureName("savePatientObject")
                 .execute(parameterSourcePatient);
 
-        System.out.println("resultPatient = " + resultPatient);
-
         Patient patientFromDb = buildPatientFromResult(resultPatient);
 
         patientFromDb.setEmail(savedUser.getEmail());
@@ -87,10 +80,21 @@ public class PatientRepositoryImpl implements PatientRepository {
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("PATIENT_PKG")
-                .withProcedureName("getPatientById")
+                .withProcedureName("getPatientObject")
                 .execute(parameterSource);
 
-        System.out.println(result);
+        return buildPatientFromResult(result);
+    }
+
+    @Override
+    public Patient findByUserId(Long id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_patient_user_id", id);
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("PATIENT_PKG")
+                .withProcedureName("getPatientByUserId")
+                .execute(parameterSource);
 
         return buildPatientFromResult(result);
     }

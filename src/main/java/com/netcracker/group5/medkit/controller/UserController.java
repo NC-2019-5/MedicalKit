@@ -30,16 +30,13 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginUserRequestItem requestItem) throws Exception {
-        System.out.println("login: " + requestItem.getEmail() + "; password: " + requestItem.getPassword());
-
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestItem.getEmail(), requestItem.getPassword()));
         } catch (BadCredentialsException e) {
             throw new Exception("Incorrect username or password");
         }
 
-        User user = (User) userService.loadUserByUsername(requestItem.getEmail());
-        System.out.println(user);
+        User user = userService.getUserByEmail(requestItem.getEmail());
         String token = tokenHandler.generateToken(user);
 
         return ResponseEntity.ok(new AuthTokenResponse(token));
@@ -56,7 +53,7 @@ public class UserController {
         String userEmail = tokenHandler.extractUserEmail(tokenHandler.getTokenFromHttpRequest(httpServletRequest));
         User user = userService.getUserByEmail(userEmail);
 
-        userService.editPassword(user, requestItem.getOldPassword(), requestItem.getNewPassword());
+        userService.editPassword(user, requestItem.getPassword(), requestItem.getNewPassword());
         return ResponseEntity.ok().build();
     }
 }
