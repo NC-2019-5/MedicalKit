@@ -51,6 +51,8 @@ public class AuthFilter extends OncePerRequestFilter {
                         UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            } else {
+                throw new BadCredentialsException("Invalid token");
             }
         }
 
