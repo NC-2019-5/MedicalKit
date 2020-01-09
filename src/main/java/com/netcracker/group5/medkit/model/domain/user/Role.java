@@ -1,7 +1,14 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
-public enum Role {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
     ADMINISTRATOR,
     PATIENT,
-    DOCTOR
+    DOCTOR;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }
