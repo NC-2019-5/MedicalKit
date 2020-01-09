@@ -17,7 +17,7 @@ public class TokenHandler {
 
     private final SecretKey secretKey;
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
-    private final int tokenTimeToLive = 1;
+    private final int tokenTimeToLive = 7;
 
     public TokenHandler() {
         String jwtKey = "coolJwtKeyForMedKit";
@@ -55,7 +55,7 @@ public class TokenHandler {
     }
 
     public String generateToken(User user) {
-        return createToken(user, LocalDateTime.now().plusMinutes(tokenTimeToLive));
+        return createToken(user, LocalDateTime.now().plusDays(tokenTimeToLive));
     }
 
     private String createToken(User user, LocalDateTime expiresIn) {
