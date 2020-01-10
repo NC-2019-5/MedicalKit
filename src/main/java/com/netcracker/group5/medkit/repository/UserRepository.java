@@ -9,7 +9,9 @@ public interface UserRepository {
 
     User findUserByEmail(String email);
 
-    User save(User user);
+    User saveByRole(User user);
 
     boolean isExistUserWithEmail(String email);
+
+    User saveUser(User user);
 }

@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registerUser(User user) {
         if (!userRepository.isExistUserWithEmail(user.getEmail())) {
-            return userRepository.save(user);
+            return userRepository.saveByRole(user);
         }
         throw new IllegalArgumentException("Email " + user.getEmail() + " is already taken.");
     }
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     public void editPassword(User user, String oldPassword, String newPassword) {
         if (oldPassword.equals(user.getPassword())) {
             user.setPassword(newPassword);
-            userRepository.save(user);
+            userRepository.saveUser(user);
         } else {
             throw new IllegalArgumentException("Incorrect password");
         }
