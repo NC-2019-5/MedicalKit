@@ -1,9 +1,7 @@
 package com.netcracker.group5.medkit.repository;
 
 import com.netcracker.group5.medkit.model.domain.user.Patient;
-import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.Sex;
-import com.netcracker.group5.medkit.model.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -28,25 +26,7 @@ public class PatientRepositoryImpl implements PatientRepository {
     }
 
     @Override
-    public Patient save(Patient patient) {
-        SqlParameterSource parameterSourceUser = new MapSqlParameterSource()
-                .addValue("p_user_object_id", patient.getId())
-                .addValue("p_user_email", patient.getEmail())
-                .addValue("p_user_password", patient.getPassword())
-                .addValue("p_user_role", patient.getRole().getRoleName());
-
-        Map<String, Object> resultUser = new SimpleJdbcCall(jdbcTemplate)
-                .withCatalogName("USER_PKG")
-                .withProcedureName("saveUserObject")
-                .execute(parameterSourceUser);
-
-        User savedUser = User.newUserBuilder()
-                .setId(((BigDecimal) resultUser.get("p_user_object_id")).longValue())
-                .setEmail(resultUser.get("p_user_email").toString())
-                .setPassword(resultUser.get("p_user_password").toString())
-                .setRole(Role.getRoleByName((String) resultUser.get("p_user_role")))
-                .build();
-
+    public Patient save(Long userId, Patient patient) {
         SqlParameterSource parameterSourcePatient = new MapSqlParameterSource()
                 .addValue("p_patient_object_id", patient.getId())
                 .addValue("p_patient_name", patient.getName())
@@ -57,20 +37,14 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .addValue("p_patient_height", patient.getHeight())
                 .addValue("p_patient_location", patient.getLocation())
                 .addValue("p_patient_phone_number", patient.getPhoneNumber())
-                .addValue("p_patient_user_id", savedUser.getId());
+                .addValue("p_patient_user_id", userId);
 
         Map<String, Object> resultPatient = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("PATIENT_PKG")
                 .withProcedureName("savePatientObject")
                 .execute(parameterSourcePatient);
 
-        Patient patientFromDb = buildPatientFromResult(resultPatient);
-
-        patientFromDb.setEmail(savedUser.getEmail());
-        patientFromDb.setPassword(savedUser.getPassword());
-        patientFromDb.setRole(savedUser.getRole());
-
-        return patientFromDb;
+        return buildPatientFromResult(resultPatient);
     }
 
     @Override
