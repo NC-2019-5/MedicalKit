@@ -1,16 +1,31 @@
 package com.netcracker.group5.medkit.model.domain.medicine;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
-
-import java.time.LocalDateTime;
+import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineInstanceRequestItem;
+import com.netcracker.group5.medkit.model.dto.medicine.MedicineInstanceRequestItem;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class MedicineInstance implements Requestable {
 
     private Long id;
-    private Medicine medicine;
-    private LocalDateTime selfLife;
+    private String name;
+    private String manufacturer;
+    private LocalDate selfLife;
     private int amount;
+
+    public MedicineInstance(MedicineInstanceRequestItem medicineInstanceRequestItem) {
+        this.name = medicineInstanceRequestItem.getName();
+        this.manufacturer = medicineInstanceRequestItem.getManufacturer();
+        this.selfLife = medicineInstanceRequestItem.getSelfLife();
+        this.amount = medicineInstanceRequestItem.getAmount();
+    }
+
+    public MedicineInstance(EditMedicineInstanceRequestItem editMedicineInstanceRequestItem) {
+        this.id = editMedicineInstanceRequestItem.getId();
+        this.selfLife = editMedicineInstanceRequestItem.getSelfLife();
+        this.amount = editMedicineInstanceRequestItem.getAmount();
+    }
 
     private MedicineInstance() {
     }
@@ -23,19 +38,27 @@ public class MedicineInstance implements Requestable {
         this.id = id;
     }
 
-    public Medicine getMedicine() {
-        return medicine;
+    public String getName() {
+        return name;
     }
 
-    public void setMedicine(Medicine medicine) {
-        this.medicine = medicine;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public LocalDateTime getSelfLife() {
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public LocalDate getSelfLife() {
         return selfLife;
     }
 
-    public void setSelfLife(LocalDateTime selfLife) {
+    public void setSelfLife(LocalDate selfLife) {
         this.selfLife = selfLife;
     }
 
@@ -54,20 +77,20 @@ public class MedicineInstance implements Requestable {
         MedicineInstance that = (MedicineInstance) o;
         return amount == that.amount &&
                 id.equals(that.id) &&
-                medicine.equals(that.medicine) &&
                 Objects.equals(selfLife, that.selfLife);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, medicine, selfLife, amount);
+        return Objects.hash(id, name, manufacturer,  selfLife, amount);
     }
 
     @Override
     public String toString() {
         return "MedicineInstance{" +
                 "id=" + id +
-                ", medicine=" + medicine +
+                ", name='" + name + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
                 ", selfLife=" + selfLife +
                 ", amount=" + amount +
                 '}';
@@ -87,12 +110,17 @@ public class MedicineInstance implements Requestable {
             return this;
         }
 
-        public Builder setMedicine(Medicine medicine) {
-            MedicineInstance.this.medicine = medicine;
+        public Builder setName(String name) {
+            MedicineInstance.this.name = name;
             return this;
         }
 
-        public Builder setSelfLife(LocalDateTime selfLife) {
+        public Builder setManufacturer(String manufacturer) {
+            MedicineInstance.this.manufacturer = manufacturer;
+            return this;
+        }
+
+        public Builder setSelfLife(LocalDate selfLife) {
             MedicineInstance.this.selfLife = selfLife;
             return this;
         }
