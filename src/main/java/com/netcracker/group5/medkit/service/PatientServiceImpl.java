@@ -5,6 +5,7 @@ import com.netcracker.group5.medkit.model.domain.user.User;
 import com.netcracker.group5.medkit.repository.PatientRepository;
 import com.netcracker.group5.medkit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +23,16 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient editPatient(Patient patient) {
+        String userEmail = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findUserByEmail(userEmail);
+
+        Patient patientToBeEdited = patientRepository.findByUserId(user.getId());
+
+        patient.setPassword(user.getPassword());
+        patient.setRole(user.getRole());
+        patient.setId(user.getId());
+        patient.setSex(patientToBeEdited.getSex());
+
         return patientRepository.save(patient);
     }
 
