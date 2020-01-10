@@ -26,14 +26,10 @@ public class PatientServiceImpl implements PatientService {
         String userEmail = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findUserByEmail(userEmail);
 
-        Patient patientToBeEdited = patientRepository.findByUserId(user.getId());
-
-        patient.setPassword(user.getPassword());
-        patient.setRole(user.getRole());
         patient.setId(user.getId());
-        patient.setSex(patientToBeEdited.getSex());
+        patient.setPassword(user.getPassword());
 
-        return patientRepository.save(patient);
+        return (Patient) userRepository.saveByRole(patient);
     }
 
     @Override
