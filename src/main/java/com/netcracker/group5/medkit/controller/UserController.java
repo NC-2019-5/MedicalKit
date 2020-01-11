@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @CrossOrigin
@@ -49,9 +49,8 @@ public class UserController {
     }
 
     @PutMapping("/profile/change-password")
-    public ResponseEntity<?> editPassword(@Valid @RequestBody EditPasswordRequestItem requestItem, HttpServletRequest httpServletRequest) {
-        String userEmail = tokenHandler.extractUserEmail(tokenHandler.getTokenFromHttpRequest(httpServletRequest));
-        User user = userService.getUserByEmail(userEmail);
+    public ResponseEntity<?> editPassword(@Valid @RequestBody EditPasswordRequestItem requestItem) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         userService.editPassword(user, requestItem.getPassword(), requestItem.getNewPassword());
         return ResponseEntity.ok().build();
