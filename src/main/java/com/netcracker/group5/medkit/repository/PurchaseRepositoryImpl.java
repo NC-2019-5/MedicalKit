@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.sql.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PurchaseRepositoryImpl implements PurchaseRepository {
@@ -31,12 +28,7 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
     }
 
     @Override
-    public Optional<List<PurchaseItem>> findPurchaseItems(Long patientId, int limit, long offset, String searchQuery) {
-        List<PurchaseItem> purchaseItems = new ArrayList<>();
-
-        System.out.println("limit = " + (offset + limit));
-        System.out.println("offset = " + offset);
-
+    public Optional<List<PurchaseItem>> findPurchaseItems(Long patientId, long limit, long offset, String searchQuery) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_patient_id", patientId)
                 .addValue("limit", offset + limit)
@@ -81,23 +73,42 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
                                     }
 
                                     return amountList;
+                                }),
+                        new SqlOutParameter("p_medicine_names", OracleTypes.ARRAY, "ARRAY_OF_STRINGS",
+                                ((callableStatement, i, i1, s) -> {
+                                    Array sqlArray = callableStatement.getArray(7);
+                                    String[] medicineNames = (String[]) sqlArray.getArray();
+
+                                    return Arrays.asList(medicineNames);
+                                })),
+                        new SqlOutParameter("p_medicine_manufacturers", OracleTypes.ARRAY, "ARRAY_OF_STRINGS",
+                                (callableStatement, i, i1, s) -> {
+                                    Array sqlArray = callableStatement.getArray(8);
+                                    String[] medicineManufacturers = (String[]) sqlArray.getArray();
+
+                                    return Arrays.asList(medicineManufacturers);
                                 }))
                 .execute(parameterSource);
-
-        System.out.println("result = " + result);
 
         List<Long> idList = (List<Long>) result.get("p_purchase_item_id_array");
         List<Long> medicineIdList = (List<Long>) result.get("p_medicine_id_array");
         List<Integer> amountList = (List<Integer>) result.get("p_amount_array");
+        List<String> medicineNames = (List<String>) result.get("p_medicine_names");
+        List<String> medicineManufacturers = (List<String>) result.get("p_medicine_manufacturers");
 
-        for (Long id : idList) {
+        List<PurchaseItem> purchaseItems = new ArrayList<>();
+        ListIterator<Long> iterator = idList.listIterator();
+
+        while (iterator.hasNext()) {
             Medicine medicine = Medicine.newBuilder()
-                    .setId(medicineIdList.get(idList.indexOf(id)))
+                    .setId(medicineIdList.get(iterator.nextIndex()))
+                    .setName(medicineNames.get(iterator.nextIndex()))
+                    .setManufacturer(medicineManufacturers.get(iterator.nextIndex()))
                     .build();
 
             PurchaseItem purchaseItem = PurchaseItem.newBuilder()
-                    .setId(id)
-                    .setAmount(amountList.get(idList.indexOf(id)))
+                    .setAmount(amountList.get(iterator.nextIndex()))
+                    .setId(iterator.next())
                     .setMedicine(medicine)
                     .build();
 
