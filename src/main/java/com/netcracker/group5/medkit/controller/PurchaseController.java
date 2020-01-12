@@ -23,13 +23,13 @@ public class PurchaseController {
         return ResponseEntity.ok(responseItem);
     }
 
-    @PostMapping("/profile/add-purchase-item")
+    @PostMapping("/profile/purchases")
     public ResponseEntity<?> addPurchaseItem(@RequestBody AddPurchaseItemRequest addPurchaseItemRequest) {
         purchaseService.addPurchaseItem(addPurchaseItemRequest.getPurchaseItem());
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/profile/delete-purchase-item")
+    @DeleteMapping("/profile/purchases")
     public ResponseEntity<?> deletePurchaseItem(@RequestParam Long id) {
         purchaseService.deletePurchaseItem(id);
         return ResponseEntity.ok().build();
