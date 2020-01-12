@@ -119,21 +119,25 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
     }
 
     @Override
-    public PurchaseItem save(PurchaseItem purchaseItem) {
+    public PurchaseItem save(Long patientId, PurchaseItem purchaseItem) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_purchase_item_id", purchaseItem.getId())
                 .addValue("p_medicine_id", purchaseItem.getMedicine().getId())
                 .addValue("p_amount", purchaseItem.getAmount())
-                .addValue("p_patient_id", 3L);
+                .addValue("p_patient_id", patientId);
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("PURCHASE_PKG")
                 .withProcedureName("savePurchaseItem")
                 .execute(parameterSource);
 
-        System.out.println("result = " + result);
-
-        return null;
+        return PurchaseItem.newBuilder()
+                .setId(((BigDecimal) result.get("p_purchase_item_id")).longValue())
+                .setMedicine(Medicine.newBuilder()
+                        .setId(((BigDecimal) result.get("p_medicine_id")).longValue())
+                        .build())
+                .setAmount(((BigDecimal) result.get("p_amount")).intValue())
+                .build();
     }
 
     @Override

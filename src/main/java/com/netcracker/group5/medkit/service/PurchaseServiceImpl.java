@@ -33,7 +33,10 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
     @Override
     public void addPurchaseItem(PurchaseItem purchaseItem) {
-        purchaseRepository.save(purchaseItem);
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Patient patient = patientRepository.findByUserId(currentUser.getId());
+
+        purchaseRepository.save(patient.getId(), purchaseItem);
     }
 
     @Override
