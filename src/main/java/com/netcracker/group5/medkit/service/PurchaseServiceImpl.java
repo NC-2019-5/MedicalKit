@@ -1,9 +1,11 @@
 package com.netcracker.group5.medkit.service;
 
 import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
+import com.netcracker.group5.medkit.model.domain.user.User;
 import com.netcracker.group5.medkit.repository.PurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +18,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     public List<PurchaseItem> findPurchaseItems(Pageable pageable, String searchQuery) {
-        return purchaseRepository.findPurchaseItems(pageable.getPageSize(), pageable.getOffset(), searchQuery).orElse(null);
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return purchaseRepository.findPurchaseItems(currentUser.getId(), pageable.getPageSize(), pageable.getOffset(), searchQuery).orElse(null);
     }
 
     @Override
