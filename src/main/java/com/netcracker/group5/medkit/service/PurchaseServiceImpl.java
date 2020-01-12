@@ -31,6 +31,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         return purchaseRepository.findPurchaseItems(patient.getId(), limit, pageable.getOffset(), searchQuery)
                 .orElse(null);
     }
+
     @Override
     public void addPurchaseItem(PurchaseItem purchaseItem) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -18,13 +18,13 @@ public class PurchaseController {
     private PurchaseService purchaseService;
 
     @GetMapping("/profile/purchases")
-    public ResponseEntity<?> findPurchaseItems(@PageableDefault Pageable pageable, String searchQuery) {
+    public ResponseEntity<?> findPurchaseItems(@PageableDefault Pageable pageable, @RequestParam String searchQuery) {
         FindPurchaseItemsResponse responseItem = new FindPurchaseItemsResponse(purchaseService.findPurchaseItems(pageable, searchQuery));
         return ResponseEntity.ok(responseItem);
     }
 
     @PostMapping("/profile/add-purchase-item")
-    public ResponseEntity<?> addPurchaseItem(AddPurchaseItemRequest addPurchaseItemRequest) {
+    public ResponseEntity<?> addPurchaseItem(@RequestBody AddPurchaseItemRequest addPurchaseItemRequest) {
         purchaseService.addPurchaseItem(addPurchaseItemRequest.getPurchaseItem());
         return ResponseEntity.ok().build();
     }
