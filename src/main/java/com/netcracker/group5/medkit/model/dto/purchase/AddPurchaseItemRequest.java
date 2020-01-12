@@ -1,20 +1,35 @@
 package com.netcracker.group5.medkit.model.dto.purchase;
 
-import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
-
 public class AddPurchaseItemRequest {
 
-    private PurchaseItem purchaseItem;
+    private Long purchaseItemId;
+    private Long medicineId;
+    private int amount;
 
-    public AddPurchaseItemRequest(PurchaseItem purchaseItem) {
-        this.purchaseItem = purchaseItem;
+    public AddPurchaseItemRequest() {
     }
 
-    public void setPurchaseItem(PurchaseItem purchaseItem) {
-        this.purchaseItem = purchaseItem;
+    public Long getPurchaseItemId() {
+        return purchaseItemId;
     }
 
-    public PurchaseItem getPurchaseItem() {
-        return purchaseItem;
+    public void setPurchaseItemId(Long purchaseItemId) {
+        this.purchaseItemId = purchaseItemId;
+    }
+
+    public Long getMedicineId() {
+        return medicineId;
+    }
+
+    public void setMedicineId(Long medicineId) {
+        this.medicineId = medicineId;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }

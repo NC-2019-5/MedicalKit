@@ -1,6 +1,7 @@
 package com.netcracker.group5.medkit.model.domain.purchase;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
+import com.netcracker.group5.medkit.model.dto.purchase.AddPurchaseItemRequest;
 
 import java.util.Objects;
 
@@ -11,6 +12,14 @@ public class PurchaseItem {
     private int amount;
 
     private PurchaseItem() {
+    }
+
+    public PurchaseItem(AddPurchaseItemRequest request) {
+        this.id = request.getPurchaseItemId();
+        this.medicine = Medicine.newBuilder()
+                .setId(request.getMedicineId())
+                .build();
+        this.amount = request.getAmount();
     }
 
     public Long getId() {
