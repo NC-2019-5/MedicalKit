@@ -141,7 +141,13 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
     }
 
     @Override
-    public PurchaseItem removePurchaseItem(Long id) {
-        return null;
+    public void removePurchaseItem(Long id) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_purchase_item_id", id);
+
+        new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("PURCHASE_PKG")
+                .withProcedureName("deletePurchaseItem")
+                .execute(parameterSource);
     }
 }
