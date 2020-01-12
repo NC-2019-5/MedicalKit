@@ -38,7 +38,7 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
         System.out.println("offset = " + offset);
 
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_patient_id", 3L)
+                .addValue("p_patient_id", patientId)
                 .addValue("limit", offset + limit)
                 .addValue("offset", offset);
 
