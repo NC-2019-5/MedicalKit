@@ -84,8 +84,11 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
 
             editedPatient.setPassword(savedUser.getPassword());
             editedPatient.setRole(savedUser.getRole());
-            editedPatient.setId(patientToBeSaved.getId());
-            editedPatient.setSex(patientToBeSaved.getSex());
+
+            if (patientToBeSaved != null) {
+                editedPatient.setId(patientToBeSaved.getId());
+                editedPatient.setSex(patientToBeSaved.getSex());
+            }
 
             Patient savedPatient = patientRepository.save(savedUser.getId(), (Patient) user);
 

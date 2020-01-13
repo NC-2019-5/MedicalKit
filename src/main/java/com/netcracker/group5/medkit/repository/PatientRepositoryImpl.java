@@ -3,6 +3,7 @@ package com.netcracker.group5.medkit.repository;
 import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.Sex;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -65,12 +66,18 @@ public class PatientRepositoryImpl implements PatientRepository {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_patient_user_id", id);
 
-        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
-                .withCatalogName("PATIENT_PKG")
-                .withProcedureName("getPatientByUserId")
-                .execute(parameterSource);
+        Map<String, Object> result;
 
-        return buildPatientFromResult(result);
+        try {
+            result = new SimpleJdbcCall(jdbcTemplate)
+                    .withCatalogName("PATIENT_PKG")
+                    .withProcedureName("getPatientByUserId")
+                    .execute(parameterSource);
+
+            return buildPatientFromResult(result);
+        } catch (DataIntegrityViolationException e) {
+            return null;
+        }
     }
 
     private Patient buildPatientFromResult(Map<String, Object> resultPatient) {
