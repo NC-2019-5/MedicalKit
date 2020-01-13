@@ -24,7 +24,7 @@ public class MedicineInstanceController {
     private MedicineInstanceService medicineInstanceService;
 
     @GetMapping("/profile/medicine-kit")
-    public ResponseEntity<?> findMedicineInstances(@PageableDefault Pageable pageable, String searchQuery) {
+    public ResponseEntity<?> findMedicineInstances(@PageableDefault Pageable pageable, @RequestParam(required = false) String searchQuery) {
         MedicineInstanceResponseItem responseItem = new MedicineInstanceResponseItem(medicineInstanceService.findMedicineInstances(pageable, searchQuery));
         return ResponseEntity.ok(responseItem);
     }

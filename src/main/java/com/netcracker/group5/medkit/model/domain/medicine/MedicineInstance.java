@@ -1,6 +1,7 @@
 package com.netcracker.group5.medkit.model.domain.medicine;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
+import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
 import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineInstanceRequestItem;
 import com.netcracker.group5.medkit.model.dto.medicine.MedicineInstanceRequestItem;
 import java.time.LocalDate;
@@ -9,14 +10,15 @@ import java.util.Objects;
 public class MedicineInstance implements Requestable {
 
     private Long id;
-    private String name;
-    private String manufacturer;
+    private Medicine medicine;
     private LocalDate selfLife;
     private int amount;
 
     public MedicineInstance(MedicineInstanceRequestItem medicineInstanceRequestItem) {
-        this.name = medicineInstanceRequestItem.getName();
-        this.manufacturer = medicineInstanceRequestItem.getManufacturer();
+        this.id = medicineInstanceRequestItem.getMedicineInstanceId();
+        this.medicine = Medicine.newBuilder()
+                .setId(medicineInstanceRequestItem.getMedicineId())
+                .build();
         this.selfLife = medicineInstanceRequestItem.getSelfLife();
         this.amount = medicineInstanceRequestItem.getAmount();
     }
@@ -38,20 +40,12 @@ public class MedicineInstance implements Requestable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Medicine getMedicine() {
+        return medicine;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
+    public void setMedicine(Medicine medicine) {
+        this.medicine = medicine;
     }
 
     public LocalDate getSelfLife() {
@@ -82,18 +76,7 @@ public class MedicineInstance implements Requestable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, manufacturer,  selfLife, amount);
-    }
-
-    @Override
-    public String toString() {
-        return "MedicineInstance{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", selfLife=" + selfLife +
-                ", amount=" + amount +
-                '}';
+        return Objects.hash(id, medicine, selfLife, amount);
     }
 
     public static Builder newBuilder() {
@@ -110,13 +93,8 @@ public class MedicineInstance implements Requestable {
             return this;
         }
 
-        public Builder setName(String name) {
-            MedicineInstance.this.name = name;
-            return this;
-        }
-
-        public Builder setManufacturer(String manufacturer) {
-            MedicineInstance.this.manufacturer = manufacturer;
+        public Builder setMedicine(Medicine medicine) {
+            MedicineInstance.this.medicine = medicine;
             return this;
         }
 

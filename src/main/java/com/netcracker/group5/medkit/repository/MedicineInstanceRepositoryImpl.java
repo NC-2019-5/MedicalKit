@@ -1,9 +1,13 @@
 package com.netcracker.group5.medkit.repository;
 
+import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
+import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
+import oracle.jdbc.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -11,10 +15,10 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
+import java.sql.Array;
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepository {
@@ -28,57 +32,142 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
     }
 
     @Override
-    public Optional<List<MedicineInstance>> findMedicineInstances(int limit, long offset, String searchQuery) {
+    public Optional<List<MedicineInstance>> findMedicineInstances(Long patientId, long limit, long offset, String searchQuery) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("limit", limit)
-                .addValue("offset", offset)
-                .addValue("p_input_word", searchQuery);
-
-        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
-                .withCatalogName("USER_PKG")
-                .withProcedureName("getUserByEmail")
-                .returningResultSet("my_result", BeanPropertyRowMapper.newInstance(MedicineInstance.class))
-                .execute(parameterSource);
-
-        List<MedicineInstance> medicineInstances = (List<MedicineInstance>) result.get("my_result");
-
-        return Optional.ofNullable(medicineInstances);
-    }
-
-    @Override
-    public MedicineInstance save(MedicineInstance medicineInstance) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_n", medicineInstance.getName())
-                .addValue("p_m", medicineInstance.getManufacturer())
-                .addValue("p_s", medicineInstance.getSelfLife())
-                .addValue("p_a", medicineInstance.getAmount())
-                .addValue("p_id", medicineInstance.getId());
+                .addValue("p_patient_id", patientId)
+                .addValue("limit", offset + limit)
+                .addValue("offset", offset);
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("MEDICINE_INSTANCE_PKG")
-                .withProcedureName("save")
+                .withProcedureName("getMedicineInstances")
+                .declareParameters(
+                        new SqlOutParameter("p_medicine_instance_id_array", OracleTypes.ARRAY, "ARRAY_OF_NUMBERS",
+                                (callableStatement, i, i1, s) -> {
+                                    Array sqlArray = callableStatement.getArray(4);
+                                    BigDecimal[] bigDecIds = (BigDecimal[]) sqlArray.getArray();
+                                    List<Long> idList = new ArrayList<>();
+
+                                    for (BigDecimal bigDecId : bigDecIds) {
+                                        idList.add(bigDecId.longValue());
+                                    }
+
+                                    return idList;
+                                }),
+                        new SqlOutParameter("p_medicine_id_array", OracleTypes.ARRAY, "ARRAY_OF_NUMBERS",
+                                (callableStatement, i, i1, s) -> {
+                                    Array sqlArray = callableStatement.getArray(5);
+                                    BigDecimal[] bigDecMedicineIds = (BigDecimal[]) sqlArray.getArray();
+                                    List<Long> medicineIdList = new ArrayList<>();
+
+                                    for (BigDecimal bigDecMedicineId : bigDecMedicineIds) {
+                                        medicineIdList.add(bigDecMedicineId.longValue());
+                                    }
+
+                                    return medicineIdList;
+                                }),
+                        new SqlOutParameter("p_self_life_array", OracleTypes.ARRAY, "ARRAY_OF_DATES",
+                                (callableStatement, i, i1, s) -> {
+                                    Array sqlArray = callableStatement.getArray(6);
+                                    Timestamp[] timestamps = (Timestamp[]) sqlArray.getArray();
+                                    List<LocalDate> localDates = new ArrayList<>();
+
+                                    for(Timestamp timestamp: timestamps){
+                                        localDates.add(timestamp.toLocalDateTime().toLocalDate());
+                                    }
+
+                                    return localDates;
+                                }),
+                        new SqlOutParameter("p_amount_array", OracleTypes.ARRAY, "ARRAY_OF_NUMBERS",
+                                (callableStatement, i, i1, s) -> {
+                                    Array sqlArray = callableStatement.getArray(7);
+                                    BigDecimal[] bigDecAmounts = (BigDecimal[]) sqlArray.getArray();
+                                    List<Integer> amountList = new ArrayList<>();
+
+                                    for (BigDecimal bigDecAmount : bigDecAmounts) {
+                                        amountList.add(bigDecAmount.intValue());
+                                    }
+
+                                    return amountList;
+                                }),
+                        new SqlOutParameter("p_medicine_names", OracleTypes.ARRAY, "ARRAY_OF_STRINGS",
+                                ((callableStatement, i, i1, s) -> {
+                                    Array sqlArray = callableStatement.getArray(8);
+                                    String[] medicineNames = (String[]) sqlArray.getArray();
+
+                                    return Arrays.asList(medicineNames);
+                                })),
+                        new SqlOutParameter("p_medicine_manufacturers", OracleTypes.ARRAY, "ARRAY_OF_STRINGS",
+                                (callableStatement, i, i1, s) -> {
+                                    Array sqlArray = callableStatement.getArray(9);
+                                    String[] medicineManufacturers = (String[]) sqlArray.getArray();
+
+                                    return Arrays.asList(medicineManufacturers);
+                                }))
                 .execute(parameterSource);
 
-        MedicineInstance medicineInstanceDB = MedicineInstance.newBuilder()
-                .setId(((BigDecimal) result.get("p_id")).longValue())
-                .setName(result.get("p_n").toString())
-                .setManufacturer(result.get("p_m").toString())
-                .setSelfLife((LocalDate) result.get("p_s"))
-                .setAmount((int) result.get("p_a"))
+        List<Long> idList = (List<Long>) result.get("p_medicine_instance_id_array");
+        List<Long> medicineIdList = (List<Long>) result.get("p_medicine_id_array");
+        List<LocalDate> datesList = (List<LocalDate>) result.get("p_self_life_array");
+        List<Integer> amountList = (List<Integer>) result.get("p_amount_array");
+        List<String> medicineNames = (List<String>) result.get("p_medicine_names");
+        List<String> medicineManufacturers = (List<String>) result.get("p_medicine_manufacturers");
+
+        List<MedicineInstance> medicineInstances = new ArrayList<>();
+        ListIterator<Long> iterator = idList.listIterator();
+
+        while (iterator.hasNext()) {
+            Medicine medicine = Medicine.newBuilder()
+                    .setId(medicineIdList.get(iterator.nextIndex()))
+                    .setName(medicineNames.get(iterator.nextIndex()))
+                    .setManufacturer(medicineManufacturers.get(iterator.nextIndex()))
+                    .build();
+
+            MedicineInstance medicineInstance = MedicineInstance.newBuilder()
+                    .setSelfLife(datesList.get(iterator.nextIndex()))
+                    .setAmount(amountList.get(iterator.nextIndex()))
+                    .setId(iterator.next())
+                    .setMedicine(medicine)
+                    .build();
+
+            medicineInstances.add(medicineInstance);
+        }
+
+        return Optional.of(medicineInstances);
+    }
+
+    @Override
+    public MedicineInstance save(Long patientId, MedicineInstance medicineInstance) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_medicine_instance_id", medicineInstance.getId())
+                .addValue("p_medicine_id", medicineInstance.getMedicine().getId())
+                .addValue("p_self_life", medicineInstance.getSelfLife())
+                .addValue("p_amount", medicineInstance.getAmount())
+                .addValue("p_patient_id", patientId);
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("MEDICINE_INSTANCE_PKG")
+                .withProcedureName("saveMedicineInstance")
+                .execute(parameterSource);
+
+        return MedicineInstance.newBuilder()
+                .setId(((BigDecimal) result.get("p_medicine_instance_id")).longValue())
+                .setMedicine(Medicine.newBuilder()
+                        .setId(((BigDecimal) result.get("p_medicine_id")).longValue())
+                        .build())
+                .setSelfLife(((Timestamp) result.get("p_self_life")).toLocalDateTime().toLocalDate())
+                .setAmount(((BigDecimal) result.get("p_amount")).intValue())
                 .build();
-
-
-        return medicineInstanceDB;
     }
 
     @Override
     public void delete(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_id", id);
+                .addValue("p_medicine_instance_id", id);
 
-        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+        new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("MEDICINE_INSTANCE_PKG")
-                .withProcedureName("delete")
+                .withProcedureName("deletePurchaseItem")
                 .execute(parameterSource);
     }
 }

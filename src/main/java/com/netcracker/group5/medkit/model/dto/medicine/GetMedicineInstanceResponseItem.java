@@ -1,5 +1,6 @@
 package com.netcracker.group5.medkit.model.dto.medicine;
 
+import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.Sex;
@@ -9,8 +10,7 @@ import java.time.LocalDate;
 public class GetMedicineInstanceResponseItem {
 
     private Long id;
-    private String name;
-    private String manufacturer;
+    private Medicine medicine;
     private LocalDate selfLife;
     private int amount;
 
@@ -19,8 +19,7 @@ public class GetMedicineInstanceResponseItem {
 
     public GetMedicineInstanceResponseItem(MedicineInstance medicineInstance) {
         this.id = medicineInstance.getId();
-        this.name = medicineInstance.getName();
-        this.manufacturer = medicineInstance.getManufacturer();
+        this.medicine = medicineInstance.getMedicine();
         this.selfLife = medicineInstance.getSelfLife();
         this.amount = medicineInstance.getAmount();
     }
@@ -33,20 +32,12 @@ public class GetMedicineInstanceResponseItem {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Medicine getMedicine() {
+        return medicine;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
+    public void setMedicine(Medicine medicine) {
+        this.medicine = medicine;
     }
 
     public LocalDate getSelfLife() {

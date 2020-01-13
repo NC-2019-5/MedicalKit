@@ -1,39 +1,38 @@
 package com.netcracker.group5.medkit.model.dto.medicine;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class MedicineInstanceRequestItem {
 
-    @NotBlank
-    private String name;
+    private Long medicineInstanceId;
 
-    @NotBlank
-    private String manufacturer;
+    @NotNull
+    private Long medicineId;
 
-    @NotBlank
     private LocalDate selfLife;
 
-    @NotBlank
+    @NotNull
     private int amount;
 
     public MedicineInstanceRequestItem() {
     }
 
-    public String getName() {
-        return name;
+    public Long getMedicineInstanceId() {
+        return medicineInstanceId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMedicineInstanceId(Long medicineInstanceId) {
+        this.medicineInstanceId = medicineInstanceId;
     }
 
-    public String getManufacturer() {
-        return manufacturer;
+    public Long getMedicineId() {
+        return medicineId;
     }
 
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
+    public void setMedicineId(Long medicineId) {
+        this.medicineId = medicineId;
     }
 
     public LocalDate getSelfLife() {
@@ -55,9 +54,9 @@ public class MedicineInstanceRequestItem {
     @Override
     public String toString() {
         return "MedicineInstanceRequestItem{" +
-                "name='" + name + '\'' +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", selfLife='" + selfLife + '\'' +
+                "medicineInstanceId=" + medicineInstanceId +
+                ", medicineId=" + medicineId +
+                ", selfLife=" + selfLife +
                 ", amount=" + amount +
                 '}';
     }

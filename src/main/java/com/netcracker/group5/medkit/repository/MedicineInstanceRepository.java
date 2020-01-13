@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MedicineInstanceRepository {
-    Optional<List<MedicineInstance>> findMedicineInstances(int limit, long offset, String search);
+    Optional<List<MedicineInstance>> findMedicineInstances(Long patientId, long limit, long offset, String searchQuery);
 
-    MedicineInstance save(MedicineInstance medicineInstance);
+    MedicineInstance save(Long patientId, MedicineInstance medicineInstance);
 
     void delete(Long id);
 }
