@@ -42,4 +42,10 @@ public class PurchaseController {
 
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/profile/purchases/bulk-delete")
+    public ResponseEntity<?> bulkDeletePurchaseItems(@RequestParam("id") List<Long> idList) {
+        purchaseService.bulkDeletePurchaseItems(idList);
+        return ResponseEntity.ok().build();
+    }
 }

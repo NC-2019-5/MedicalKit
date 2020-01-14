@@ -11,4 +11,6 @@ public interface PurchaseRepository {
     PurchaseItem save(Long patientId, PurchaseItem purchaseItem);
 
     void removePurchaseItem(Long id);
+
+    void bulkDeletePurchaseItems(List<Long> idList);
 }

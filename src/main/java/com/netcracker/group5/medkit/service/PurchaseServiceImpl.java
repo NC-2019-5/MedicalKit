@@ -44,4 +44,9 @@ public class PurchaseServiceImpl implements PurchaseService {
     public void deletePurchaseItem(Long id) {
         purchaseRepository.removePurchaseItem(id);
     }
+
+    @Override
+    public void bulkDeletePurchaseItems(List<Long> idList) {
+        purchaseRepository.bulkDeletePurchaseItems(idList);
+    }
 }
