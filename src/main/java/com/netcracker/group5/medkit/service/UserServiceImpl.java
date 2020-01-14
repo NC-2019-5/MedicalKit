@@ -5,6 +5,7 @@ import com.netcracker.group5.medkit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,6 +13,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public String login(String email, String password) {
@@ -27,6 +31,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registerUser(User user) {
         if (!userRepository.isExistUserWithEmail(user.getEmail())) {
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
+
             return userRepository.saveByRole(user);
         }
         throw new IllegalArgumentException("Email " + user.getEmail() + " is already taken.");
