@@ -2,10 +2,9 @@ package com.netcracker.group5.medkit.repository;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
+import com.netcracker.group5.medkit.util.SqlReturnListFromArray;
 import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OracleTypes;
-import oracle.sql.ARRAY;
-import oracle.sql.ArrayDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
@@ -46,56 +45,16 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
                 .withCatalogName("PURCHASE_PKG")
                 .withProcedureName("getPurchaseItems")
                 .declareParameters(
-                        new SqlOutParameter("p_purchase_item_id_array", OracleTypes.ARRAY, "ARRAY_OF_NUMBERS",
-                                (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(4);
-                                    BigDecimal[] bigDecIds = (BigDecimal[]) sqlArray.getArray();
-                                    List<Long> idList = new ArrayList<>();
-
-                                    for (BigDecimal bigDecId : bigDecIds) {
-                                        idList.add(bigDecId.longValue());
-                                    }
-
-                                    return idList;
-                                }),
-                        new SqlOutParameter("p_medicine_id_array", OracleTypes.ARRAY, "ARRAY_OF_NUMBERS",
-                                (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(5);
-                                    BigDecimal[] bigDecMedicineIds = (BigDecimal[]) sqlArray.getArray();
-                                    List<Long> medicineIdList = new ArrayList<>();
-
-                                    for (BigDecimal bigDecMedicineId : bigDecMedicineIds) {
-                                        medicineIdList.add(bigDecMedicineId.longValue());
-                                    }
-
-                                    return medicineIdList;
-                                }),
-                        new SqlOutParameter("p_amount_array", OracleTypes.ARRAY, "ARRAY_OF_NUMBERS",
-                                (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(6);
-                                    BigDecimal[] bigDecAmounts = (BigDecimal[]) sqlArray.getArray();
-                                    List<Integer> amountList = new ArrayList<>();
-
-                                    for (BigDecimal bigDecAmount : bigDecAmounts) {
-                                        amountList.add(bigDecAmount.intValue());
-                                    }
-
-                                    return amountList;
-                                }),
-                        new SqlOutParameter("p_medicine_names", OracleTypes.ARRAY, "ARRAY_OF_STRINGS",
-                                ((callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(7);
-                                    String[] medicineNames = (String[]) sqlArray.getArray();
-
-                                    return Arrays.asList(medicineNames);
-                                })),
-                        new SqlOutParameter("p_medicine_manufacturers", OracleTypes.ARRAY, "ARRAY_OF_STRINGS",
-                                (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(8);
-                                    String[] medicineManufacturers = (String[]) sqlArray.getArray();
-
-                                    return Arrays.asList(medicineManufacturers);
-                                }))
+                        new SqlOutParameter("p_purchase_item_id_array", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                        new SqlOutParameter("p_medicine_id_array", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                        new SqlOutParameter("p_amount_array", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Integer.class)),
+                        new SqlOutParameter("p_medicine_names", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_manufacturers", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)))
                 .execute(parameterSource);
 
         List<Long> idList = (List<Long>) result.get("p_purchase_item_id_array");
@@ -169,9 +128,7 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
 
                         if (connection.isWrapperFor(OracleConnection.class)) {
                             OracleConnection oracleConnection = connection.unwrap(OracleConnection.class);
-
-                            ArrayDescriptor arrayDescriptor = ArrayDescriptor.createDescriptor("ARRAY_OF_NUMBERS", oracleConnection);
-                            ARRAY arrayToPass = new ARRAY(arrayDescriptor, oracleConnection, idList.toArray());
+                            Array arrayToPass = oracleConnection.createOracleArray("ARRAY_OF_NUMBERS", idList.toArray());
 
                             preparedStatement.setArray(1, arrayToPass);
                         }
