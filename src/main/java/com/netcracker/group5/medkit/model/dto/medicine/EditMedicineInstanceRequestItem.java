@@ -1,20 +1,33 @@
 package com.netcracker.group5.medkit.model.dto.medicine;
 
+import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class EditMedicineInstanceRequestItem {
 
-    @NotBlank
+
     private long id;
 
-    @NotBlank
+    @NotNull
+    private Long medicineId;
+
     private LocalDate selfLife;
 
-    @NotBlank
+    @NotNull
     private int amount;
 
     public EditMedicineInstanceRequestItem() {
+    }
+
+    public Long getMedicineId() {
+        return medicineId;
+    }
+
+    public void setMedicineId(Long medicineId) {
+        this.medicineId = medicineId;
     }
 
     public long getId() {
