@@ -38,7 +38,7 @@ public class MedicineInstanceController {
     @PutMapping("/profile/medicine-kit")
     public ResponseEntity<?> editMedicineInstance(@Valid @RequestBody EditMedicineInstanceRequestItem requestItem) {
         MedicineInstance medicineInstance = new MedicineInstance(requestItem);
-        GetMedicineInstanceResponseItem responseItem = new GetMedicineInstanceResponseItem(medicineInstanceService.editMedicineInstance(medicineInstance));
+        GetMedicineInstanceResponseItem responseItem = new GetMedicineInstanceResponseItem(medicineInstanceService.createMedicineInstance(medicineInstance));
         return ResponseEntity.ok(responseItem);
     }
 

@@ -167,7 +167,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
 
         new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("MEDICINE_INSTANCE_PKG")
-                .withProcedureName("deletePurchaseItem")
+                .withProcedureName("deleteMedicineInstance")
                 .execute(parameterSource);
     }
 }

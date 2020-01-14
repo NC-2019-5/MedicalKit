@@ -10,7 +10,5 @@ public interface MedicineInstanceService {
 
     MedicineInstance createMedicineInstance(MedicineInstance medicineInstance);
 
-    MedicineInstance editMedicineInstance(MedicineInstance medicineInstance);
-
     void deleteMedicineInstance(Long id);
 }
