@@ -1,4 +1,4 @@
-package com.netcracker.group5.medkit.service;
+package com.netcracker.group5.medkit.service.impl;
 
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
@@ -6,6 +6,7 @@ import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.User;
 import com.netcracker.group5.medkit.repository.PatientRepository;
 import com.netcracker.group5.medkit.repository.PrescriptionRepository;
+import com.netcracker.group5.medkit.service.PrescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;

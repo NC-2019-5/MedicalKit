@@ -1,6 +1,7 @@
-package com.netcracker.group5.medkit.repository;
+package com.netcracker.group5.medkit.repository.impl;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
+import com.netcracker.group5.medkit.repository.MedicineRepository;
 import com.netcracker.group5.medkit.util.SqlReturnListFromArray;
 import oracle.jdbc.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,10 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 @Repository
 public class MedicineRepositoryImpl implements MedicineRepository {
@@ -68,7 +72,7 @@ public class MedicineRepositoryImpl implements MedicineRepository {
         List<Medicine> medicines = new ArrayList<>(medicineId.size());
         ListIterator<Long> iterator = medicineId.listIterator();
 
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Medicine medicine = Medicine.newBuilder()
                     .setName(medicineName.get(iterator.nextIndex()))
                     .setManufacturer(medicineManufacturer.get(iterator.nextIndex()))
@@ -82,7 +86,7 @@ public class MedicineRepositoryImpl implements MedicineRepository {
                     .build();
             medicines.add(medicine);
         }
-        return  medicines;
+        return medicines;
     }
 
     @Override

@@ -1,8 +1,10 @@
-package com.netcracker.group5.medkit.repository;
+package com.netcracker.group5.medkit.repository.impl;
 
 import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.User;
+import com.netcracker.group5.medkit.repository.PatientRepository;
+import com.netcracker.group5.medkit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

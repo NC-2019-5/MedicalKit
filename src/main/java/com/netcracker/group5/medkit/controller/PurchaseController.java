@@ -46,6 +46,7 @@ public class PurchaseController {
     @DeleteMapping("/profile/purchases/bulk-delete")
     public ResponseEntity<?> bulkDeletePurchaseItems(@RequestParam("id") List<Long> idList) {
         purchaseService.bulkDeletePurchaseItems(idList);
+
         return ResponseEntity.ok().build();
     }
 }

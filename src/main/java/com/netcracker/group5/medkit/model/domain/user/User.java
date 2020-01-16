@@ -1,7 +1,7 @@
 package com.netcracker.group5.medkit.model.domain.user;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
-import com.netcracker.group5.medkit.model.domain.request.Request;
+import com.netcracker.group5.medkit.model.domain.request.Notification;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,7 +16,7 @@ public class User implements Requestable, UserDetails {
     protected String email;
     protected String password;
     protected Role role;
-    protected List<Request<?>> notifications;
+    protected List<Notification> notifications;
 
     protected User() {
     }
@@ -83,11 +83,11 @@ public class User implements Requestable, UserDetails {
         this.role = role;
     }
 
-    public List<Request<?>> getNotifications() {
+    public List<Notification> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(List<Request<?>> notifications) {
+    public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
     }
 
@@ -155,7 +155,7 @@ public class User implements Requestable, UserDetails {
             return getThis();
         }
 
-        public B setNotifications(List<Request<?>> notifications) {
+        public B setNotifications(List<Notification> notifications) {
             User.this.notifications = notifications;
             return getThis();
         }

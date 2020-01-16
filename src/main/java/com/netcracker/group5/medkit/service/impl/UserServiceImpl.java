@@ -1,7 +1,8 @@
-package com.netcracker.group5.medkit.service;
+package com.netcracker.group5.medkit.service.impl;
 
 import com.netcracker.group5.medkit.model.domain.user.User;
 import com.netcracker.group5.medkit.repository.UserRepository;
+import com.netcracker.group5.medkit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

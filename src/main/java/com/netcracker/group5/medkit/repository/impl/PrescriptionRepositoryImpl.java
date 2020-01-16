@@ -1,9 +1,10 @@
-package com.netcracker.group5.medkit.repository;
+package com.netcracker.group5.medkit.repository.impl;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
 import com.netcracker.group5.medkit.model.domain.user.Doctor;
+import com.netcracker.group5.medkit.repository.PrescriptionRepository;
 import com.netcracker.group5.medkit.util.SqlReturnListFromArray;
 import oracle.jdbc.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
