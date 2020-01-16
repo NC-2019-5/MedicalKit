@@ -1,9 +1,10 @@
-package com.netcracker.group5.medkit.service;
+package com.netcracker.group5.medkit.service.impl;
 
 import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.User;
 import com.netcracker.group5.medkit.repository.PatientRepository;
 import com.netcracker.group5.medkit.repository.UserRepository;
+import com.netcracker.group5.medkit.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,8 @@
-package com.netcracker.group5.medkit.repository;
+package com.netcracker.group5.medkit.repository.impl;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
+import com.netcracker.group5.medkit.repository.PurchaseRepository;
 import com.netcracker.group5.medkit.util.SqlReturnListFromArray;
 import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OracleTypes;
