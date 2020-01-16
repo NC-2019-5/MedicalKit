@@ -2,6 +2,7 @@ package com.netcracker.group5.medkit.controller;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
+import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineRequestItem;
 import com.netcracker.group5.medkit.model.dto.medicine.FindMedicinesResponseItem;
 import com.netcracker.group5.medkit.model.dto.medicine.MedicineInstanceRequestItem;
 import com.netcracker.group5.medkit.model.dto.medicine.MedicineRequestItem;
@@ -37,6 +38,12 @@ public class MedicineController {
     @PostMapping("/all-medicines/add")
     public ResponseEntity<?> createMedicine(@RequestBody MedicineRequestItem medicineRequestItem) {
         Medicine medicine = medicineService.saveMedicine(new Medicine(medicineRequestItem));
+        return ResponseEntity.ok(medicine);
+    }
+
+    @PutMapping("/all-medicines")
+    public ResponseEntity<?> editMedicine(@RequestBody EditMedicineRequestItem editMedicineRequestItem) {
+        Medicine medicine = medicineService.saveMedicine(new Medicine(editMedicineRequestItem));
         return ResponseEntity.ok(medicine);
     }
 }
