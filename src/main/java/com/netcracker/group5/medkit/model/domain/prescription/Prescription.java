@@ -3,7 +3,9 @@ package com.netcracker.group5.medkit.model.domain.prescription;
 import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.user.Doctor;
 import com.netcracker.group5.medkit.model.domain.user.Patient;
+import com.netcracker.group5.medkit.model.dto.prescription.AddPrescriptionRequest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -14,10 +16,19 @@ public class Prescription implements Requestable {
     private String name;
     private Doctor doctor;
     private Patient patient;
-    private List<PrescriptionItem> prescriptionItems;
-    private LocalDateTime date;
+    private LocalDate date;
 
-    private Prescription() {
+    public Prescription(){
+
+    }
+
+    public Prescription(AddPrescriptionRequest prescriptionRequest) {
+        this.id = prescriptionRequest.getPrescriptionId();
+        this.name = prescriptionRequest.getName();
+        this.date = prescriptionRequest.getDate();
+        this.doctor = Doctor.newBuilder()
+                .setId(prescriptionRequest.getDoctorId())
+                .build();
     }
 
     public Long getId() {
@@ -44,19 +55,11 @@ public class Prescription implements Requestable {
         this.patient = patient;
     }
 
-    public List<PrescriptionItem> getPrescriptionItems() {
-        return prescriptionItems;
-    }
-
-    public void setPrescriptionItems(List<PrescriptionItem> prescriptionItems) {
-        this.prescriptionItems = prescriptionItems;
-    }
-
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -69,13 +72,12 @@ public class Prescription implements Requestable {
                 Objects.equals(name, that.name) &&
                 Objects.equals(doctor, that.doctor) &&
                 Objects.equals(patient, that.patient) &&
-                Objects.equals(prescriptionItems, that.prescriptionItems) &&
                 Objects.equals(date, that.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, doctor, patient, prescriptionItems, date);
+        return Objects.hash(id, name, doctor, patient, date);
     }
 
     @Override
@@ -85,7 +87,6 @@ public class Prescription implements Requestable {
                 ", name='" + name + '\'' +
                 ", doctor=" + doctor +
                 ", patient=" + patient +
-                ", prescriptionItems=" + prescriptionItems +
                 ", date=" + date +
                 '}';
     }
@@ -127,12 +128,7 @@ public class Prescription implements Requestable {
             return this;
         }
 
-        public Builder setPrescriptionItems(List<PrescriptionItem> prescriptionItems) {
-            Prescription.this.prescriptionItems = prescriptionItems;
-            return this;
-        }
-
-        public Builder setDate(LocalDateTime date) {
+        public Builder setDate(LocalDate date) {
             Prescription.this.date = date;
             return this;
         }

@@ -2,7 +2,9 @@ package com.netcracker.group5.medkit.model.domain.prescription;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
+import com.netcracker.group5.medkit.model.dto.prescription.AddPrescriptionItemRequest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -10,13 +12,31 @@ public class PrescriptionItem implements Requestable {
 
     private Long id;
     private Medicine medicine;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private int takingDurationDays;
-    private LocalDateTime takingTime;
+    private String takingTime;
     private String description;
+    private Prescription prescription;
+    private boolean isReminderEnabled;
 
-    private PrescriptionItem() {
+    public PrescriptionItem() {
+    }
+
+    public PrescriptionItem(AddPrescriptionItemRequest addPrescriptionItemRequest) {
+        this.medicine = Medicine.newBuilder()
+                .setId(addPrescriptionItemRequest.getMedicineId())
+                .build();
+        this.startDate = addPrescriptionItemRequest.getStartDate();
+        this.endDate = addPrescriptionItemRequest.getEndDate();
+        this.takingDurationDays = addPrescriptionItemRequest.getTakingDurationDays();
+        this.takingTime = addPrescriptionItemRequest.getTakingTime();
+        this.description = addPrescriptionItemRequest.getDescription();
+        this.prescription = Prescription.newBuilder()
+                .setId(addPrescriptionItemRequest.getPrescriptionId())
+                .build();
+        this.isReminderEnabled = addPrescriptionItemRequest.isReminderEnabled();
+
     }
 
     public Long getId() {
@@ -35,19 +55,19 @@ public class PrescriptionItem implements Requestable {
         this.medicine = medicine;
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -59,11 +79,11 @@ public class PrescriptionItem implements Requestable {
         this.takingDurationDays = takingDurationDays;
     }
 
-    public LocalDateTime getTakingTime() {
+    public String getTakingTime() {
         return takingTime;
     }
 
-    public void setTakingTime(LocalDateTime takingTime) {
+    public void setTakingTime(String takingTime) {
         this.takingTime = takingTime;
     }
 
@@ -75,23 +95,41 @@ public class PrescriptionItem implements Requestable {
         this.description = description;
     }
 
+    public Prescription getPrescription() {
+        return prescription;
+    }
+
+    public void setPrescription(Prescription prescription) {
+        this.prescription = prescription;
+    }
+
+    public boolean isReminderEnabled() {
+        return isReminderEnabled;
+    }
+
+    public void setReminderEnabled(boolean reminderEnabled) {
+        isReminderEnabled = reminderEnabled;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PrescriptionItem that = (PrescriptionItem) o;
         return takingDurationDays == that.takingDurationDays &&
+                isReminderEnabled == that.isReminderEnabled &&
                 id.equals(that.id) &&
-                Objects.equals(medicine, that.medicine) &&
-                Objects.equals(startDate, that.startDate) &&
-                Objects.equals(endDate, that.endDate) &&
-                Objects.equals(takingTime, that.takingTime) &&
-                Objects.equals(description, that.description);
+                medicine.equals(that.medicine) &&
+                startDate.equals(that.startDate) &&
+                endDate.equals(that.endDate) &&
+                takingTime.equals(that.takingTime) &&
+                description.equals(that.description) &&
+                prescription.equals(that.prescription);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, medicine, startDate, endDate, takingDurationDays, takingTime, description);
+        return Objects.hash(id, medicine, startDate, endDate, takingDurationDays, takingTime, description, prescription, isReminderEnabled);
     }
 
     @Override
@@ -102,8 +140,10 @@ public class PrescriptionItem implements Requestable {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", takingDurationDays=" + takingDurationDays +
-                ", takingTime=" + takingTime +
+                ", takingTime='" + takingTime + '\'' +
                 ", description='" + description + '\'' +
+                ", prescription=" + prescription +
+                ", isReminderEnabled=" + isReminderEnabled +
                 '}';
     }
 
@@ -126,12 +166,12 @@ public class PrescriptionItem implements Requestable {
             return this;
         }
 
-        public Builder setStartDate(LocalDateTime startDate) {
+        public Builder setStartDate(LocalDate startDate) {
             PrescriptionItem.this.startDate = startDate;
             return this;
         }
 
-        public Builder setEndDate(LocalDateTime endDate) {
+        public Builder setEndDate(LocalDate endDate) {
             PrescriptionItem.this.endDate = endDate;
             return this;
         }
@@ -141,13 +181,23 @@ public class PrescriptionItem implements Requestable {
             return this;
         }
 
-        public Builder setTakingTime(LocalDateTime takingTime) {
+        public Builder setTakingTime(String takingTime) {
             PrescriptionItem.this.takingTime = takingTime;
             return this;
         }
 
         public Builder setDescription(String description) {
             PrescriptionItem.this.description = description;
+            return this;
+        }
+
+        public Builder setPrescription(Prescription prescription) {
+            PrescriptionItem.this.prescription = prescription;
+            return this;
+        }
+
+        public Builder setIsReminderEnabled(boolean isReminderEnabled){
+            PrescriptionItem.this.isReminderEnabled = isReminderEnabled;
             return this;
         }
 
