@@ -1,7 +1,7 @@
 package com.netcracker.group5.medkit.model.domain.request;
 
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
-import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
+import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
 
 public class Notification {
 
@@ -10,7 +10,7 @@ public class Notification {
     private NotificationType type;
     private String remindTime;
     private MedicineInstance medicineInstance;
-    private PurchaseItem purchaseItem;
+    private PrescriptionItem prescriptionItem;
     private String message;
 
     private Notification() {
@@ -56,12 +56,12 @@ public class Notification {
         this.medicineInstance = medicineInstance;
     }
 
-    public PurchaseItem getPurchaseItem() {
-        return purchaseItem;
+    public PrescriptionItem getPrescriptionItem() {
+        return prescriptionItem;
     }
 
-    public void setPurchaseItem(PurchaseItem purchaseItem) {
-        this.purchaseItem = purchaseItem;
+    public void setPrescriptionItem(PrescriptionItem prescriptionItem) {
+        this.prescriptionItem = prescriptionItem;
     }
 
     public static Builder newInstance() {
@@ -106,8 +106,8 @@ public class Notification {
             return this;
         }
 
-        public Builder setPurchaseItem(PurchaseItem purchaseItem) {
-            Notification.this.purchaseItem = purchaseItem;
+        public Builder setPrescriptionItem(PrescriptionItem purchaseItem) {
+            Notification.this.prescriptionItem = purchaseItem;
             return this;
         }
 
