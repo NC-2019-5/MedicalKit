@@ -5,6 +5,7 @@ import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
 import com.netcracker.group5.medkit.model.domain.user.Doctor;
 import com.netcracker.group5.medkit.repository.PrescriptionRepository;
+import com.netcracker.group5.medkit.util.SqlArray;
 import com.netcracker.group5.medkit.util.SqlReturnListFromArray;
 import oracle.jdbc.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,17 +45,17 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .withProcedureName("getAllPrescriptions")
                 .declareParameters(
                         new SqlOutParameter("p_prescription_object_id_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_prescription_name_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_prescription_date_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_DATES, SqlReturnListFromArray.of(LocalDate.class)),
+                                SqlArray.ARRAY_OF_DATES, SqlReturnListFromArray.of(LocalDate.class)),
                         new SqlOutParameter("p_prescription_doctor_id_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_prescription_doctor_name_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_rn_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Integer.class)))
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Integer.class)))
                 .execute(parameterSource);
 
         List<Long> prescriptionIdList = (List<Long>) result.get("p_prescription_object_id_tbl");
@@ -134,25 +135,25 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .withProcedureName("getAllPrescriptionItems")
                 .declareParameters(
                         new SqlOutParameter("p_pi_object_id_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_pi_medicine_id_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_pi_medicine_name_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_pi_start_date_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_DATES, SqlReturnListFromArray.of(LocalDate.class)),
+                                SqlArray.ARRAY_OF_DATES, SqlReturnListFromArray.of(LocalDate.class)),
                         new SqlOutParameter("p_pi_end_date_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_DATES, SqlReturnListFromArray.of(LocalDate.class)),
+                                SqlArray.ARRAY_OF_DATES, SqlReturnListFromArray.of(LocalDate.class)),
                         new SqlOutParameter("p_pi_duration_days_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_pi_taking_time_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_pi_description_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_pi_is_reminder_enabled_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_rn_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Integer.class)))
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Integer.class)))
                 .execute(parameterSource);
 
         List<Long> prescriptionItemIdList = (List<Long>) result.get("p_pi_object_id_tbl");
@@ -214,7 +215,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .withProcedureName("savePrescriptionItemObject")
                 .execute(parameterSource);
 
-        PrescriptionItem prescriptionItemResult =  PrescriptionItem.newBuilder()
+        PrescriptionItem prescriptionItemResult = PrescriptionItem.newBuilder()
                 .setId(((BigDecimal) result.get("p_pi_object_id")).longValue())
                 .setMedicine(Medicine.newBuilder()
                         .setId(Long.parseLong((String) result.get("p_pi_medicine_id")))
@@ -243,7 +244,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .withProcedureName("getAllActivePrescriptionItems")
                 .declareParameters(
                         new SqlOutParameter("p_pi_object_id_tbl", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)))
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)))
                 .execute(parameterSource);
 
         List<Long> prescriptionItemIdList = (List<Long>) result.get("p_pi_object_id_tbl");

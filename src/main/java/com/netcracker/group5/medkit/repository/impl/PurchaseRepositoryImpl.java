@@ -3,8 +3,8 @@ package com.netcracker.group5.medkit.repository.impl;
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
 import com.netcracker.group5.medkit.repository.PurchaseRepository;
+import com.netcracker.group5.medkit.util.SqlArray;
 import com.netcracker.group5.medkit.util.SqlReturnListFromArray;
-import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,15 +13,10 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springframework.jdbc.support.SqlValue;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
-import java.sql.Array;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -50,15 +45,15 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
                 .withProcedureName("getPurchaseItems")
                 .declareParameters(
                         new SqlOutParameter("p_purchase_item_id_array", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_medicine_id_array", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_amount_array", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Integer.class)),
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Integer.class)),
                         new SqlOutParameter("p_medicine_names", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_medicine_manufacturers", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)))
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)))
                 .execute(parameterSource);
 
         List<Long> idList = (List<Long>) result.get("p_purchase_item_id_array");
@@ -125,23 +120,7 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
     @Override
     public void bulkDeletePurchaseItems(List<Long> idList) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_purchase_item_id_array", new SqlValue() {
-                    @Override
-                    public void setValue(PreparedStatement preparedStatement, int i) throws SQLException {
-                        Connection connection = preparedStatement.getConnection();
-
-                        if (connection.isWrapperFor(OracleConnection.class)) {
-                            OracleConnection oracleConnection = connection.unwrap(OracleConnection.class);
-                            Array arrayToPass = oracleConnection.createOracleArray("ARRAY_OF_NUMBERS", idList.toArray());
-
-                            preparedStatement.setArray(1, arrayToPass);
-                        }
-                    }
-
-                    @Override
-                    public void cleanup() {
-                    }
-                });
+                .addValue("p_purchase_item_id_array", SqlArray.of(idList, SqlArray.ARRAY_OF_NUMBERS));
 
         new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("PURCHASE_PKG")

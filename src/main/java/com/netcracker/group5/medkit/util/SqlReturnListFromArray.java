@@ -14,10 +14,6 @@ import java.util.List;
 
 public class SqlReturnListFromArray<T> implements SqlReturnType {
 
-    public static final String ARRAY_OF_NUMBERS = "ARRAY_OF_NUMBERS";
-    public static final String ARRAY_OF_STRINGS = "ARRAY_OF_STRINGS";
-    public static final String ARRAY_OF_DATES = "ARRAY_OF_DATES";
-
     private final Class<T> type;
 
     private SqlReturnListFromArray(Class<T> type) {
@@ -29,7 +25,7 @@ public class SqlReturnListFromArray<T> implements SqlReturnType {
         Array sqlArray = callableStatement.getArray(index);
         List<Object> listOfValues;
 
-        if (oracleType.equals(ARRAY_OF_NUMBERS)) {
+        if (oracleType.equals(SqlArray.ARRAY_OF_NUMBERS)) {
             BigDecimal[] arrayOfValues = (BigDecimal[]) sqlArray.getArray();
 
             if (type.isAssignableFrom(Long.class)) {
@@ -49,13 +45,13 @@ public class SqlReturnListFromArray<T> implements SqlReturnType {
 
                 return listOfValues;
             }
-        } else if (oracleType.equals(ARRAY_OF_STRINGS)) {
+        } else if (oracleType.equals(SqlArray.ARRAY_OF_STRINGS)) {
             if (type.isAssignableFrom(String.class)) {
                 String[] medicineNames = (String[]) sqlArray.getArray();
 
                 return Arrays.asList(medicineNames);
             }
-        } else if (oracleType.equals(ARRAY_OF_DATES)) {
+        } else if (oracleType.equals(SqlArray.ARRAY_OF_DATES)) {
             Timestamp[] arrayOfValues = (Timestamp[]) sqlArray.getArray();
 
             if (type.isAssignableFrom(LocalDate.class)) {

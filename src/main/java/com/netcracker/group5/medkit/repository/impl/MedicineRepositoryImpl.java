@@ -2,6 +2,7 @@ package com.netcracker.group5.medkit.repository.impl;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.repository.MedicineRepository;
+import com.netcracker.group5.medkit.util.SqlArray;
 import com.netcracker.group5.medkit.util.SqlReturnListFromArray;
 import oracle.jdbc.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,23 +41,23 @@ public class MedicineRepositoryImpl implements MedicineRepository {
                 .withProcedureName("getAllMedicineObjects")
                 .declareParameters(
                         new SqlOutParameter("p_medicine_object_id", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_medicine_name", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_medicine_manufacturer", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_medicine_prod_form", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_medicine_contrs", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_medicine_inters", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_medicine_pk_content", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_medicine_taking_method", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_medicine_description", OracleTypes.ARRAY,
-                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class))
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class))
                 ).execute(parameterSource);
 
         List<Long> medicineId = (List<Long>) result.get("p_medicine_object_id");
