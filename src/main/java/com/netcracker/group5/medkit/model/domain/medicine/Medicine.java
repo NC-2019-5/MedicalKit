@@ -1,6 +1,10 @@
 package com.netcracker.group5.medkit.model.domain.medicine;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
+import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineInstanceRequestItem;
+import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineRequestItem;
+import com.netcracker.group5.medkit.model.dto.medicine.MedicineInstanceRequestItem;
+import com.netcracker.group5.medkit.model.dto.medicine.MedicineRequestItem;
 
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +21,30 @@ public class Medicine implements Requestable {
     private String takingMethod;
     private String description;
 
-    private Medicine() {
+    public Medicine(MedicineRequestItem medicineRequestItem) {
+        this.name = medicineRequestItem.getName();
+        this.manufacturer = medicineRequestItem.getManufacturer();
+        this.productionForm = medicineRequestItem.getProductionForm();
+        this.contraindications = medicineRequestItem.getContraindications();
+        this.interactions = medicineRequestItem.getInteractions();
+        this.packageContent = medicineRequestItem.getPackageContent();
+        this.takingMethod = medicineRequestItem.getTakingMethod();
+        this.description = medicineRequestItem.getDescription();
+    }
+
+    public Medicine(EditMedicineRequestItem editMedicineRequestItem) {
+        this.id = editMedicineRequestItem.getId();
+        this.name = editMedicineRequestItem.getName();
+        this.manufacturer = editMedicineRequestItem.getManufacturer();
+        this.productionForm = editMedicineRequestItem.getProductionForm();
+        this.contraindications = editMedicineRequestItem.getContraindications();
+        this.interactions = editMedicineRequestItem.getInteractions();
+        this.packageContent = editMedicineRequestItem.getPackageContent();
+        this.takingMethod = editMedicineRequestItem.getTakingMethod();
+        this.description = editMedicineRequestItem.getDescription();
+    }
+
+    public Medicine() {
     }
 
     public Long getId() {

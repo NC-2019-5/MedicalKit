@@ -14,6 +14,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -88,6 +90,60 @@ public class MedicineRepositoryImpl implements MedicineRepository {
             medicines.add(medicine);
         }
         return medicines;
+    }
+
+    @Override
+    public Medicine find(Long id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_medicine_object_id", id);
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("MEDICINE_PKG")
+                .withProcedureName("getMedicineObject")
+                .execute(parameterSource);
+
+        return Medicine.newBuilder()
+                .setId(((BigDecimal) result.get("p_medicine_object_id")).longValue())
+                .setName(result.get("p_medicine_name").toString())
+                .setManufacturer(result.get("p_medicine_manufacturer").toString())
+                .setProductionForm(result.get("p_medicine_prod_form").toString())
+                .setContraindications(result.get("p_medicine_contrs").toString())
+                .setInteractions(result.get("p_medicine_inters").toString())
+                .setPackageContent(result.get("p_medicine_pk_content").toString())
+                .setTakingMethod(result.get("p_medicine_taking_method").toString())
+                .setDescription(result.get("p_medicine_description").toString())
+                .build();
+    }
+
+    @Override
+    public Medicine save(Medicine medicine) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_medicine_object_id", medicine.getId())
+                .addValue("p_medicine_name", medicine.getName())
+                .addValue("p_medicine_manufacturer", medicine.getManufacturer())
+                .addValue("p_medicine_prod_form", medicine.getProductionForm())
+                .addValue("p_medicine_contrs", medicine.getContraindications())
+                .addValue("p_medicine_inters", medicine.getInteractions())
+                .addValue("p_medicine_pk_content", medicine.getPackageContent())
+                .addValue("p_medicine_taking_method", medicine.getTakingMethod())
+                .addValue("p_medicine_description", medicine.getDescription());
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("MEDICINE_PKG")
+                .withProcedureName("saveMedicineObject")
+                .execute(parameterSource);
+
+        return Medicine.newBuilder()
+                .setId(((BigDecimal) result.get("p_medicine_object_id")).longValue())
+                .setName(result.get("p_medicine_name").toString())
+                .setManufacturer(result.get("p_medicine_manufacturer").toString())
+                .setProductionForm(result.get("p_medicine_prod_form").toString())
+                .setContraindications(result.get("p_medicine_contrs").toString())
+                .setInteractions(result.get("p_medicine_inters").toString())
+                .setPackageContent(result.get("p_medicine_pk_content").toString())
+                .setTakingMethod(result.get("p_medicine_taking_method").toString())
+                .setDescription(result.get("p_medicine_description").toString())
+                .build();
     }
 
     @Override

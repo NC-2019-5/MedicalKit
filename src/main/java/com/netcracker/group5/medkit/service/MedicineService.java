@@ -8,5 +8,9 @@ import java.util.List;
 public interface MedicineService {
     List<Medicine> findAllMedicines(Pageable pageable);
 
+    Medicine saveMedicine(Medicine medicine);
+
+    Medicine findMedicine(Long id);
+
     void deleteMedicine(Long id);
 }
