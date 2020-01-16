@@ -16,7 +16,7 @@ public interface PrescriptionRepository {
 
     Optional<List<PrescriptionItem>> findPrescriptionItemsByPrescriptionId(Long prescriptionId, long limit, long offset);
 
-    PrescriptionItem savePrescriptionItem(Long prescriptionId, PrescriptionItem prescriptionItem);
+    PrescriptionItem savePrescriptionItem(PrescriptionItem prescriptionItem);
 
     Optional<List<Long>> findActivePrescriptionItems(Long patientId);
 

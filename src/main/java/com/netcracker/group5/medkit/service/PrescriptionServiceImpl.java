@@ -55,8 +55,8 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
-    public void addPrescriptionItem(Long prescriptionId, PrescriptionItem prescriptionItem) {
-        prescriptionRepository.savePrescriptionItem(prescriptionId, prescriptionItem);
+    public void addPrescriptionItem(PrescriptionItem prescriptionItem) {
+        prescriptionRepository.savePrescriptionItem(prescriptionItem);
     }
 
 }

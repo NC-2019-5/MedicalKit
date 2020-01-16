@@ -16,6 +16,6 @@ public interface PrescriptionService {
 
     List<PrescriptionItem> findPrescriptionItemsByPrescriptionId(Pageable pageable, Long prescriptionId);
 
-    void addPrescriptionItem(Long prescriptionId, PrescriptionItem prescriptionItem);
+    void addPrescriptionItem(PrescriptionItem prescriptionItem);
 
 }

@@ -197,9 +197,9 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
     }
 
     @Override
-    public PrescriptionItem savePrescriptionItem(Long prescriptionId, PrescriptionItem prescriptionItem) {
+    public PrescriptionItem savePrescriptionItem(PrescriptionItem prescriptionItem) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_prescription_object_id", prescriptionId)
+                .addValue("p_prescription_object_id", prescriptionItem.getPrescription().getId())
                 .addValue("p_pi_medicine_id", prescriptionItem.getMedicine().getId())
                 .addValue("p_pi_start_date", prescriptionItem.getStartDate())
                 .addValue("p_pi_end_date", prescriptionItem.getEndDate())
