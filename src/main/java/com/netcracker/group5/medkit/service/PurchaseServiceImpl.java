@@ -28,8 +28,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         long limit = pageable.getOffset() + pageable.getPageSize();
 
-        return purchaseRepository.findPurchaseItems(patient.getId(), limit, pageable.getOffset(), searchQuery)
-                .orElse(null);
+        return purchaseRepository.findPurchaseItems(patient.getId(), limit, pageable.getOffset(), searchQuery);
     }
 
     @Override
