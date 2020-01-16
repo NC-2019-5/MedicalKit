@@ -2,18 +2,18 @@ package com.netcracker.group5.medkit.repository.impl;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.repository.MedicineRepository;
+import com.netcracker.group5.medkit.util.SqlReturnListFromArray;
+import oracle.jdbc.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class MedicineRepositoryImpl implements MedicineRepository {
@@ -27,33 +27,73 @@ public class MedicineRepositoryImpl implements MedicineRepository {
     }
 
     @Override
-    public List<Medicine> findAll(int limit, long offset) {
-        System.out.println("limit = " + limit);
-        System.out.println("offset = " + offset);
-
+    public List<Medicine> findAll(long limit, long offset) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_med_object_id", 5);
+                .addValue("limit", limit)
+                .addValue("offset", offset);
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("MEDICINE_PKG")
-                .withProcedureName("getMedicineById")
+                .withProcedureName("getAllMedicineObjects")
+                .declareParameters(
+                        new SqlOutParameter("p_medicine_object_id", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                        new SqlOutParameter("p_medicine_name", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_manufacturer", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_prod_form", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_contrs", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_inters", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_pk_content", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_taking_method", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_description", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class))
+                ).execute(parameterSource);
+
+        List<Long> medicineId = (List<Long>) result.get("p_medicine_object_id");
+        List<String> medicineName = (List<String>) result.get("p_medicine_name");
+        List<String> medicineManufacturer = (List<String>) result.get("p_medicine_manufacturer");
+        List<String> medicineProdForm = (List<String>) result.get("p_medicine_prod_form");
+        List<String> medicineContrs = (List<String>) result.get("p_medicine_contrs");
+        List<String> medicineInters = (List<String>) result.get("p_medicine_inters");
+        List<String> medicinePkContent = (List<String>) result.get("p_medicine_pk_content");
+        List<String> medicineTakingMethod = (List<String>) result.get("p_medicine_taking_method");
+        List<String> medicineDescription = (List<String>) result.get("p_medicine_description");
+
+        List<Medicine> medicines = new ArrayList<>(medicineId.size());
+        ListIterator<Long> iterator = medicineId.listIterator();
+
+        while (iterator.hasNext()){
+            Medicine medicine = Medicine.newBuilder()
+                    .setName(medicineName.get(iterator.nextIndex()))
+                    .setManufacturer(medicineManufacturer.get(iterator.nextIndex()))
+                    .setProductionForm(medicineProdForm.get(iterator.nextIndex()))
+                    .setContraindications(medicineContrs.get(iterator.nextIndex()))
+                    .setInteractions(medicineInters.get(iterator.nextIndex()))
+                    .setPackageContent(medicinePkContent.get(iterator.nextIndex()))
+                    .setTakingMethod(medicineTakingMethod.get(iterator.nextIndex()))
+                    .setDescription(medicineDescription.get(iterator.nextIndex()))
+                    .setId(iterator.next())
+                    .build();
+            medicines.add(medicine);
+        }
+        return  medicines;
+    }
+
+    @Override
+    public void delete(Long id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_medicine_object_id", id);
+
+        new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("MEDICINE_PKG")
+                .withProcedureName("deleteMedicineObject")
                 .execute(parameterSource);
-
-        Medicine medicine = Medicine.newBuilder()
-                .setId((Long) result.get("p_med_object_id"))
-                .setName((String) result.get("p_med_name"))
-                .setManufacturer((String) result.get("p_med_manufacturer"))
-                .setProductionForm((String) result.get("p_med_prod_form"))
-                .setContraindications((String) result.get("p_med_contrs"))
-                .setInteractions(null)
-                .setPackageContent((String) result.get("p_med_pk_content"))
-                .setTakingMethod((String) result.get("p_med_taking_method"))
-                .setDescription((String) result.get("p_med_description"))
-                .build();
-
-        System.out.println("result = " + result);
-        System.out.println(medicine);
-
-        return Collections.singletonList(medicine);
     }
 }

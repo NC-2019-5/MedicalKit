@@ -12,7 +12,7 @@ public class Medicine implements Requestable {
     private String manufacturer;
     private String productionForm;
     private String contraindications;
-    private List<Medicine> interactions;
+    private String interactions;
     private String packageContent;
     private String takingMethod;
     private String description;
@@ -60,11 +60,11 @@ public class Medicine implements Requestable {
         this.contraindications = contraindications;
     }
 
-    public List<Medicine> getInteractions() {
+    public String getInteractions() {
         return interactions;
     }
 
-    public void setInteractions(List<Medicine> interactions) {
+    public void setInteractions(String interactions) {
         this.interactions = interactions;
     }
 
@@ -162,7 +162,7 @@ public class Medicine implements Requestable {
             return this;
         }
 
-        public Builder setInteractions(List<Medicine> interactions) {
+        public Builder setInteractions(String interactions) {
             Medicine.this.interactions = interactions;
             return this;
         }
