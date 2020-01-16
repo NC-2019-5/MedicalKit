@@ -15,7 +15,13 @@ public class MedicineServiceImpl implements MedicineService {
     private MedicineRepository medicineRepository;
 
     @Override
-    public List<Medicine> findMedicines(Pageable pageable) {
-        return medicineRepository.findAll(pageable.getPageSize(), pageable.getOffset());
+    public List<Medicine> findAllMedicines(Pageable pageable) {
+        long limit = pageable.getOffset() + pageable.getPageSize();
+        return medicineRepository.findAll(limit, pageable.getOffset());
+    }
+
+    @Override
+    public void deleteMedicine(Long id) {
+        medicineRepository.delete(id);
     }
 }
