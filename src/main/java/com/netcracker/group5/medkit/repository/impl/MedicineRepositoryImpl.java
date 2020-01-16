@@ -92,6 +92,29 @@ public class MedicineRepositoryImpl implements MedicineRepository {
     }
 
     @Override
+    public Medicine find(Long id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_medicine_object_id", id);
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("MEDICINE_PKG")
+                .withProcedureName("getMedicineObject")
+                .execute(parameterSource);
+
+        return Medicine.newBuilder()
+                .setId(((BigDecimal) result.get("p_medicine_object_id")).longValue())
+                .setName(result.get("p_medicine_name").toString())
+                .setManufacturer(result.get("p_medicine_manufacturer").toString())
+                .setProductionForm(result.get("p_medicine_prod_form").toString())
+                .setContraindications(result.get("p_medicine_contrs").toString())
+                .setInteractions(result.get("p_medicine_inters").toString())
+                .setPackageContent(result.get("p_medicine_pk_content").toString())
+                .setTakingMethod(result.get("p_medicine_taking_method").toString())
+                .setDescription(result.get("p_medicine_description").toString())
+                .build();
+    }
+
+    @Override
     public Medicine save(Medicine medicine) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_medicine_object_id", medicine.getId())
