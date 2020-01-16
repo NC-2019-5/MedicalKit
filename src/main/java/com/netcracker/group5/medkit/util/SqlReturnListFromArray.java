@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +16,7 @@ public class SqlReturnListFromArray<T> implements SqlReturnType {
 
     public static String ARRAY_OF_NUMBERS = "ARRAY_OF_NUMBERS";
     public static String ARRAY_OF_STRINGS = "ARRAY_OF_STRINGS";
+    public static String ARRAY_OF_DATES = "ARRAY_OF_DATES";
 
     private final Class<T> type;
 
@@ -51,6 +54,17 @@ public class SqlReturnListFromArray<T> implements SqlReturnType {
                 String[] medicineNames = (String[]) sqlArray.getArray();
 
                 return Arrays.asList(medicineNames);
+            }
+        } else if (oracleType.equals(ARRAY_OF_DATES)){
+            Timestamp[] arrayOfValues = (Timestamp[]) sqlArray.getArray();
+
+            if (type.isAssignableFrom(LocalDate.class)) {
+                listOfValues = new ArrayList<>(arrayOfValues.length);
+
+                for (Timestamp value : arrayOfValues) {
+                    listOfValues.add(value.toLocalDateTime().toLocalDate());
+                }
+                return listOfValues;
             }
         } else {
             throw new SQLException("Can not convert SQL type " + oracleType);
