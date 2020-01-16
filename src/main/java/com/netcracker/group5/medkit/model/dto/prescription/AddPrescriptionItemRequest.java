@@ -75,11 +75,11 @@ public class AddPrescriptionItemRequest {
         this.description = description;
     }
 
-    public boolean isReminderEnabled() {
+    public boolean getIsReminderEnabled() {
         return isReminderEnabled;
     }
 
-    public void setReminderEnabled(boolean reminderEnabled) {
-        isReminderEnabled = reminderEnabled;
+    public void setIsReminderEnabled(boolean isReminderEnabled) {
+        this.isReminderEnabled = isReminderEnabled;
     }
 }

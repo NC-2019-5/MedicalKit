@@ -186,6 +186,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                     .setTakingTime(takingTimeList.get(iterator.nextIndex()))
                     .setDescription(descriptionList.get(iterator.nextIndex()))
                     .setPrescription(prescription)
+                    .setIsReminderEnabled(Boolean.parseBoolean(isReminderEnabledList.get(iterator.nextIndex())))
                     .build();
 
             prescriptionItemList.add(prescriptionItem);
@@ -205,7 +206,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .addValue("p_pi_duration_days", prescriptionItem.getTakingDurationDays())
                 .addValue("p_pi_taking_time", prescriptionItem.getTakingTime())
                 .addValue("p_pi_description", prescriptionItem.getDescription())
-                .addValue("p_pi_is_reminder_enabled", prescriptionItem.isReminderEnabled());
+                .addValue("p_pi_is_reminder_enabled", prescriptionItem.getIsReminderEnabled());
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("PRESCRIPTION_PKG")
@@ -225,6 +226,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .setTakingDurationDays(Integer.parseInt((String) result.get("p_pi_duration_days")))
                 .setTakingTime((String) result.get("p_pi_taking_time"))
                 .setDescription((String) result.get("p_pi_description"))
+                .setIsReminderEnabled(Boolean.parseBoolean((String) result.get("p_pi_is_reminder_enabled")))
                 .build();
 
         return prescriptionItemResult;

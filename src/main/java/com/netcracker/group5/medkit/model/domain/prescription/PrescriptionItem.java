@@ -35,7 +35,7 @@ public class PrescriptionItem implements Requestable {
         this.prescription = Prescription.newBuilder()
                 .setId(addPrescriptionItemRequest.getPrescriptionId())
                 .build();
-        this.isReminderEnabled = addPrescriptionItemRequest.isReminderEnabled();
+        this.isReminderEnabled = addPrescriptionItemRequest.getIsReminderEnabled();
 
     }
 
@@ -103,11 +103,11 @@ public class PrescriptionItem implements Requestable {
         this.prescription = prescription;
     }
 
-    public boolean isReminderEnabled() {
+    public boolean getIsReminderEnabled() {
         return isReminderEnabled;
     }
 
-    public void setReminderEnabled(boolean reminderEnabled) {
+    public void setIsReminderEnabled(boolean reminderEnabled) {
         isReminderEnabled = reminderEnabled;
     }
 
