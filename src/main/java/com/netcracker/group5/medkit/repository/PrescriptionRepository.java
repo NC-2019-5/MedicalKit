@@ -18,4 +18,6 @@ public interface PrescriptionRepository {
 
     PrescriptionItem savePrescriptionItem(Long prescriptionId, PrescriptionItem prescriptionItem);
 
+    Optional<List<Long>> findActivePrescriptionItems(Long patientId);
+
 }

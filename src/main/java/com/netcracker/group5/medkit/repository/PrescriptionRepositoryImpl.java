@@ -232,4 +232,22 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
         return prescriptionItemResult;
     }
 
+    @Override
+    public Optional<List<Long>> findActivePrescriptionItems(Long patientId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_patient_id", patientId);
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("PRESCRIPTION_PKG")
+                .withProcedureName("getAllActivePrescriptionItems")
+                .declareParameters(
+                        new SqlOutParameter("p_pi_object_id_tbl", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)))
+                .execute(parameterSource);
+
+        List<Long> prescriptionItemIdList = (List<Long>) result.get("p_pi_object_id_tbl");
+
+        return Optional.of(prescriptionItemIdList);
+    }
+
 }
