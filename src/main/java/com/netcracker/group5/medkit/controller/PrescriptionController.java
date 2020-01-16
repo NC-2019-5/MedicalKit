@@ -57,9 +57,9 @@ public class PrescriptionController {
     }
 
     @PostMapping("/profile/prescription-items/add")
-    public ResponseEntity<?> addPrescriptionItem(@RequestParam("id") Long prescriptionId, @RequestBody AddPrescriptionItemRequest addPrescriptionItemRequest) {
+    public ResponseEntity<?> addPrescriptionItem(@RequestBody AddPrescriptionItemRequest addPrescriptionItemRequest) {
         PrescriptionItem prescriptionItem = new PrescriptionItem(addPrescriptionItemRequest);
-        prescriptionService.addPrescriptionItem(prescriptionId, prescriptionItem);
+        prescriptionService.addPrescriptionItem(prescriptionItem);
 
         return ResponseEntity.ok().build();
     }

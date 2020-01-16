@@ -197,9 +197,9 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
     }
 
     @Override
-    public PrescriptionItem savePrescriptionItem(Long prescriptionId, PrescriptionItem prescriptionItem) {
+    public PrescriptionItem savePrescriptionItem(PrescriptionItem prescriptionItem) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_prescription_object_id", prescriptionId)
+                .addValue("p_prescription_object_id", prescriptionItem.getPrescription().getId())
                 .addValue("p_pi_medicine_id", prescriptionItem.getMedicine().getId())
                 .addValue("p_pi_start_date", prescriptionItem.getStartDate())
                 .addValue("p_pi_end_date", prescriptionItem.getEndDate())
@@ -230,6 +230,24 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .build();
 
         return prescriptionItemResult;
+    }
+
+    @Override
+    public Optional<List<Long>> findActivePrescriptionItems(Long patientId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_patient_id", patientId);
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("PRESCRIPTION_PKG")
+                .withProcedureName("getAllActivePrescriptionItems")
+                .declareParameters(
+                        new SqlOutParameter("p_pi_object_id_tbl", OracleTypes.ARRAY,
+                                SqlReturnListFromArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)))
+                .execute(parameterSource);
+
+        List<Long> prescriptionItemIdList = (List<Long>) result.get("p_pi_object_id_tbl");
+
+        return Optional.of(prescriptionItemIdList);
     }
 
 }
