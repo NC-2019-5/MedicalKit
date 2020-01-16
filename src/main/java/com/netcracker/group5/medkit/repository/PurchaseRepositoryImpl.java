@@ -21,7 +21,10 @@ import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 @Service
 public class PurchaseRepositoryImpl implements PurchaseRepository {
@@ -35,10 +38,10 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
     }
 
     @Override
-    public Optional<List<PurchaseItem>> findPurchaseItems(Long patientId, long limit, long offset, String searchQuery) {
+    public List<PurchaseItem> findPurchaseItems(Long patientId, long limit, long offset, String searchQuery) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_patient_id", patientId)
-                .addValue("limit", offset + limit)
+                .addValue("limit", limit)
                 .addValue("offset", offset);
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
@@ -63,7 +66,7 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
         List<String> medicineNames = (List<String>) result.get("p_medicine_names");
         List<String> medicineManufacturers = (List<String>) result.get("p_medicine_manufacturers");
 
-        List<PurchaseItem> purchaseItems = new ArrayList<>();
+        List<PurchaseItem> purchaseItems = new ArrayList<>(idList.size());
         ListIterator<Long> iterator = idList.listIterator();
 
         while (iterator.hasNext()) {
@@ -82,7 +85,7 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
             purchaseItems.add(purchaseItem);
         }
 
-        return Optional.of(purchaseItems);
+        return purchaseItems;
     }
 
     @Override
