@@ -1,7 +1,10 @@
 package com.netcracker.group5.medkit.controller;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
+import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.dto.medicine.FindMedicinesResponseItem;
+import com.netcracker.group5.medkit.model.dto.medicine.MedicineInstanceRequestItem;
+import com.netcracker.group5.medkit.model.dto.medicine.MedicineRequestItem;
 import com.netcracker.group5.medkit.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -29,5 +32,11 @@ public class MedicineController {
     public ResponseEntity<?> deleteMedicine(@RequestParam Long id) {
         medicineService.deleteMedicine(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/all-medicines/add")
+    public ResponseEntity<?> createMedicine(@RequestBody MedicineRequestItem medicineRequestItem) {
+        Medicine medicine = medicineService.saveMedicine(new Medicine(medicineRequestItem));
+        return ResponseEntity.ok(medicine);
     }
 }

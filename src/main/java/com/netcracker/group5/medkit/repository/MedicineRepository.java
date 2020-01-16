@@ -8,5 +8,7 @@ import java.util.List;
 public interface MedicineRepository {
     List<Medicine> findAll(long limit, long offset);
 
+    Medicine save(Medicine medicine);
+
     void delete(Long id);
 }

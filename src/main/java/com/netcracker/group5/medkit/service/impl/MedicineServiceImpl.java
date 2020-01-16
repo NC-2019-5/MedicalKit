@@ -22,6 +22,11 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
+    public Medicine saveMedicine(Medicine medicine) {
+        return medicineRepository.save( medicine);
+    }
+
+    @Override
     public void deleteMedicine(Long id) {
         medicineRepository.delete(id);
     }
