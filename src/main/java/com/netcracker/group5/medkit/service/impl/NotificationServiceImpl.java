@@ -17,4 +17,9 @@ public class NotificationServiceImpl implements NotificationService {
     public void bulkCreateNotifications(Long userId, List<Long> prescriptionItemIdList) {
         notificationRepository.bulkCreateNotifications(userId, prescriptionItemIdList);
     }
+
+    @Override
+    public void bulkDeleteNotifications() {
+        notificationRepository.bulkDeleteNotifications();
+    }
 }

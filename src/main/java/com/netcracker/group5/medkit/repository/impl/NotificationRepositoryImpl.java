@@ -12,4 +12,9 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     public void bulkCreateNotifications(Long userId, List<Long> prescriptionItemIdList) {
 
     }
+
+    @Override
+    public void bulkDeleteNotifications() {
+
+    }
 }
