@@ -4,6 +4,7 @@ import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.User;
 import com.netcracker.group5.medkit.model.dto.user.*;
 import com.netcracker.group5.medkit.security.TokenHandler;
+import com.netcracker.group5.medkit.service.NotificationAutoGeneratorService;
 import com.netcracker.group5.medkit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private NotificationAutoGeneratorService notificationAutoGeneratorService;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginUserRequestItem requestItem) throws Exception {
         try {
@@ -38,6 +42,8 @@ public class UserController {
 
         User user = userService.getUserByEmail(requestItem.getEmail());
         String token = tokenHandler.generateToken(user);
+
+        notificationAutoGeneratorService.generateNotification();
 
         return ResponseEntity.ok(new AuthTokenResponse(token));
     }
