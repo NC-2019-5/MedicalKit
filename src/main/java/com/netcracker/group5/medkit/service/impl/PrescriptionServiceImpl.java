@@ -56,6 +56,11 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
+    public List<Long> findActivePrescriptionItems(Long patientId) {
+        return prescriptionRepository.findActivePrescriptionItems(patientId).orElse(null);
+    }
+
+    @Override
     public void addPrescriptionItem(PrescriptionItem prescriptionItem) {
         prescriptionRepository.savePrescriptionItem(prescriptionItem);
     }
