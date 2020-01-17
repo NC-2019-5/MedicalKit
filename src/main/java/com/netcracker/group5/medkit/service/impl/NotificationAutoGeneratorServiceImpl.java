@@ -25,5 +25,6 @@ public class NotificationAutoGeneratorServiceImpl implements NotificationAutoGen
         Patient patient = patientService.getPatientByUserId(userId);
 
         notificationService.bulkCreateNotifications(userId, prescriptionService.findActivePrescriptionItems(patient.getId()));
+        notificationService.bulkDeleteNotifications();
     }
 }
