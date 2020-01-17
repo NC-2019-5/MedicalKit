@@ -126,7 +126,7 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
                 .withCatalogName("PURCHASE_PKG")
                 .withProcedureName("bulkDeletePurchaseItems")
                 .declareParameters(
-                        new SqlParameter("p_purchase_item_id_array", OracleTypes.ARRAY, "ARRAY_OF_NUMBERS"))
+                        new SqlParameter("p_purchase_item_id_array", OracleTypes.ARRAY, SqlArray.ARRAY_OF_NUMBERS))
                 .execute(parameterSource);
     }
 }
