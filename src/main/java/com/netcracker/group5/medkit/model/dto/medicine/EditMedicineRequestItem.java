@@ -6,7 +6,7 @@ import javax.validation.constraints.Positive;
 
 public class EditMedicineRequestItem {
 
-    @NotNull(message = "Medicine id cannot be empty")
+    @NotNull(message = "Medicine id is mandatory")
     @Positive(message = "Medicine id must be greater than 0")
     private Long id;
 

@@ -5,11 +5,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 
-public class EditMedicineInstanceRequestItem {
-
-    @NotNull(message = "Medicine instance id is mandatory")
-    @Positive(message = "Medicine instance id must be greater than 0")
-    private long id;
+public class SaveMedicineInstanceRequestItem {
 
     @NotNull(message = "Medicine id is mandatory")
     @Positive(message = "Medicine id must be greater than 0")
@@ -22,7 +18,7 @@ public class EditMedicineInstanceRequestItem {
     @PositiveOrZero(message = "Medicine amount must be greater than 0")
     private int amount;
 
-    public EditMedicineInstanceRequestItem() {
+    public SaveMedicineInstanceRequestItem() {
     }
 
     public Long getMedicineId() {
@@ -31,14 +27,6 @@ public class EditMedicineInstanceRequestItem {
 
     public void setMedicineId(Long medicineId) {
         this.medicineId = medicineId;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public LocalDate getSelfLife() {

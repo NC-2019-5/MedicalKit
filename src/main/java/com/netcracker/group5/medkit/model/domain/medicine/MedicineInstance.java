@@ -2,7 +2,7 @@ package com.netcracker.group5.medkit.model.domain.medicine;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
 import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineInstanceRequestItem;
-import com.netcracker.group5.medkit.model.dto.medicine.MedicineInstanceRequestItem;
+import com.netcracker.group5.medkit.model.dto.medicine.SaveMedicineInstanceRequestItem;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -14,22 +14,21 @@ public class MedicineInstance implements Requestable {
     private LocalDate selfLife;
     private int amount;
 
-    public MedicineInstance(MedicineInstanceRequestItem medicineInstanceRequestItem) {
-        this.id = medicineInstanceRequestItem.getMedicineInstanceId();
+    public MedicineInstance(SaveMedicineInstanceRequestItem requestItem) {
         this.medicine = Medicine.newBuilder()
-                .setId(medicineInstanceRequestItem.getMedicineId())
+                .setId(requestItem.getMedicineId())
                 .build();
-        this.selfLife = medicineInstanceRequestItem.getSelfLife();
-        this.amount = medicineInstanceRequestItem.getAmount();
+        this.selfLife = requestItem.getSelfLife();
+        this.amount = requestItem.getAmount();
     }
 
-    public MedicineInstance(EditMedicineInstanceRequestItem editMedicineInstanceRequestItem) {
-        this.id = editMedicineInstanceRequestItem.getId();
+    public MedicineInstance(EditMedicineInstanceRequestItem requestItem) {
+        this.id = requestItem.getId();
         this.medicine = Medicine.newBuilder()
-                .setId(editMedicineInstanceRequestItem.getMedicineId())
+                .setId(requestItem.getMedicineId())
                 .build();
-        this.selfLife = editMedicineInstanceRequestItem.getSelfLife();
-        this.amount = editMedicineInstanceRequestItem.getAmount();
+        this.selfLife = requestItem.getSelfLife();
+        this.amount = requestItem.getAmount();
     }
 
     private MedicineInstance() {
