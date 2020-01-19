@@ -40,7 +40,8 @@ public class PrescriptionController {
     }
 
     @DeleteMapping("/profile/prescriptions/delete")
-    public ResponseEntity<?> deletePrescription(@Valid @RequestParam Long id) {
+    public ResponseEntity<?> deletePrescription(@Valid
+                                                @RequestParam Long id) {
         prescriptionService.deletePrescriptionWithItems(id);
 
         return ResponseEntity.ok().build();

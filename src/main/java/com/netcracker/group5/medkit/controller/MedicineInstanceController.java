@@ -38,14 +38,16 @@ public class MedicineInstanceController {
     }
 
     @PostMapping("/profile/medicine-kit/add")
-    public ResponseEntity<?> saveMedicineInstance(@Valid @RequestBody SaveMedicineInstanceRequestItem requestItem) {
+    public ResponseEntity<?> saveMedicineInstance(@Valid
+                                                  @RequestBody SaveMedicineInstanceRequestItem requestItem) {
         MedicineInstance medicineInstance = medicineInstanceService.saveMedicineInstance(new MedicineInstance(requestItem));
 
         return ResponseEntity.ok(medicineInstance);
     }
 
     @PutMapping("/profile/medicine-kit")
-    public ResponseEntity<?> editMedicineInstance(@Valid @RequestBody EditMedicineInstanceRequestItem requestItem) {
+    public ResponseEntity<?> editMedicineInstance(@Valid
+                                                  @RequestBody EditMedicineInstanceRequestItem requestItem) {
         MedicineInstance savedMedicineInstance = medicineInstanceService.saveMedicineInstance(new MedicineInstance(requestItem));
         GetMedicineInstanceResponseItem responseItem = new GetMedicineInstanceResponseItem(savedMedicineInstance);
 

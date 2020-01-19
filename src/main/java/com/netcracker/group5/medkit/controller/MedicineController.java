@@ -51,14 +51,16 @@ public class MedicineController {
     }
 
     @PostMapping("/all-medicines")
-    public ResponseEntity<?> saveMedicine(@Valid @RequestBody SaveMedicineRequestItem requestItem) {
+    public ResponseEntity<?> saveMedicine(@Valid
+                                          @RequestBody SaveMedicineRequestItem requestItem) {
         Medicine medicine = medicineService.saveMedicine(new Medicine(requestItem));
 
         return ResponseEntity.ok(medicine);
     }
 
     @PutMapping("/all-medicines")
-    public ResponseEntity<?> editMedicine(@Valid @RequestBody EditMedicineRequestItem requestItem) {
+    public ResponseEntity<?> editMedicine(@Valid
+                                          @RequestBody EditMedicineRequestItem requestItem) {
         Medicine medicine = medicineService.saveMedicine(new Medicine(requestItem));
 
         return ResponseEntity.ok(medicine);

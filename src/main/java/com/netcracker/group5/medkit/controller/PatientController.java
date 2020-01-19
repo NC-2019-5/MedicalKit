@@ -27,7 +27,8 @@ public class PatientController {
     }
 
     @PutMapping("/profile/edit")
-    public ResponseEntity<?> editPatient(@Valid @RequestBody EditPatientRequestItem requestItem) {
+    public ResponseEntity<?> editPatient(@Valid
+                                         @RequestBody EditPatientRequestItem requestItem) {
         Patient patient = new Patient(requestItem);
 
         return ResponseEntity.ok(new GetPatientResponseItem(patientService.editPatient(patient)));

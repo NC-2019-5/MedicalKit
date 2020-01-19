@@ -33,7 +33,8 @@ public class UserController {
     private NotificationAutoGeneratorService notificationAutoGeneratorService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginUserRequestItem requestItem) throws Exception {
+    public ResponseEntity<?> login(@Valid
+                                   @RequestBody LoginUserRequestItem requestItem) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestItem.getEmail(), requestItem.getPassword()));
         } catch (BadCredentialsException e) {
@@ -49,13 +50,15 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterPatientRequestItem registerPatientRequestItem) {
+    public ResponseEntity<?> registerUser(@Valid
+                                          @RequestBody RegisterPatientRequestItem registerPatientRequestItem) {
         Patient patient = (Patient) userService.registerUser(new Patient(registerPatientRequestItem));
         return ResponseEntity.ok(new RegisterPatientResponseItem(patient.getEmail()));
     }
 
     @PutMapping("/profile/change-password")
-    public ResponseEntity<?> editPassword(@Valid @RequestBody EditPasswordRequestItem requestItem) {
+    public ResponseEntity<?> editPassword(@Valid
+                                          @RequestBody EditPasswordRequestItem requestItem) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         userService.editPassword(user, requestItem.getPassword(), requestItem.getNewPassword());
