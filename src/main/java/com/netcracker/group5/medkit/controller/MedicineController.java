@@ -33,20 +33,18 @@ public class MedicineController {
     }
 
     @GetMapping("/all-medicines/{id}")
-    public ResponseEntity<?> findMedicine(
-            @NotNull(message = "Id cannot be empty")
-            @Positive(message = "Id must be greater than 0")
-            @PathVariable Long id) {
+    public ResponseEntity<?> findMedicine(@NotNull(message = "Id cannot be empty")
+                                          @Positive(message = "Id must be greater than 0")
+                                          @PathVariable Long id) {
         Medicine medicine = medicineService.findMedicine(id);
 
         return ResponseEntity.ok(medicine);
     }
 
     @DeleteMapping("/all-medicines")
-    public ResponseEntity<?> deleteMedicine(
-            @NotNull(message = "Id cannot be empty")
-            @Positive(message = "Id must be greater than 0")
-            @RequestParam Long id) {
+    public ResponseEntity<?> deleteMedicine(@NotNull(message = "Id cannot be empty")
+                                            @Positive(message = "Id must be greater than 0")
+                                            @RequestParam Long id) {
         medicineService.deleteMedicine(id);
 
         return ResponseEntity.ok().build();
