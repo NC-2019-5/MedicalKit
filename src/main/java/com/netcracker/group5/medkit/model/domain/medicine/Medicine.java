@@ -1,7 +1,8 @@
 package com.netcracker.group5.medkit.model.domain.medicine;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
-import com.netcracker.group5.medkit.model.dto.medicine.MedicineRequestItem;
+import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineRequestItem;
+import com.netcracker.group5.medkit.model.dto.medicine.SaveMedicineRequestItem;
 
 import java.util.Objects;
 
@@ -17,16 +18,27 @@ public class Medicine implements Requestable {
     private String takingMethod;
     private String description;
 
-    public Medicine(MedicineRequestItem medicineRequestItem) {
-        this.id = medicineRequestItem.getId();
-        this.name = medicineRequestItem.getName();
-        this.manufacturer = medicineRequestItem.getManufacturer();
-        this.productionForm = medicineRequestItem.getProductionForm();
-        this.contraindications = medicineRequestItem.getContraindications();
-        this.interactions = medicineRequestItem.getInteractions();
-        this.packageContent = medicineRequestItem.getPackageContent();
-        this.takingMethod = medicineRequestItem.getTakingMethod();
-        this.description = medicineRequestItem.getDescription();
+    public Medicine(EditMedicineRequestItem requestItem) {
+        this.id = requestItem.getId();
+        this.name = requestItem.getName();
+        this.manufacturer = requestItem.getManufacturer();
+        this.productionForm = requestItem.getProductionForm();
+        this.contraindications = requestItem.getContraindications();
+        this.interactions = requestItem.getInteractions();
+        this.packageContent = requestItem.getPackageContent();
+        this.takingMethod = requestItem.getTakingMethod();
+        this.description = requestItem.getDescription();
+    }
+
+    public Medicine(SaveMedicineRequestItem requestItem) {
+        this.name = requestItem.getName();
+        this.manufacturer = requestItem.getManufacturer();
+        this.productionForm = requestItem.getProductionForm();
+        this.contraindications = requestItem.getContraindications();
+        this.interactions = requestItem.getInteractions();
+        this.packageContent = requestItem.getPackageContent();
+        this.takingMethod = requestItem.getTakingMethod();
+        this.description = requestItem.getDescription();
     }
 
     public Medicine() {
