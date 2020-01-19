@@ -1,6 +1,8 @@
 package com.netcracker.group5.medkit.model.dto.medicine;
 
 public class MedicineRequestItem {
+
+    private Long id;
     private String name;
     private String manufacturer;
     private String productionForm;
@@ -77,17 +79,11 @@ public class MedicineRequestItem {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "MedicineRequestItem{" +
-                "name='" + name + '\'' +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", productionForm='" + productionForm + '\'' +
-                ", contraindications='" + contraindications + '\'' +
-                ", interactions='" + interactions + '\'' +
-                ", packageContent='" + packageContent + '\'' +
-                ", takingMethod='" + takingMethod + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
