@@ -1,12 +1,8 @@
 package com.netcracker.group5.medkit.model.domain.medicine;
 
 import com.netcracker.group5.medkit.model.domain.Requestable;
-import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineInstanceRequestItem;
-import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineRequestItem;
-import com.netcracker.group5.medkit.model.dto.medicine.MedicineInstanceRequestItem;
 import com.netcracker.group5.medkit.model.dto.medicine.MedicineRequestItem;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Medicine implements Requestable {
@@ -22,6 +18,7 @@ public class Medicine implements Requestable {
     private String description;
 
     public Medicine(MedicineRequestItem medicineRequestItem) {
+        this.id = medicineRequestItem.getId();
         this.name = medicineRequestItem.getName();
         this.manufacturer = medicineRequestItem.getManufacturer();
         this.productionForm = medicineRequestItem.getProductionForm();
@@ -30,18 +27,6 @@ public class Medicine implements Requestable {
         this.packageContent = medicineRequestItem.getPackageContent();
         this.takingMethod = medicineRequestItem.getTakingMethod();
         this.description = medicineRequestItem.getDescription();
-    }
-
-    public Medicine(EditMedicineRequestItem editMedicineRequestItem) {
-        this.id = editMedicineRequestItem.getId();
-        this.name = editMedicineRequestItem.getName();
-        this.manufacturer = editMedicineRequestItem.getManufacturer();
-        this.productionForm = editMedicineRequestItem.getProductionForm();
-        this.contraindications = editMedicineRequestItem.getContraindications();
-        this.interactions = editMedicineRequestItem.getInteractions();
-        this.packageContent = editMedicineRequestItem.getPackageContent();
-        this.takingMethod = editMedicineRequestItem.getTakingMethod();
-        this.description = editMedicineRequestItem.getDescription();
     }
 
     public Medicine() {
@@ -124,14 +109,14 @@ public class Medicine implements Requestable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Medicine medicine = (Medicine) o;
-        return id.equals(medicine.id) &&
+        return Objects.equals(id, medicine.id) &&
                 Objects.equals(name, medicine.name) &&
                 Objects.equals(manufacturer, medicine.manufacturer) &&
                 Objects.equals(productionForm, medicine.productionForm) &&
                 Objects.equals(contraindications, medicine.contraindications) &&
                 Objects.equals(interactions, medicine.interactions) &&
                 Objects.equals(packageContent, medicine.packageContent) &&
-                takingMethod.equals(medicine.takingMethod) &&
+                Objects.equals(takingMethod, medicine.takingMethod) &&
                 Objects.equals(description, medicine.description);
     }
 
@@ -148,7 +133,7 @@ public class Medicine implements Requestable {
                 ", manufacturer='" + manufacturer + '\'' +
                 ", productionForm='" + productionForm + '\'' +
                 ", contraindications='" + contraindications + '\'' +
-                ", interactions=" + interactions +
+                ", interactions='" + interactions + '\'' +
                 ", packageContent='" + packageContent + '\'' +
                 ", takingMethod='" + takingMethod + '\'' +
                 ", description='" + description + '\'' +
