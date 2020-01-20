@@ -20,7 +20,7 @@ public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
 
-    @GetMapping("/profile/purchases")
+    @GetMapping("/purchases")
     public ResponseEntity<?> findPurchaseItems(@PageableDefault Pageable pageable, @RequestParam(required = false) String searchQuery) {
         List<PurchaseItem> purchaseItems = purchaseService.findPurchaseItems(pageable, searchQuery);
         FindPurchaseItemsResponse responseItem = new FindPurchaseItemsResponse(purchaseItems);
@@ -28,7 +28,7 @@ public class PurchaseController {
         return ResponseEntity.ok(responseItem);
     }
 
-    @PostMapping("/profile/purchases")
+    @PostMapping("/purchases")
     public ResponseEntity<?> addPurchaseItem(@RequestBody AddPurchaseItemRequest addPurchaseItemRequest) {
         PurchaseItem purchaseItem = new PurchaseItem(addPurchaseItemRequest);
         purchaseService.addPurchaseItem(purchaseItem);
@@ -36,14 +36,14 @@ public class PurchaseController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/profile/purchases")
+    @DeleteMapping("/purchases")
     public ResponseEntity<?> deletePurchaseItem(@RequestParam Long id) {
         purchaseService.deletePurchaseItem(id);
 
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/profile/purchases/bulk-delete")
+    @DeleteMapping("/purchases/bulk-delete")
     public ResponseEntity<?> bulkDeletePurchaseItems(@RequestParam("id") List<Long> idList) {
         purchaseService.bulkDeletePurchaseItems(idList);
 

@@ -23,26 +23,26 @@ public class MedicineInstanceController {
     @Autowired
     private MedicineInstanceService medicineInstanceService;
 
-    @GetMapping("/profile/medicine-kit")
+    @GetMapping("/medicine-kit")
     public ResponseEntity<?> findMedicineInstances(@PageableDefault Pageable pageable, @RequestParam(required = false) String searchQuery) {
         MedicineInstanceResponseItem responseItem = new MedicineInstanceResponseItem(medicineInstanceService.findMedicineInstances(pageable, searchQuery));
         return ResponseEntity.ok(responseItem);
     }
 
-    @PostMapping("/profile/medicine-kit/add")
+    @PostMapping("/medicine-kit/add")
     public ResponseEntity<?> createMedicineInstance(@Valid @RequestBody MedicineInstanceRequestItem medicineInstanceRequestItem) {
         MedicineInstance medicineInstance = medicineInstanceService.createMedicineInstance(new MedicineInstance(medicineInstanceRequestItem));
         return ResponseEntity.ok(medicineInstance);
     }
 
-    @PutMapping("/profile/medicine-kit")
+    @PutMapping("/medicine-kit")
     public ResponseEntity<?> editMedicineInstance(@Valid @RequestBody EditMedicineInstanceRequestItem requestItem) {
         MedicineInstance medicineInstance = new MedicineInstance(requestItem);
         GetMedicineInstanceResponseItem responseItem = new GetMedicineInstanceResponseItem(medicineInstanceService.createMedicineInstance(medicineInstance));
         return ResponseEntity.ok(responseItem);
     }
 
-    @DeleteMapping("/profile/medicine-kit")
+    @DeleteMapping("/medicine-kit")
     public ResponseEntity<?> deleteMedicineInstance(@Valid @RequestParam Long id) {
         medicineInstanceService.deleteMedicineInstance(id);
         return ResponseEntity.ok().build();
