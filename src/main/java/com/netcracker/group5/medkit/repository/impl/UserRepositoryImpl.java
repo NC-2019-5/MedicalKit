@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository {
@@ -34,24 +35,6 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
     private void postConstruct() {
         setDataSource(dataSource);
         jdbcTemplate.setResultsMapCaseInsensitive(true);
-    }
-
-    @Override
-    public User findUserById(Long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_user_object_id", id);
-
-        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
-                .withCatalogName("USER_PKG")
-                .withProcedureName("getUserObject")
-                .execute(parameterSource);
-
-        return User.newUserBuilder()
-                .setId(((BigDecimal) result.get("p_user_object_id")).longValue())
-                .setEmail(result.get("p_user_email").toString())
-                .setPassword(result.get("p_user_password").toString())
-                .setRole(Role.getRoleByName((String) result.get("p_user_role")))
-                .build();
     }
 
     @Override
@@ -78,50 +61,25 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
      */
     @Override
     public User saveByRole(User user) {
-        if (user.getRole().equals(Role.PATIENT)) {
-            User savedUser = saveUser(user);
+            if (user.getRole().equals(Role.PATIENT)) {
 
-            Patient patientToBeSaved = patientRepository.findByUserId(savedUser.getId());
-            Patient editedPatient = (Patient) user;
+                Patient editedPatient = (Patient) user;
 
-            editedPatient.setPassword(savedUser.getPassword());
-            editedPatient.setRole(savedUser.getRole());
+                if (user.getId() != null) {
+                    Optional<Patient> patientToBeSaved = Optional.of(patientRepository.findById(user.getId()));
 
-            if (patientToBeSaved != null) {
-                editedPatient.setId(patientToBeSaved.getId());
-                editedPatient.setSex(patientToBeSaved.getSex());
+                    editedPatient.setId(patientToBeSaved.get().getId());
+                    editedPatient.setSex(patientToBeSaved.get().getSex());
+                    editedPatient.setPassword(patientToBeSaved.get().getPassword());
+                    editedPatient.setEmail(patientToBeSaved.get().getEmail());
+                    editedPatient.setRole(patientToBeSaved.get().getRole());
+                }
+
+                return patientRepository.save(user.getId(), editedPatient);
+
             }
 
-            Patient savedPatient = patientRepository.save(savedUser.getId(), (Patient) user);
-
-            savedPatient.setEmail(savedUser.getEmail());
-            savedPatient.setPassword(savedUser.getPassword());
-            savedPatient.setRole(savedUser.getRole());
-
-            return savedPatient;
-        }
-
-        throw new IllegalArgumentException("User role" + user.getRole() + " does not exist");
-    }
-
-    public User saveUser(User user) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_user_object_id", user.getId())
-                .addValue("p_user_email", user.getEmail())
-                .addValue("p_user_password", user.getPassword())
-                .addValue("p_user_role", user.getRole().getRoleName());
-
-        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
-                .withCatalogName("USER_PKG")
-                .withProcedureName("saveUserObject")
-                .execute(parameterSource);
-
-        return User.newUserBuilder()
-                .setId(((BigDecimal) result.get("p_user_object_id")).longValue())
-                .setEmail(result.get("p_user_email").toString())
-                .setPassword(result.get("p_user_password").toString())
-                .setRole(Role.getRoleByName((String) result.get("p_user_role")))
-                .build();
+            throw new IllegalArgumentException("User role" + user.getRole() + " does not exist");
     }
 
     @Override

@@ -44,7 +44,7 @@ public class UserController {
         User user = userService.getUserByEmail(requestItem.getEmail());
         String token = tokenHandler.generateToken(user);
 
-        notificationAutoGeneratorService.generateNotification(user.getId());
+        //notificationAutoGeneratorService.generateNotification(user.getId());
 
         return ResponseEntity.ok(new AuthTokenResponse(token));
     }
@@ -55,7 +55,6 @@ public class UserController {
         Patient patient = (Patient) userService.registerUser(new Patient(registerPatientRequestItem));
         return ResponseEntity.ok(new RegisterPatientResponseItem(patient.getEmail()));
     }
-
     @PutMapping("/profile/change-password")
     public ResponseEntity<?> editPassword(@Valid
                                           @RequestBody EditPasswordRequestItem requestItem) {
