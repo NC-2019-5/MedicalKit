@@ -16,7 +16,7 @@ public class SaveMedicineInstanceRequestItem {
 
     @NotNull(message = "Medicine amount is mandatory")
     @PositiveOrZero(message = "Medicine amount must be greater than 0")
-    private int amount;
+    private double amount;
 
     public SaveMedicineInstanceRequestItem() {
     }
@@ -37,11 +37,11 @@ public class SaveMedicineInstanceRequestItem {
         this.selfLife = selfLife;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 }
