@@ -36,7 +36,8 @@ public class PatientController {
     }
 
     @PutMapping("/profile/change-password")
-    public ResponseEntity<?> editPassword(@Valid @RequestBody EditPasswordRequestItem requestItem) {
+    public ResponseEntity<?> editPassword(@Valid
+                                          @RequestBody EditPasswordRequestItem requestItem) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         patientService.editPassword((Patient) user, requestItem.getPassword(), requestItem.getNewPassword());
