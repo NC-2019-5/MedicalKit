@@ -33,34 +33,34 @@ public class MedicineController {
     }
 
     @GetMapping("/all-medicines/{id}")
-    public ResponseEntity<?> findMedicine(
-            @NotNull(message = "Id cannot be empty")
-            @Positive(message = "Id must be greater than 0")
-            @PathVariable Long id) {
+    public ResponseEntity<?> findMedicine(@NotNull(message = "Id cannot be empty")
+                                          @Positive(message = "Id must be greater than 0")
+                                          @PathVariable Long id) {
         Medicine medicine = medicineService.findMedicine(id);
 
         return ResponseEntity.ok(medicine);
     }
 
     @DeleteMapping("/all-medicines")
-    public ResponseEntity<?> deleteMedicine(
-            @NotNull(message = "Id cannot be empty")
-            @Positive(message = "Id must be greater than 0")
-            @RequestParam Long id) {
+    public ResponseEntity<?> deleteMedicine(@NotNull(message = "Id cannot be empty")
+                                            @Positive(message = "Id must be greater than 0")
+                                            @RequestParam Long id) {
         medicineService.deleteMedicine(id);
 
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/all-medicines")
-    public ResponseEntity<?> saveMedicine(@Valid @RequestBody SaveMedicineRequestItem requestItem) {
+    public ResponseEntity<?> saveMedicine(@Valid
+                                          @RequestBody SaveMedicineRequestItem requestItem) {
         Medicine medicine = medicineService.saveMedicine(new Medicine(requestItem));
 
         return ResponseEntity.ok(medicine);
     }
 
     @PutMapping("/all-medicines")
-    public ResponseEntity<?> editMedicine(@Valid @RequestBody EditMedicineRequestItem requestItem) {
+    public ResponseEntity<?> editMedicine(@Valid
+                                          @RequestBody EditMedicineRequestItem requestItem) {
         Medicine medicine = medicineService.saveMedicine(new Medicine(requestItem));
 
         return ResponseEntity.ok(medicine);

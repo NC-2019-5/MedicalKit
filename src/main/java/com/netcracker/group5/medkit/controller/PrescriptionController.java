@@ -2,7 +2,6 @@ package com.netcracker.group5.medkit.controller;
 
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
-import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
 import com.netcracker.group5.medkit.model.dto.prescription.AddPrescriptionItemRequest;
 import com.netcracker.group5.medkit.model.dto.prescription.AddPrescriptionRequest;
 import com.netcracker.group5.medkit.model.dto.prescription.FindPrescriptionItemsResponse;
@@ -12,21 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
-@Controller
+@RestController
 public class PrescriptionController {
 
     @Autowired
     private PrescriptionService prescriptionService;
 
     @GetMapping("/profile/prescriptions")
-    public ResponseEntity<?> findPrescriptionsByPatientId(@PageableDefault Pageable pageable){
+    public ResponseEntity<?> findPrescriptionsByPatientId(@PageableDefault Pageable pageable) {
         List<Prescription> prescriptions = prescriptionService.findPrescriptionsByPatientId(pageable);
         FindPrescriptionsResponse prescriptionsResponse = new FindPrescriptionsResponse(prescriptions);
 
@@ -42,14 +40,15 @@ public class PrescriptionController {
     }
 
     @DeleteMapping("/profile/prescriptions/delete")
-    public ResponseEntity<?> deletePrescription(@Valid @RequestParam Long id) {
+    public ResponseEntity<?> deletePrescription(@Valid
+                                                @RequestParam Long id) {
         prescriptionService.deletePrescriptionWithItems(id);
 
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/profile/prescription-items")
-    public ResponseEntity<?> findPrescriptionItemsByPrescriptionId(@PageableDefault Pageable pageable, @RequestParam("id") Long prescriptionId){
+    public ResponseEntity<?> findPrescriptionItemsByPrescriptionId(@PageableDefault Pageable pageable, @RequestParam("id") Long prescriptionId) {
         List<PrescriptionItem> prescriptionItems = prescriptionService.findPrescriptionItemsByPrescriptionId(pageable, prescriptionId);
         FindPrescriptionItemsResponse prescriptionItemsResponse = new FindPrescriptionItemsResponse(prescriptionItems);
 
