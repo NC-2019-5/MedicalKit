@@ -1,5 +1,7 @@
 package com.netcracker.group5.medkit.service;
 
+import com.netcracker.group5.medkit.model.domain.request.Notification;
+
 import java.util.List;
 
 public interface NotificationService {
@@ -8,5 +10,5 @@ public interface NotificationService {
 
     void bulkDeleteNotifications();
 
-    void autoDecrementMI();
+    void autoDecrementMI(Notification confirmedNotification);
 }

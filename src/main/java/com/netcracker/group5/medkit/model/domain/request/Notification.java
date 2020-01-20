@@ -14,10 +14,10 @@ public class Notification {
     private PrescriptionItem prescriptionItem;
     private String message;
 
-    private Notification() {
+    public Notification() {
     }
 
-    private Notification(NotificationRequestItem requestItem) {
+    public Notification(NotificationRequestItem requestItem) {
         this.id = requestItem.getId();
         this.userId = requestItem.getId();
         this.type = requestItem.getType();
