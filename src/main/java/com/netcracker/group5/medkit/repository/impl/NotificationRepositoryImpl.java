@@ -48,4 +48,15 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 .withProcedureName("deleteAllReminders")
                 .execute();
     }
+
+    @Override
+    public void deleteNotification(Long id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("(p_n_object_id", id);
+
+        new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("NOTIFICATIONS_PKG")
+                .withProcedureName("deletePINotification")
+                .execute(parameterSource);
+    }
 }
