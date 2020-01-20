@@ -7,4 +7,6 @@ public interface NotificationService {
     void bulkCreateNotifications(Long userId, List<Long> prescriptionItemIdList);
 
     void bulkDeleteNotifications();
+
+    void autoDecrementMI();
 }

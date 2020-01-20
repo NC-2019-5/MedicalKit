@@ -22,4 +22,9 @@ public class NotificationServiceImpl implements NotificationService {
     public void bulkDeleteNotifications() {
         notificationRepository.bulkDeleteNotifications();
     }
+
+    @Override
+    public void autoDecrementMI() {
+
+    }
 }
