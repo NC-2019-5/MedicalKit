@@ -33,14 +33,13 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Patient getPatientByUserId(Long id) {
-        User user = userRepository.findUserById(id);
-        Patient patient = patientRepository.findByUserId(id);
-
-        patient.setEmail(user.getEmail());
-        patient.setPassword(user.getPassword());
-        patient.setRole(user.getRole());
-
-        return patient;
+    public void editPassword(Patient patient, String oldPassword, String newPassword) {
+        if (oldPassword.equals(patient.getPassword())) {
+            patient.setPassword(newPassword);
+            patientRepository.save(patient.getId(), patient);
+        } else {
+            throw new IllegalArgumentException("Incorrect password");
+        }
     }
+
 }

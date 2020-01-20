@@ -108,6 +108,14 @@ public class AddPrescriptionItemRequest {
         this.isReminderEnabled = isReminderEnabled;
     }
 
+    public boolean isReminderEnabled() {
+        return isReminderEnabled;
+    }
+
+    public void setReminderEnabled(boolean reminderEnabled) {
+        isReminderEnabled = reminderEnabled;
+    }
+
     public double getDosage() {
         return dosage;
     }

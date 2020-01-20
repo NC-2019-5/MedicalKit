@@ -2,6 +2,7 @@ package com.netcracker.group5.medkit.controller;
 
 import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.User;
+import com.netcracker.group5.medkit.model.dto.user.EditPasswordRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.EditPatientRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.GetPatientResponseItem;
 import com.netcracker.group5.medkit.service.PatientService;
@@ -23,7 +24,7 @@ public class PatientController {
     public ResponseEntity<?> getPatient() {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        return ResponseEntity.ok(new GetPatientResponseItem(patientService.getPatientByUserId(currentUser.getId())));
+        return ResponseEntity.ok(new GetPatientResponseItem(patientService.getPatient(currentUser.getId())));
     }
 
     @PutMapping("/profile/edit")
@@ -32,5 +33,14 @@ public class PatientController {
         Patient patient = new Patient(requestItem);
 
         return ResponseEntity.ok(new GetPatientResponseItem(patientService.editPatient(patient)));
+    }
+
+    @PutMapping("/profile/change-password")
+    public ResponseEntity<?> editPassword(@Valid
+                                          @RequestBody EditPasswordRequestItem requestItem) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        patientService.editPassword((Patient) user, requestItem.getPassword(), requestItem.getNewPassword());
+        return ResponseEntity.ok().build();
     }
 }

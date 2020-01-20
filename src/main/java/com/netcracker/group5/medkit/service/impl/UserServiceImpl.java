@@ -50,13 +50,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByEmail(email);
     }
 
-    @Override
-    public void editPassword(User user, String oldPassword, String newPassword) {
-        if (oldPassword.equals(user.getPassword())) {
-            user.setPassword(newPassword);
-            userRepository.saveUser(user);
-        } else {
-            throw new IllegalArgumentException("Incorrect password");
-        }
-    }
 }

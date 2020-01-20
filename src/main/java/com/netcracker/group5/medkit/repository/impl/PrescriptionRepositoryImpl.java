@@ -54,6 +54,8 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                                 SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_prescription_doctor_name_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_prescription_doctor_sn_tbl", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_rn_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Integer.class)))
                 .execute(parameterSource);
@@ -63,6 +65,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
         List<LocalDate> prescriptionDateList = (List<LocalDate>) result.get("p_prescription_date_tbl");
         List<Long> doctorIdList = (List<Long>) result.get("p_prescription_doctor_id_tbl");
         List<String> doctorNameList = (List<String>) result.get("p_prescription_doctor_name_tbl");
+        List<String> doctorSurnameList = (List<String>) result.get("p_prescription_doctor_sn_tbl");
 
         List<Prescription> prescriptionList = new ArrayList<>();
         ListIterator<Long> iterator = prescriptionIdList.listIterator();
@@ -71,6 +74,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
             Doctor doctor = Doctor.newBuilder()
                     .setId(doctorIdList.get(iterator.nextIndex()))
                     .setName(doctorNameList.get(iterator.nextIndex()))
+                    .setSurname(doctorSurnameList.get(iterator.nextIndex()))
                     .build();
 
             Prescription prescription = Prescription.newBuilder()

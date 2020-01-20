@@ -1,13 +1,16 @@
 package com.netcracker.group5.medkit.model.dto.user;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 public class EditPasswordRequestItem {
 
-    @NotBlank
+    @NotBlank(message = "Password is mandatory")
+    @Size(min = 3, message = "Password is too short")
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "Password is mandatory")
+    @Size(min = 3, message = "Password is too short")
     private String newPassword;
 
     public EditPasswordRequestItem() {

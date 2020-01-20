@@ -7,5 +7,4 @@ public interface PatientRepository {
 
     Patient findById(Long id);
 
-    Patient findByUserId(Long id);
 }
