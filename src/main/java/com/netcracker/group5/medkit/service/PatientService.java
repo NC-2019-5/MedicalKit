@@ -8,5 +8,5 @@ public interface PatientService {
 
     Patient editPatient(Patient patient);
 
-    void editPassword(Patient user, String oldPassword, String newPassword);
+    void editPassword(User user, String oldPassword, String newPassword);
 }
