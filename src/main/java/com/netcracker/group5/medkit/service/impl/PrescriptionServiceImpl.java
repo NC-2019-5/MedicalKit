@@ -26,20 +26,18 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     @Override
     public List<Prescription> findPrescriptionsByPatientId(Pageable pageable) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Patient patient = patientRepository.findByUserId(currentUser.getId());
 
         long limit = pageable.getOffset() + pageable.getPageSize();
 
-        return prescriptionRepository.findPrescriptionsByPatientId(patient.getId(), limit, pageable.getOffset())
+        return prescriptionRepository.findPrescriptionsByPatientId(currentUser.getId(), limit, pageable.getOffset())
                 .orElse(null);
     }
 
     @Override
     public void addPrescription(Prescription prescription) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Patient patient = patientRepository.findByUserId(currentUser.getId());
 
-        prescriptionRepository.save(patient.getId(), prescription);
+        prescriptionRepository.save(currentUser.getId(), prescription);
     }
 
     @Override

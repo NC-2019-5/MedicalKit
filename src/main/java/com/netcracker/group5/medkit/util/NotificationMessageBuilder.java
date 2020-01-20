@@ -19,7 +19,7 @@ public class NotificationMessageBuilder {
 
     public String buildMessage(Notification notification) {
         if (notification.getType().equals(NotificationType.REMINDER)) {
-            String userName = patientService.getPatientByUserId(notification.getUserId()).getName();
+            String userName = patientService.getPatient(notification.getUserId()).getName();
             String medicineName = notification.getPrescriptionItem().getMedicine().getName();
 
             return templateReminder

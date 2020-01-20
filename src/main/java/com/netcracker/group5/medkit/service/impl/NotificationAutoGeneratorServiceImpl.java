@@ -22,9 +22,8 @@ public class NotificationAutoGeneratorServiceImpl implements NotificationAutoGen
 
     @Override
     public void generateNotification(Long userId) {
-        Patient patient = patientService.getPatientByUserId(userId);
 
-        notificationService.bulkCreateNotifications(userId, prescriptionService.findActivePrescriptionItems(patient.getId()));
+        notificationService.bulkCreateNotifications(userId, prescriptionService.findActivePrescriptionItems(userId));
         notificationService.bulkDeleteNotifications();
     }
 }

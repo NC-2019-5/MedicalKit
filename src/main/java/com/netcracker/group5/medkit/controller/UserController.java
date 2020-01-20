@@ -43,7 +43,7 @@ public class UserController {
         User user = userService.getUserByEmail(requestItem.getEmail());
         String token = tokenHandler.generateToken(user);
 
-        notificationAutoGeneratorService.generateNotification(user.getId());
+        //notificationAutoGeneratorService.generateNotification(user.getId());
 
         return ResponseEntity.ok(new AuthTokenResponse(token));
     }
@@ -54,11 +54,4 @@ public class UserController {
         return ResponseEntity.ok(new RegisterPatientResponseItem(patient.getEmail()));
     }
 
-    @PutMapping("/profile/change-password")
-    public ResponseEntity<?> editPassword(@Valid @RequestBody EditPasswordRequestItem requestItem) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        userService.editPassword(user, requestItem.getPassword(), requestItem.getNewPassword());
-        return ResponseEntity.ok().build();
-    }
 }

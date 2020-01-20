@@ -14,6 +14,7 @@ public class AddPrescriptionItemRequest {
     private String takingTime;
     private String description;
     private boolean isReminderEnabled;
+    private double dosage;
 
     public AddPrescriptionItemRequest(){
 
@@ -81,5 +82,21 @@ public class AddPrescriptionItemRequest {
 
     public void setIsReminderEnabled(boolean isReminderEnabled) {
         this.isReminderEnabled = isReminderEnabled;
+    }
+
+    public boolean isReminderEnabled() {
+        return isReminderEnabled;
+    }
+
+    public void setReminderEnabled(boolean reminderEnabled) {
+        isReminderEnabled = reminderEnabled;
+    }
+
+    public double getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(double dosage) {
+        this.dosage = dosage;
     }
 }

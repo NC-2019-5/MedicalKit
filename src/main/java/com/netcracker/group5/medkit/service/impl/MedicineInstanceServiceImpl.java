@@ -25,18 +25,16 @@ public class MedicineInstanceServiceImpl implements MedicineInstanceService {
     @Override
     public List<MedicineInstance> findMedicineInstances(Pageable pageable, String searchQuery) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Patient patient = patientRepository.findByUserId(currentUser.getId());
         long limit = pageable.getOffset() + pageable.getPageSize();
 
-        return medicineInstanceRepository.findMedicineInstances(patient.getId(), limit, pageable.getOffset(), searchQuery).orElse(null);
+        return medicineInstanceRepository.findMedicineInstances(currentUser.getId(), limit, pageable.getOffset(), searchQuery).orElse(null);
     }
 
     @Override
     public MedicineInstance createMedicineInstance(MedicineInstance medicineInstance) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Patient patient = patientRepository.findByUserId(currentUser.getId());
 
-        return medicineInstanceRepository.save(patient.getId(), medicineInstance);
+        return medicineInstanceRepository.save(currentUser.getId(), medicineInstance);
     }
 
     @Override
