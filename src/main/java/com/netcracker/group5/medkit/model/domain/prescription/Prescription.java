@@ -23,7 +23,6 @@ public class Prescription implements Requestable {
     }
 
     public Prescription(AddPrescriptionRequest prescriptionRequest) {
-        this.id = prescriptionRequest.getPrescriptionId();
         this.name = prescriptionRequest.getName();
         this.date = prescriptionRequest.getDate();
         this.doctor = Doctor.newBuilder()

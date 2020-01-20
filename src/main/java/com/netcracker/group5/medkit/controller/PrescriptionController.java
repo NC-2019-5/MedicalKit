@@ -11,11 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
+@Validated
 @CrossOrigin
 @RestController
 public class PrescriptionController {
@@ -32,7 +36,8 @@ public class PrescriptionController {
     }
 
     @PostMapping("/profile/prescriptions/add")
-    public ResponseEntity<?> addPrescription(@RequestBody AddPrescriptionRequest addPrescriptionRequest) {
+    public ResponseEntity<?> addPrescription(@Valid
+                                             @RequestBody AddPrescriptionRequest addPrescriptionRequest) {
         Prescription prescription = new Prescription(addPrescriptionRequest);
         prescriptionService.addPrescription(prescription);
 
@@ -40,7 +45,8 @@ public class PrescriptionController {
     }
 
     @DeleteMapping("/profile/prescriptions/delete")
-    public ResponseEntity<?> deletePrescription(@Valid
+    public ResponseEntity<?> deletePrescription(@NotNull(message = "Id can not be empty")
+                                                @Positive(message = "Id must be greater than 0")
                                                 @RequestParam Long id) {
         prescriptionService.deletePrescriptionWithItems(id);
 
@@ -56,7 +62,8 @@ public class PrescriptionController {
     }
 
     @PostMapping("/profile/prescription-items/add")
-    public ResponseEntity<?> addPrescriptionItem(@RequestBody AddPrescriptionItemRequest addPrescriptionItemRequest) {
+    public ResponseEntity<?> addPrescriptionItem(@Valid
+                                                 @RequestBody AddPrescriptionItemRequest addPrescriptionItemRequest) {
         PrescriptionItem prescriptionItem = new PrescriptionItem(addPrescriptionItemRequest);
         prescriptionService.addPrescriptionItem(prescriptionItem);
 
