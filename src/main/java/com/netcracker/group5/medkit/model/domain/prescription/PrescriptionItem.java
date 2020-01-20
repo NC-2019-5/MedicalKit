@@ -19,6 +19,7 @@ public class PrescriptionItem implements Requestable {
     private String description;
     private Prescription prescription;
     private boolean isReminderEnabled;
+    private double dosage;
 
     public PrescriptionItem() {
     }
@@ -36,6 +37,7 @@ public class PrescriptionItem implements Requestable {
                 .setId(addPrescriptionItemRequest.getPrescriptionId())
                 .build();
         this.isReminderEnabled = addPrescriptionItemRequest.getIsReminderEnabled();
+        this.dosage = addPrescriptionItemRequest.getDosage();
 
     }
 
@@ -111,6 +113,14 @@ public class PrescriptionItem implements Requestable {
         isReminderEnabled = reminderEnabled;
     }
 
+    public double getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(double dosage) {
+        this.dosage = dosage;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -118,18 +128,19 @@ public class PrescriptionItem implements Requestable {
         PrescriptionItem that = (PrescriptionItem) o;
         return takingDurationDays == that.takingDurationDays &&
                 isReminderEnabled == that.isReminderEnabled &&
-                id.equals(that.id) &&
-                medicine.equals(that.medicine) &&
-                startDate.equals(that.startDate) &&
-                endDate.equals(that.endDate) &&
-                takingTime.equals(that.takingTime) &&
-                description.equals(that.description) &&
-                prescription.equals(that.prescription);
+                Double.compare(that.dosage, dosage) == 0 &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(medicine, that.medicine) &&
+                Objects.equals(startDate, that.startDate) &&
+                Objects.equals(endDate, that.endDate) &&
+                Objects.equals(takingTime, that.takingTime) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(prescription, that.prescription);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, medicine, startDate, endDate, takingDurationDays, takingTime, description, prescription, isReminderEnabled);
+        return Objects.hash(id, medicine, startDate, endDate, takingDurationDays, takingTime, description, prescription, isReminderEnabled, dosage);
     }
 
     @Override
@@ -144,6 +155,7 @@ public class PrescriptionItem implements Requestable {
                 ", description='" + description + '\'' +
                 ", prescription=" + prescription +
                 ", isReminderEnabled=" + isReminderEnabled +
+                ", dosage=" + dosage +
                 '}';
     }
 
@@ -198,6 +210,11 @@ public class PrescriptionItem implements Requestable {
 
         public Builder setIsReminderEnabled(boolean isReminderEnabled){
             PrescriptionItem.this.isReminderEnabled = isReminderEnabled;
+            return this;
+        }
+
+        public Builder setDosage(double dosage){
+            PrescriptionItem.this.dosage = dosage;
             return this;
         }
 

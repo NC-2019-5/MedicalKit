@@ -1,5 +1,6 @@
 package com.netcracker.group5.medkit.service.impl;
 
+import com.netcracker.group5.medkit.model.domain.request.Notification;
 import com.netcracker.group5.medkit.repository.NotificationRepository;
 import com.netcracker.group5.medkit.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,10 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void bulkDeleteNotifications() {
         notificationRepository.bulkDeleteNotifications();
+    }
+
+    @Override
+    public void autoDecrementMI(Notification confirmedNotification) {
+
     }
 }

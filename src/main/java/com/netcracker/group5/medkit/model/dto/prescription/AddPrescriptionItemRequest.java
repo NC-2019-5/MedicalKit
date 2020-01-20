@@ -38,6 +38,8 @@ public class AddPrescriptionItemRequest {
     @NotNull(message = "Field isReminderEnabled is mandatory")
     private Boolean isReminderEnabled;
 
+    private double dosage;
+
     public AddPrescriptionItemRequest(){
 
     }
@@ -104,5 +106,13 @@ public class AddPrescriptionItemRequest {
 
     public void setIsReminderEnabled(Boolean isReminderEnabled) {
         this.isReminderEnabled = isReminderEnabled;
+    }
+
+    public double getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(double dosage) {
+        this.dosage = dosage;
     }
 }
