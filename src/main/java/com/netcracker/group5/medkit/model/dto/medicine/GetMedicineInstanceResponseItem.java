@@ -12,7 +12,7 @@ public class GetMedicineInstanceResponseItem {
     private Long id;
     private Medicine medicine;
     private LocalDate selfLife;
-    private int amount;
+    private double amount;
 
     public GetMedicineInstanceResponseItem() {
     }
@@ -48,11 +48,11 @@ public class GetMedicineInstanceResponseItem {
         this.selfLife = selfLife;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 }

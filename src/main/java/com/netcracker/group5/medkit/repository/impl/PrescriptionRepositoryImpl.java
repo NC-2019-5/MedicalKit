@@ -152,6 +152,8 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                                 SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_pi_is_reminder_enabled_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_pi_dosage_tbl", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_rn_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Integer.class)))
                 .execute(parameterSource);
@@ -165,6 +167,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
         List<String> takingTimeList = (List<String>) result.get("p_pi_taking_time_tbl");
         List<String> descriptionList = (List<String>) result.get("p_pi_description_tbl");
         List<String> isReminderEnabledList = (List<String>) result.get("p_pi_is_reminder_enabled_tbl");
+        List<Double> dosageList = (List<Double>) result.get("p_pi_dosage_tbl");
 
         List<PrescriptionItem> prescriptionItemList = new ArrayList<>();
         ListIterator<Long> iterator = prescriptionItemIdList.listIterator();
@@ -189,6 +192,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                     .setDescription(descriptionList.get(iterator.nextIndex()))
                     .setPrescription(prescription)
                     .setIsReminderEnabled(Boolean.parseBoolean(isReminderEnabledList.get(iterator.nextIndex())))
+                    .setDosage(dosageList.get(iterator.nextIndex()))
                     .build();
 
             prescriptionItemList.add(prescriptionItem);
@@ -208,7 +212,8 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .addValue("p_pi_duration_days", prescriptionItem.getTakingDurationDays())
                 .addValue("p_pi_taking_time", prescriptionItem.getTakingTime())
                 .addValue("p_pi_description", prescriptionItem.getDescription())
-                .addValue("p_pi_is_reminder_enabled", prescriptionItem.getIsReminderEnabled());
+                .addValue("p_pi_is_reminder_enabled", prescriptionItem.getIsReminderEnabled())
+                .addValue("p_pi_dosage", prescriptionItem.getDosage());
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("PRESCRIPTION_PKG")
@@ -229,6 +234,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .setTakingTime((String) result.get("p_pi_taking_time"))
                 .setDescription((String) result.get("p_pi_description"))
                 .setIsReminderEnabled(Boolean.parseBoolean((String) result.get("p_pi_is_reminder_enabled")))
+                .setDosage(((BigDecimal) result.get("p_pi_dosage")).doubleValue())
                 .build();
 
         return prescriptionItemResult;

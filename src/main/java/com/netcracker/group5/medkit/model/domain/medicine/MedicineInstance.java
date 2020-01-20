@@ -12,7 +12,7 @@ public class MedicineInstance implements Requestable {
     private Long id;
     private Medicine medicine;
     private LocalDate selfLife;
-    private int amount;
+    private double amount;
 
     public MedicineInstance(SaveMedicineInstanceRequestItem requestItem) {
         this.medicine = Medicine.newBuilder()
@@ -58,11 +58,11 @@ public class MedicineInstance implements Requestable {
         this.selfLife = selfLife;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -105,7 +105,7 @@ public class MedicineInstance implements Requestable {
             return this;
         }
 
-        public Builder setAmount(int amount) {
+        public Builder setAmount(double amount) {
             MedicineInstance.this.amount = amount;
             return this;
         }
