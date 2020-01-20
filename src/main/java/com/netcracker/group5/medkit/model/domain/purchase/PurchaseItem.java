@@ -15,7 +15,6 @@ public class PurchaseItem {
     }
 
     public PurchaseItem(AddPurchaseItemRequest request) {
-        this.id = request.getPurchaseItemId();
         this.medicine = Medicine.newBuilder()
                 .setId(request.getMedicineId())
                 .build();

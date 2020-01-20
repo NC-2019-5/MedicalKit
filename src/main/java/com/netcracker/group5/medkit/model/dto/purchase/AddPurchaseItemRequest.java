@@ -1,20 +1,20 @@
 package com.netcracker.group5.medkit.model.dto.purchase;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+
 public class AddPurchaseItemRequest {
 
-    private Long purchaseItemId;
+    @NotNull(message = "Medicine id is mandatory")
+    @Positive(message = "Medicine id must be greater than 0")
     private Long medicineId;
-    private int amount;
+
+    @NotNull(message = "Medicine amount is mandatory")
+    @PositiveOrZero(message = "Medicine amount must be greater than 0")
+    private Integer amount;
 
     public AddPurchaseItemRequest() {
-    }
-
-    public Long getPurchaseItemId() {
-        return purchaseItemId;
-    }
-
-    public void setPurchaseItemId(Long purchaseItemId) {
-        this.purchaseItemId = purchaseItemId;
     }
 
     public Long getMedicineId() {
@@ -29,7 +29,7 @@ public class AddPurchaseItemRequest {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 }
