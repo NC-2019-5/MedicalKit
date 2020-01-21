@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface MedicineService {
-    List<Medicine> findAllMedicines(Pageable pageable);
+    List<Medicine> findAllMedicines(Pageable pageable, String searchQuery);
 
     Medicine saveMedicine(Medicine medicine);
 

@@ -30,7 +30,7 @@ public class MedicineInstanceController {
     @GetMapping("/profile/medicine-kit")
     public ResponseEntity<?> findMedicineInstances(@PageableDefault Pageable pageable,
                                                    @Size(max = 256, message = "Search query is too long")
-                                                   @RequestParam(required = false) String searchQuery) {
+                                                   @RequestParam(name = "query", required = false) String searchQuery) {
         List<MedicineInstance> medicineInstances = medicineInstanceService.findMedicineInstances(pageable, searchQuery);
         MedicineInstanceResponseItem responseItem = new MedicineInstanceResponseItem(medicineInstances);
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Validated
@@ -26,8 +27,10 @@ public class MedicineController {
     private MedicineService medicineService;
 
     @GetMapping("/all-medicines")
-    public ResponseEntity<?> findAllMedicines(@PageableDefault Pageable pageable) {
-        List<Medicine> medicines = medicineService.findAllMedicines(pageable);
+    public ResponseEntity<?> findAllMedicines(@PageableDefault Pageable pageable,
+                                              @Size(max = 256, message = "Search query is too long")
+                                              @RequestParam(name = "query", required = false) String searchQuery) {
+        List<Medicine> medicines = medicineService.findAllMedicines(pageable, searchQuery);
 
         return ResponseEntity.ok(new FindMedicinesResponseItem(medicines));
     }
