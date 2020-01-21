@@ -11,7 +11,5 @@ public interface PurchaseService {
 
     void addPurchaseItem(PurchaseItem purchaseItem);
 
-    void deletePurchaseItem(Long id);
-
     void bulkDeletePurchaseItems(List<Long> idList);
 }

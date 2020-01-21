@@ -1,9 +1,7 @@
 package com.netcracker.group5.medkit.service.impl;
 
 import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
-import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.User;
-import com.netcracker.group5.medkit.repository.PatientRepository;
 import com.netcracker.group5.medkit.repository.PurchaseRepository;
 import com.netcracker.group5.medkit.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +17,6 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Autowired
     private PurchaseRepository purchaseRepository;
 
-    @Autowired
-    private PatientRepository patientRepository;
-
     @Override
     public List<PurchaseItem> findPurchaseItems(Pageable pageable, String searchQuery) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -36,11 +31,6 @@ public class PurchaseServiceImpl implements PurchaseService {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         purchaseRepository.save(currentUser.getId(), purchaseItem);
-    }
-
-    @Override
-    public void deletePurchaseItem(Long id) {
-        purchaseRepository.removePurchaseItem(id);
     }
 
     @Override
