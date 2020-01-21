@@ -7,6 +7,7 @@ import com.netcracker.group5.medkit.model.dto.prescription.AddPrescriptionReques
 import com.netcracker.group5.medkit.model.dto.prescription.FindPrescriptionItemsResponse;
 import com.netcracker.group5.medkit.model.dto.prescription.FindPrescriptionsResponse;
 import com.netcracker.group5.medkit.service.PrescriptionService;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,12 +23,19 @@ import java.util.List;
 @Validated
 @CrossOrigin
 @RestController
+@Api(value = "prescriptions")
 public class PrescriptionController {
 
     @Autowired
     private PrescriptionService prescriptionService;
 
     @GetMapping("/profile/prescriptions")
+    @ApiOperation(value = "FindPrescriptionsByPatientId")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> findPrescriptionsByPatientId(@PageableDefault Pageable pageable) {
         List<Prescription> prescriptions = prescriptionService.findPrescriptionsByPatientId(pageable);
         FindPrescriptionsResponse prescriptionsResponse = new FindPrescriptionsResponse(prescriptions);
@@ -36,6 +44,12 @@ public class PrescriptionController {
     }
 
     @PostMapping("/profile/prescriptions/add")
+    @ApiOperation(value = "AddPrescription")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> addPrescription(@Valid
                                              @RequestBody AddPrescriptionRequest addPrescriptionRequest) {
         Prescription prescription = new Prescription(addPrescriptionRequest);
@@ -45,6 +59,12 @@ public class PrescriptionController {
     }
 
     @DeleteMapping("/profile/prescriptions/delete")
+    @ApiOperation(value = "DeletePrescription")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> deletePrescription(@NotNull(message = "Id can not be empty")
                                                 @Positive(message = "Id must be greater than 0")
                                                 @RequestParam Long id) {
@@ -54,6 +74,12 @@ public class PrescriptionController {
     }
 
     @GetMapping("/profile/prescription-items")
+    @ApiOperation(value = "FindPrescriptionItemsByPrescriptionId")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> findPrescriptionItemsByPrescriptionId(@PageableDefault Pageable pageable, @RequestParam("id") Long prescriptionId) {
         List<PrescriptionItem> prescriptionItems = prescriptionService.findPrescriptionItemsByPrescriptionId(pageable, prescriptionId);
         FindPrescriptionItemsResponse prescriptionItemsResponse = new FindPrescriptionItemsResponse(prescriptionItems);
@@ -62,6 +88,12 @@ public class PrescriptionController {
     }
 
     @PostMapping("/profile/prescription-items/add")
+    @ApiOperation(value = "AddPrescriptionItem")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> addPrescriptionItem(@Valid
                                                  @RequestBody AddPrescriptionItemRequest addPrescriptionItemRequest) {
         PrescriptionItem prescriptionItem = new PrescriptionItem(addPrescriptionItemRequest);

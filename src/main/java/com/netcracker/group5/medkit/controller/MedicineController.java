@@ -5,6 +5,10 @@ import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineRequestItem;
 import com.netcracker.group5.medkit.model.dto.medicine.FindMedicinesResponseItem;
 import com.netcracker.group5.medkit.model.dto.medicine.SaveMedicineRequestItem;
 import com.netcracker.group5.medkit.service.MedicineService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -20,12 +24,17 @@ import java.util.List;
 @Validated
 @CrossOrigin
 @RestController
+@Api(value = "all-medicines")
 public class MedicineController {
 
     @Autowired
     private MedicineService medicineService;
 
     @GetMapping("/all-medicines")
+    @ApiOperation(value = "FindAllMedicines")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "OK")
+    })
     public ResponseEntity<?> findAllMedicines(@PageableDefault Pageable pageable) {
         List<Medicine> medicines = medicineService.findAllMedicines(pageable);
 
@@ -33,6 +42,10 @@ public class MedicineController {
     }
 
     @GetMapping("/all-medicines/{id}")
+    @ApiOperation(value = "FindMedicine")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "OK")
+    })
     public ResponseEntity<?> findMedicine(@NotNull(message = "Id cannot be empty")
                                           @Positive(message = "Id must be greater than 0")
                                           @PathVariable Long id) {
@@ -42,6 +55,10 @@ public class MedicineController {
     }
 
     @DeleteMapping("/all-medicines")
+    @ApiOperation(value = "DeleteMedicine")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "OK")
+    })
     public ResponseEntity<?> deleteMedicine(@NotNull(message = "Id cannot be empty")
                                             @Positive(message = "Id must be greater than 0")
                                             @RequestParam Long id) {
@@ -51,6 +68,10 @@ public class MedicineController {
     }
 
     @PostMapping("/all-medicines")
+    @ApiOperation(value = "SaveMedicine")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "OK")
+    })
     public ResponseEntity<?> saveMedicine(@Valid
                                           @RequestBody SaveMedicineRequestItem requestItem) {
         Medicine medicine = medicineService.saveMedicine(new Medicine(requestItem));
@@ -59,6 +80,10 @@ public class MedicineController {
     }
 
     @PutMapping("/all-medicines")
+    @ApiOperation(value = "EditMedicine")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "OK")
+    })
     public ResponseEntity<?> editMedicine(@Valid
                                           @RequestBody EditMedicineRequestItem requestItem) {
         Medicine medicine = medicineService.saveMedicine(new Medicine(requestItem));
