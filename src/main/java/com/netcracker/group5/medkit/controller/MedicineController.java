@@ -2,7 +2,6 @@ package com.netcracker.group5.medkit.controller;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineRequestItem;
-import com.netcracker.group5.medkit.model.dto.medicine.FindMedicinesResponseItem;
 import com.netcracker.group5.medkit.model.dto.medicine.SaveMedicineRequestItem;
 import com.netcracker.group5.medkit.service.MedicineService;
 import io.swagger.annotations.Api;
