@@ -37,5 +37,6 @@ public class NotificationServiceImpl implements NotificationService {
             medicineInstanceService.saveMedicineInstance(medicineInstance);
             notificationRepository.deleteNotification(confirmedNotification.getId());
         }
+        throw new IllegalArgumentException();
     }
 }
