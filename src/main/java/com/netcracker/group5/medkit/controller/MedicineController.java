@@ -19,7 +19,6 @@ import java.util.List;
 
 @Validated
 @CrossOrigin
-@RestController
 public class MedicineController {
 
     @Autowired
