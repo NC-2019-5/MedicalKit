@@ -6,6 +6,7 @@ import com.netcracker.group5.medkit.model.dto.medicine.GetMedicineInstanceRespon
 import com.netcracker.group5.medkit.model.dto.medicine.MedicineInstanceResponseItem;
 import com.netcracker.group5.medkit.model.dto.medicine.SaveMedicineInstanceRequestItem;
 import com.netcracker.group5.medkit.service.MedicineInstanceService;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,12 +25,19 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/medicine-kit")
+@Api(value = "medicine-kit")
 public class MedicineInstanceController {
 
     @Autowired
     private MedicineInstanceService medicineInstanceService;
 
     @GetMapping
+    @ApiOperation(value = "FindAllMedicines")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> findMedicineInstances(@PageableDefault Pageable pageable,
                                                    @Size(max = 256, message = "Search query is too long")
                                                    @RequestParam(name = "query", required = false) String searchQuery) {
@@ -40,6 +48,12 @@ public class MedicineInstanceController {
     }
 
     @PostMapping
+    @ApiOperation(value = "SaveMedicineInstance")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> saveMedicineInstance(@Valid
                                                   @RequestBody SaveMedicineInstanceRequestItem requestItem) {
         MedicineInstance medicineInstance = medicineInstanceService.saveMedicineInstance(new MedicineInstance(requestItem));
@@ -50,6 +64,12 @@ public class MedicineInstanceController {
     }
 
     @PutMapping
+    @ApiOperation(value = "EditMedicineInstance")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> editMedicineInstance(@Valid
                                                   @RequestBody EditMedicineInstanceRequestItem requestItem) {
         MedicineInstance savedMedicineInstance = medicineInstanceService.saveMedicineInstance(new MedicineInstance(requestItem));
@@ -59,6 +79,12 @@ public class MedicineInstanceController {
     }
 
     @DeleteMapping
+    @ApiOperation(value = "DeleteMedicineInstance")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> deleteMedicineInstance(@NotNull(message = "Id cannot be empty")
                                                     @Positive(message = "Id must be greater than 0")
                                                     @RequestParam Long id) {

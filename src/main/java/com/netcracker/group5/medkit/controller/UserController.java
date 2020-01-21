@@ -9,6 +9,10 @@ import com.netcracker.group5.medkit.model.dto.user.RegisterPatientResponseItem;
 import com.netcracker.group5.medkit.security.TokenHandler;
 import com.netcracker.group5.medkit.service.NotificationAutoGeneratorService;
 import com.netcracker.group5.medkit.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +28,7 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
+@Api(value = "user")
 public class UserController {
 
     @Autowired
@@ -39,6 +44,10 @@ public class UserController {
     private NotificationAutoGeneratorService notificationAutoGeneratorService;
 
     @PostMapping("/login")
+    @ApiOperation(value = "Login")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
     public ResponseEntity<?> login(@Valid
                                    @RequestBody LoginUserRequestItem requestItem) throws Exception {
         try {
@@ -56,6 +65,10 @@ public class UserController {
     }
 
     @PostMapping("/register")
+    @ApiOperation(value = "RegisterUser")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
     public ResponseEntity<?> registerUser(@Valid
                                           @RequestBody RegisterPatientRequestItem registerPatientRequestItem) {
         Patient patient = (Patient) userService.registerUser(new Patient(registerPatientRequestItem));
