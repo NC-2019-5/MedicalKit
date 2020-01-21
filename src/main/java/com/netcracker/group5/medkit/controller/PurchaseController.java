@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @Api(value = "purchases")
-@RequestMapping("/purchases")
+@RequestMapping("/api/purchases")
 public class PurchaseController {
 
     @Autowired

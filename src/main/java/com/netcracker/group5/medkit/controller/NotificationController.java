@@ -14,7 +14,7 @@ import javax.validation.Valid;
 @Validated
 @CrossOrigin
 @RestController
-@RequestMapping("/notification")
+@RequestMapping("/api/notification")
 @Api(value = "notification")
 public class NotificationController {
 

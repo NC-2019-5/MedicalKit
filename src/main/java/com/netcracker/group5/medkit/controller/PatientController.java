@@ -17,12 +17,13 @@ import javax.validation.Valid;
 @CrossOrigin
 @RestController
 @Api(value = "account")
+@RequestMapping("api/")
 public class PatientController {
 
     @Autowired
     private PatientService patientService;
 
-    @GetMapping("/profile/account")
+    @GetMapping("account")
     @ApiOperation(value = "GetPatient")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
