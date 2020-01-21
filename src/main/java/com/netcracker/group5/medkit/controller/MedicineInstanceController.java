@@ -9,6 +9,7 @@ import com.netcracker.group5.medkit.service.MedicineInstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class MedicineInstanceController {
     @Autowired
     private MedicineInstanceService medicineInstanceService;
 
-    @GetMapping("/profile/medicine-kit")
+    @GetMapping("/medicine-kit")
     public ResponseEntity<?> findMedicineInstances(@PageableDefault Pageable pageable,
                                                    @Size(max = 256, message = "Search query is too long")
                                                    @RequestParam(required = false) String searchQuery) {
@@ -37,15 +38,17 @@ public class MedicineInstanceController {
         return ResponseEntity.ok(responseItem);
     }
 
-    @PostMapping("/profile/medicine-kit/add")
+    @PostMapping("/medicine-kit")
     public ResponseEntity<?> saveMedicineInstance(@Valid
                                                   @RequestBody SaveMedicineInstanceRequestItem requestItem) {
         MedicineInstance medicineInstance = medicineInstanceService.saveMedicineInstance(new MedicineInstance(requestItem));
 
-        return ResponseEntity.ok(medicineInstance);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(medicineInstance);
     }
 
-    @PutMapping("/profile/medicine-kit")
+    @PutMapping("/medicine-kit")
     public ResponseEntity<?> editMedicineInstance(@Valid
                                                   @RequestBody EditMedicineInstanceRequestItem requestItem) {
         MedicineInstance savedMedicineInstance = medicineInstanceService.saveMedicineInstance(new MedicineInstance(requestItem));
@@ -54,7 +57,7 @@ public class MedicineInstanceController {
         return ResponseEntity.ok(responseItem);
     }
 
-    @DeleteMapping("/profile/medicine-kit")
+    @DeleteMapping("/medicine-kit")
     public ResponseEntity<?> deleteMedicineInstance(@NotNull(message = "Id cannot be empty")
                                                     @Positive(message = "Id must be greater than 0")
                                                     @RequestParam Long id) {

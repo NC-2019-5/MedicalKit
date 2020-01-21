@@ -7,6 +7,7 @@ import com.netcracker.group5.medkit.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
 
-    @GetMapping("/profile/purchases")
+    @GetMapping("/purchases")
     public ResponseEntity<?> findPurchaseItems(@PageableDefault Pageable pageable, @RequestParam(required = false) String searchQuery) {
         List<PurchaseItem> purchaseItems = purchaseService.findPurchaseItems(pageable, searchQuery);
         FindPurchaseItemsResponse responseItem = new FindPurchaseItemsResponse(purchaseItems);
@@ -33,16 +34,18 @@ public class PurchaseController {
         return ResponseEntity.ok(responseItem);
     }
 
-    @PostMapping("/profile/purchases")
+    @PostMapping("/purchases")
     public ResponseEntity<?> addPurchaseItem(@Valid
                                              @RequestBody AddPurchaseItemRequest addPurchaseItemRequest) {
         PurchaseItem purchaseItem = new PurchaseItem(addPurchaseItemRequest);
         purchaseService.addPurchaseItem(purchaseItem);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .build();
     }
 
-    @DeleteMapping("/profile/purchases")
+    @DeleteMapping("/purchases")
     public ResponseEntity<?> deletePurchaseItem(@NotNull(message = "Id can not be empty")
                                                 @Positive(message = "Id must be greater than 0")
                                                 @RequestParam Long id) {
@@ -51,7 +54,7 @@ public class PurchaseController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/profile/purchases/bulk-delete")
+    @DeleteMapping("/purchases/bulk-delete")
     public ResponseEntity<?> bulkDeletePurchaseItems(@RequestParam("id")
                                                      @NotEmpty(message = "Input id list of purchase items can not be empty")
                                                                  List<Long> idList) {

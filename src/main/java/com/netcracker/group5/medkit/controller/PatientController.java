@@ -19,14 +19,14 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
-    @GetMapping("/profile/account")
+    @GetMapping("/account")
     public ResponseEntity<?> getPatient() {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         return ResponseEntity.ok(new GetPatientResponseItem(patientService.getPatientByUserId(currentUser.getId())));
     }
 
-    @PutMapping("/profile/edit")
+    @PutMapping("/account")
     public ResponseEntity<?> editPatient(@Valid
                                          @RequestBody EditPatientRequestItem requestItem) {
         Patient patient = new Patient(requestItem);
