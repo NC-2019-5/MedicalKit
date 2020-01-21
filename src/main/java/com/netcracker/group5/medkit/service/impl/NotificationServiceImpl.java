@@ -17,7 +17,7 @@ public class NotificationServiceImpl implements NotificationService {
     private NotificationRepository notificationRepository;
 
     @Autowired
-    private MedicineInstanceService medicineInstanceService ;
+    private MedicineInstanceService medicineInstanceService;
 
     @Override
     public void bulkCreateNotifications(Long userId, List<Long> prescriptionItemIdList) {
@@ -32,7 +32,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void autoDecrementMI(Notification confirmedNotification) {
         MedicineInstance medicineInstance = confirmedNotification.getMedicineInstance();
-        if(medicineInstance.getAmount() >= confirmedNotification.getPrescriptionItem().getDosage()){
+        if (medicineInstance.getAmount() >= confirmedNotification.getPrescriptionItem().getDosage()) {
             medicineInstance.setAmount(medicineInstance.getAmount() - confirmedNotification.getPrescriptionItem().getDosage());
             medicineInstanceService.saveMedicineInstance(medicineInstance);
             notificationRepository.deleteNotification(confirmedNotification.getId());
