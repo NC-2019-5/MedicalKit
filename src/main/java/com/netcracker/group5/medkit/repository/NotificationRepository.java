@@ -6,4 +6,6 @@ public interface NotificationRepository {
     void bulkCreateNotifications(Long userId, List<Long> prescriptionItemIdList);
 
     void bulkDeleteNotifications();
+
+    void deleteNotification(Long id);
 }

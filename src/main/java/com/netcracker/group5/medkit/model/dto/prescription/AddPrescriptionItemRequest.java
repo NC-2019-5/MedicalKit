@@ -1,19 +1,45 @@
 package com.netcracker.group5.medkit.model.dto.prescription;
 
-import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
 public class AddPrescriptionItemRequest {
 
+    @NotNull(message = "Prescription id is mandatory")
+    @Positive(message = "Prescription id must be greater than 0")
     private Long prescriptionId;
+
+    @NotNull(message = "Medicine id is mandatory")
+    @Positive(message = "Medicine id must be greater than 0")
     private Long medicineId;
+
+    @NotNull(message = "Prescription start date is mandatory")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate startDate;
+
+    @NotNull(message = "Prescription end date is mandatory")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate endDate;
+
+    @NotNull(message = "Prescription taking duration days can not be empty")
+    @Positive(message = "Prescription taking duration days must be at least 1 day")
     private int takingDurationDays;
+
+    @NotBlank(message = "Prescription taking time can not be empty")
     private String takingTime;
+
+    @NotBlank(message = "Prescription description can not be empty")
     private String description;
-    private boolean isReminderEnabled;
+
+    @NotNull(message = "Field isReminderEnabled is mandatory")
+    private Boolean isReminderEnabled;
+
+    @NotNull(message = "Medicine dosage is mandatory")
+    @Positive(message = "Medicine dosage must be greater than 0")
     private double dosage;
 
     public AddPrescriptionItemRequest(){
@@ -80,7 +106,7 @@ public class AddPrescriptionItemRequest {
         return isReminderEnabled;
     }
 
-    public void setIsReminderEnabled(boolean isReminderEnabled) {
+    public void setIsReminderEnabled(Boolean isReminderEnabled) {
         this.isReminderEnabled = isReminderEnabled;
     }
 

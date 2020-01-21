@@ -1,23 +1,26 @@
 package com.netcracker.group5.medkit.model.dto.prescription;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
 public class AddPrescriptionRequest {
 
-    private Long prescriptionId;
+    @NotBlank(message = "Prescription name can not be empty")
     private String name;
+
+    @NotNull(message = "Prescription date is mandatory")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate date;
+
+    @NotNull(message = "Doctor id is mandatory")
+    @Positive(message = "Doctor id must be greater than 0")
     private Long doctorId;
 
     public AddPrescriptionRequest() {
-    }
-
-    public Long getPrescriptionId() {
-        return prescriptionId;
-    }
-
-    public void setPrescriptionId(Long prescriptionId) {
-        this.prescriptionId = prescriptionId;
     }
 
     public String getName() {
