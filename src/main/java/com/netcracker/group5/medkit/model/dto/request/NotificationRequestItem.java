@@ -4,6 +4,7 @@ import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
 import com.netcracker.group5.medkit.model.domain.request.NotificationType;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
@@ -12,11 +13,24 @@ public class NotificationRequestItem {
     @NotNull(message = "Notification id is mandatory")
     @Positive(message = "Notification id must be greater than 0")
     private Long id;
+
+    @NotNull(message = "User id is mandatory")
+    @Positive(message = "User id must be greater than 0")
     private Long userId;
+
+    @NotBlank(message = "Notification type can not be empty")
     private NotificationType type;
+
+    @NotBlank(message = "Notification remind time can not be empty")
     private String remindTime;
+
+    @NotBlank(message = "Medicine instance in notification can not be empty")
     private MedicineInstance medicineInstance;
+
+    @NotBlank(message = "Prescription item in notification can not be empty")
     private PrescriptionItem prescriptionItem;
+
+    @NotBlank(message = "Notification message can not be empty")
     private String message;
 
     public NotificationRequestItem(){
