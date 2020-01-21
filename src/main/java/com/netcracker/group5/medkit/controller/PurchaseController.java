@@ -2,7 +2,6 @@ package com.netcracker.group5.medkit.controller;
 
 import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
 import com.netcracker.group5.medkit.model.dto.purchase.AddPurchaseItemRequest;
-import com.netcracker.group5.medkit.model.dto.purchase.FindPurchaseItemsResponse;
 import com.netcracker.group5.medkit.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -28,9 +27,8 @@ public class PurchaseController {
     @GetMapping
     public ResponseEntity<?> findPurchaseItems(@PageableDefault Pageable pageable, @RequestParam(required = false) String searchQuery) {
         List<PurchaseItem> purchaseItems = purchaseService.findPurchaseItems(pageable, searchQuery);
-        FindPurchaseItemsResponse responseItem = new FindPurchaseItemsResponse(purchaseItems);
 
-        return ResponseEntity.ok(responseItem);
+        return ResponseEntity.ok(purchaseItems);
     }
 
     @PostMapping

@@ -35,7 +35,7 @@ public class MedicineController {
                                               @RequestParam(name = "query", required = false) String searchQuery) {
         List<Medicine> medicines = medicineService.findAllMedicines(pageable, searchQuery);
 
-        return ResponseEntity.ok(new FindMedicinesResponseItem(medicines));
+        return ResponseEntity.ok(medicines);
     }
 
     @GetMapping("/{id}")
