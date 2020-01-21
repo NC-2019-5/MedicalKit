@@ -38,6 +38,8 @@ public class AddPrescriptionItemRequest {
     @NotNull(message = "Field isReminderEnabled is mandatory")
     private Boolean isReminderEnabled;
 
+    @NotNull(message = "Medicine dosage is mandatory")
+    @Positive(message = "Medicine dosage must be greater than 0")
     private double dosage;
 
     public AddPrescriptionItemRequest(){
