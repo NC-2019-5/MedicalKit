@@ -1,13 +1,17 @@
 package com.netcracker.group5.medkit.model.dto.user;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 public class LoginUserRequestItem {
 
     @NotBlank
+    @Email
     private String email;
 
     @NotBlank
+    @Size(min = 3, message = "Password is too short (3 characters min)")
     private String password;
 
     public LoginUserRequestItem() {

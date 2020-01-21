@@ -6,11 +6,11 @@ import javax.validation.constraints.Size;
 public class EditPasswordRequestItem {
 
     @NotBlank(message = "Password is mandatory")
-    @Size(min = 3, message = "Password is too short")
+    @Size(min = 3, message = "Old password is too short (3 characters min)")
     private String password;
 
     @NotBlank(message = "Password is mandatory")
-    @Size(min = 3, message = "Password is too short")
+    @Size(min = 3, message = " New password is too short (3 characters min)")
     private String newPassword;
 
     public EditPasswordRequestItem() {
