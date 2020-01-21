@@ -43,7 +43,7 @@ public class UserController {
         User user = userService.getUserByEmail(requestItem.getEmail());
         String token = tokenHandler.generateToken(user);
 
-        //notificationAutoGeneratorService.generateNotification(user.getId());
+        notificationAutoGeneratorService.generateNotification(user.getId());
 
         return ResponseEntity.ok(new AuthTokenResponse(token));
     }

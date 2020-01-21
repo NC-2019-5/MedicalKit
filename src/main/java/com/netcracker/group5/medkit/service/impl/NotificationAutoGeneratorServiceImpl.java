@@ -24,6 +24,6 @@ public class NotificationAutoGeneratorServiceImpl implements NotificationAutoGen
     public void generateNotification(Long userId) {
 
         notificationService.bulkCreateNotifications(userId, prescriptionService.findActivePrescriptionItems(userId));
-        notificationService.bulkDeleteNotifications();
+       // notificationService.bulkDeleteNotifications();
     }
 }
