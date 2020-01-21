@@ -23,12 +23,13 @@ import java.util.List;
 @Validated
 @CrossOrigin
 @RestController
+@RequestMapping("/prescriptions")
 public class PrescriptionController {
 
     @Autowired
     private PrescriptionService prescriptionService;
 
-    @GetMapping("/prescriptions")
+    @GetMapping
     public ResponseEntity<?> findPrescriptionsByPatientId(@PageableDefault Pageable pageable) {
         List<Prescription> prescriptions = prescriptionService.findPrescriptionsByPatientId(pageable);
         FindPrescriptionsResponse prescriptionsResponse = new FindPrescriptionsResponse(prescriptions);
@@ -36,7 +37,7 @@ public class PrescriptionController {
         return ResponseEntity.ok(prescriptionsResponse);
     }
 
-    @PostMapping("/prescriptions")
+    @PostMapping
     public ResponseEntity<?> addPrescription(@Valid
                                              @RequestBody AddPrescriptionRequest addPrescriptionRequest) {
         Prescription prescription = new Prescription(addPrescriptionRequest);
@@ -47,7 +48,7 @@ public class PrescriptionController {
                 .build();
     }
 
-    @DeleteMapping("/prescriptions")
+    @DeleteMapping
     public ResponseEntity<?> deletePrescription(@NotNull(message = "Id can not be empty")
                                                 @Positive(message = "Id must be greater than 0")
                                                 @RequestParam Long id) {
@@ -56,15 +57,18 @@ public class PrescriptionController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/prescription-items")
-    public ResponseEntity<?> findPrescriptionItemsByPrescriptionId(@PageableDefault Pageable pageable, @RequestParam("id") Long prescriptionId) {
+    @GetMapping("/items/{id}")
+    public ResponseEntity<?> findPrescriptionItemsByPrescriptionId(@PageableDefault Pageable pageable,
+                                                                   @NotNull(message = "Id can not be empty")
+                                                                   @Positive(message = "Id must be greater than 0")
+                                                                   @PathVariable("id") Long prescriptionId) {
         List<PrescriptionItem> prescriptionItems = prescriptionService.findPrescriptionItemsByPrescriptionId(pageable, prescriptionId);
         FindPrescriptionItemsResponse prescriptionItemsResponse = new FindPrescriptionItemsResponse(prescriptionItems);
 
         return ResponseEntity.ok(prescriptionItemsResponse);
     }
 
-    @PostMapping("/prescription-items")
+    @PostMapping("/items")
     public ResponseEntity<?> addPrescriptionItem(@Valid
                                                  @RequestBody AddPrescriptionItemRequest addPrescriptionItemRequest) {
         PrescriptionItem prescriptionItem = new PrescriptionItem(addPrescriptionItemRequest);

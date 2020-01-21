@@ -19,15 +19,17 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+
 @Validated
 @CrossOrigin
 @RestController
+@RequestMapping("/all-medicines")
 public class MedicineController {
 
     @Autowired
     private MedicineService medicineService;
 
-    @GetMapping("/all-medicines")
+    @GetMapping
     public ResponseEntity<?> findAllMedicines(@PageableDefault Pageable pageable,
                                               @Size(max = 256, message = "Search query is too long")
                                               @RequestParam(name = "query", required = false) String searchQuery) {
@@ -36,7 +38,7 @@ public class MedicineController {
         return ResponseEntity.ok(new FindMedicinesResponseItem(medicines));
     }
 
-    @GetMapping("/all-medicines/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> findMedicine(@NotNull(message = "Id cannot be empty")
                                           @Positive(message = "Id must be greater than 0")
                                           @PathVariable Long id) {
@@ -45,7 +47,7 @@ public class MedicineController {
         return ResponseEntity.ok(medicine);
     }
 
-    @DeleteMapping("/all-medicines")
+    @DeleteMapping
     public ResponseEntity<?> deleteMedicine(@NotNull(message = "Id cannot be empty")
                                             @Positive(message = "Id must be greater than 0")
                                             @RequestParam Long id) {
@@ -54,7 +56,7 @@ public class MedicineController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/all-medicines")
+    @PostMapping
     public ResponseEntity<?> saveMedicine(@Valid
                                           @RequestBody SaveMedicineRequestItem requestItem) {
         Medicine medicine = medicineService.saveMedicine(new Medicine(requestItem));
@@ -64,7 +66,7 @@ public class MedicineController {
                 .body(medicine);
     }
 
-    @PutMapping("/all-medicines")
+    @PutMapping
     public ResponseEntity<?> editMedicine(@Valid
                                           @RequestBody EditMedicineRequestItem requestItem) {
         Medicine medicine = medicineService.saveMedicine(new Medicine(requestItem));

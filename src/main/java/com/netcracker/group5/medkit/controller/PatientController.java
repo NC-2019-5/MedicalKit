@@ -15,19 +15,20 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/account")
 public class PatientController {
 
     @Autowired
     private PatientService patientService;
 
-    @GetMapping("/account")
+    @GetMapping
     public ResponseEntity<?> getPatient() {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         return ResponseEntity.ok(new GetPatientResponseItem(patientService.getPatient(currentUser.getId())));
     }
 
-    @PutMapping("/account")
+    @PutMapping
     public ResponseEntity<?> editPatient(@Valid
                                          @RequestBody EditPatientRequestItem requestItem) {
         Patient patient = new Patient(requestItem);
@@ -35,7 +36,7 @@ public class PatientController {
         return ResponseEntity.ok(new GetPatientResponseItem(patientService.editPatient(patient)));
     }
 
-    @PutMapping("/profile/change-password")
+    @PutMapping("/change-password")
     public ResponseEntity<?> editPassword(@Valid
                                           @RequestBody EditPasswordRequestItem requestItem) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

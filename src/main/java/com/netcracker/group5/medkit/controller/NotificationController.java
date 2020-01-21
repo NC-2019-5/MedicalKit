@@ -6,10 +6,7 @@ import com.netcracker.group5.medkit.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -17,14 +14,15 @@ import javax.validation.Valid;
 @Validated
 @CrossOrigin
 @RestController
+@RequestMapping("/notification")
 public class NotificationController {
 
     @Autowired
     private NotificationService notificationService;
 
-    @PutMapping("/notification")
+    @PutMapping
     public ResponseEntity<?> autoDecrementMI(@Valid
-                                             @RequestBody NotificationRequestItem requestItem){
+                                             @RequestBody NotificationRequestItem requestItem) {
         notificationService.autoDecrementMI(new Notification(requestItem));
 
         return ResponseEntity.ok().build();

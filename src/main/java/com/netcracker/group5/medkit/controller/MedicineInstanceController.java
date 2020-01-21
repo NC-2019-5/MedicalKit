@@ -23,12 +23,13 @@ import java.util.List;
 @Validated
 @CrossOrigin
 @RestController
+@RequestMapping("/medicine-kit")
 public class MedicineInstanceController {
 
     @Autowired
     private MedicineInstanceService medicineInstanceService;
 
-    @GetMapping("/medicine-kit")
+    @GetMapping
     public ResponseEntity<?> findMedicineInstances(@PageableDefault Pageable pageable,
                                                    @Size(max = 256, message = "Search query is too long")
                                                    @RequestParam(name = "query", required = false) String searchQuery) {
@@ -38,7 +39,7 @@ public class MedicineInstanceController {
         return ResponseEntity.ok(responseItem);
     }
 
-    @PostMapping("/medicine-kit")
+    @PostMapping
     public ResponseEntity<?> saveMedicineInstance(@Valid
                                                   @RequestBody SaveMedicineInstanceRequestItem requestItem) {
         MedicineInstance medicineInstance = medicineInstanceService.saveMedicineInstance(new MedicineInstance(requestItem));
@@ -48,7 +49,7 @@ public class MedicineInstanceController {
                 .body(medicineInstance);
     }
 
-    @PutMapping("/medicine-kit")
+    @PutMapping
     public ResponseEntity<?> editMedicineInstance(@Valid
                                                   @RequestBody EditMedicineInstanceRequestItem requestItem) {
         MedicineInstance savedMedicineInstance = medicineInstanceService.saveMedicineInstance(new MedicineInstance(requestItem));
@@ -57,7 +58,7 @@ public class MedicineInstanceController {
         return ResponseEntity.ok(responseItem);
     }
 
-    @DeleteMapping("/medicine-kit")
+    @DeleteMapping
     public ResponseEntity<?> deleteMedicineInstance(@NotNull(message = "Id cannot be empty")
                                                     @Positive(message = "Id must be greater than 0")
                                                     @RequestParam Long id) {

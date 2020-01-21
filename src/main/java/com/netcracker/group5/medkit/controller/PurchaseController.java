@@ -14,19 +14,18 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Validated
 @CrossOrigin
 @RestController
+@RequestMapping("/purchases")
 public class PurchaseController {
 
     @Autowired
     private PurchaseService purchaseService;
 
-    @GetMapping("/purchases")
+    @GetMapping
     public ResponseEntity<?> findPurchaseItems(@PageableDefault Pageable pageable, @RequestParam(required = false) String searchQuery) {
         List<PurchaseItem> purchaseItems = purchaseService.findPurchaseItems(pageable, searchQuery);
         FindPurchaseItemsResponse responseItem = new FindPurchaseItemsResponse(purchaseItems);
@@ -34,7 +33,7 @@ public class PurchaseController {
         return ResponseEntity.ok(responseItem);
     }
 
-    @PostMapping("/purchases")
+    @PostMapping
     public ResponseEntity<?> addPurchaseItem(@Valid
                                              @RequestBody AddPurchaseItemRequest addPurchaseItemRequest) {
         PurchaseItem purchaseItem = new PurchaseItem(addPurchaseItemRequest);
@@ -45,19 +44,9 @@ public class PurchaseController {
                 .build();
     }
 
-    @DeleteMapping("/purchases")
-    public ResponseEntity<?> deletePurchaseItem(@NotNull(message = "Id can not be empty")
-                                                @Positive(message = "Id must be greater than 0")
-                                                @RequestParam Long id) {
-        purchaseService.deletePurchaseItem(id);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/purchases/bulk-delete")
-    public ResponseEntity<?> bulkDeletePurchaseItems(@RequestParam("id")
-                                                     @NotEmpty(message = "Input id list of purchase items can not be empty")
-                                                                 List<Long> idList) {
+    @DeleteMapping
+    public ResponseEntity<?> bulkDeletePurchaseItems(@NotEmpty(message = "Input id list of purchase items can not be empty")
+                                                     @RequestParam("id") List<Long> idList) {
         purchaseService.bulkDeletePurchaseItems(idList);
 
         return ResponseEntity.ok().build();
