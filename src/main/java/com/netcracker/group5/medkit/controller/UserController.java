@@ -10,6 +10,7 @@ import com.netcracker.group5.medkit.security.TokenHandler;
 import com.netcracker.group5.medkit.service.NotificationAutoGeneratorService;
 import com.netcracker.group5.medkit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -58,6 +59,8 @@ public class UserController {
     public ResponseEntity<?> registerUser(@Valid
                                           @RequestBody RegisterPatientRequestItem registerPatientRequestItem) {
         Patient patient = (Patient) userService.registerUser(new Patient(registerPatientRequestItem));
-        return ResponseEntity.ok(new RegisterPatientResponseItem(patient.getEmail()));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new RegisterPatientResponseItem(patient.getEmail()));
     }
 }
