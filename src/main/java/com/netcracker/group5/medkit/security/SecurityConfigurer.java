@@ -41,9 +41,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .antMatcher("/swagger-ui.html/**")
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-                ;
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
