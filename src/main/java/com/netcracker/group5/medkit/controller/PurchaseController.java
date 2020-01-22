@@ -2,6 +2,7 @@ package com.netcracker.group5.medkit.controller;
 
 import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
 import com.netcracker.group5.medkit.model.dto.purchase.AddPurchaseItemRequest;
+import com.netcracker.group5.medkit.model.dto.purchase.EditPurchaseItemRequest;
 import com.netcracker.group5.medkit.service.PurchaseService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,11 +50,26 @@ public class PurchaseController {
     public ResponseEntity<?> addPurchaseItem(@Valid
                                              @RequestBody AddPurchaseItemRequest addPurchaseItemRequest) {
         PurchaseItem purchaseItem = new PurchaseItem(addPurchaseItemRequest);
-        purchaseService.addPurchaseItem(purchaseItem);
+        purchaseService.savePurchaseItem(purchaseItem);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
+    }
+
+    @PutMapping
+    @ApiOperation(value = "EditPurchaseItem")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
+    public ResponseEntity<?> editPurchaseItem(@Valid
+                                              @RequestBody EditPurchaseItemRequest request) {
+        PurchaseItem purchaseItem = new PurchaseItem(request);
+        purchaseService.savePurchaseItem(purchaseItem);
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping

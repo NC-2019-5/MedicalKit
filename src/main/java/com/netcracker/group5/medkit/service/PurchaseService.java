@@ -9,7 +9,7 @@ import java.util.List;
 public interface PurchaseService {
     List<PurchaseItem> findPurchaseItems(Pageable pageable, String searchQuery);
 
-    void addPurchaseItem(PurchaseItem purchaseItem);
+    void savePurchaseItem(PurchaseItem purchaseItem);
 
     void bulkDeletePurchaseItems(List<Long> idList);
 }
