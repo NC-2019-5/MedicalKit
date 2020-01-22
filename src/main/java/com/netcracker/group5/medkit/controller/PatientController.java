@@ -50,7 +50,7 @@ public class PatientController {
         return ResponseEntity.ok(new GetPatientResponseItem(patientService.editPatient(patient)));
     }
 
-    @PutMapping("/change-password")
+
     @ApiOperation(value = "EditPassword")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
@@ -61,7 +61,7 @@ public class PatientController {
                                           @RequestBody EditPasswordRequestItem requestItem) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        patientService.editPassword((Patient) user, requestItem.getPassword(), requestItem.getNewPassword());
+        patientService.editPassword(user, requestItem.getPassword(), requestItem.getNewPassword());
         return ResponseEntity.ok().build();
     }
 }

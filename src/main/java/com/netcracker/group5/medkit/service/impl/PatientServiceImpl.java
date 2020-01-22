@@ -7,6 +7,7 @@ import com.netcracker.group5.medkit.repository.UserRepository;
 import com.netcracker.group5.medkit.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,9 @@ public class PatientServiceImpl implements PatientService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Patient getPatient(Long id) {
@@ -33,9 +37,10 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public void editPassword(Patient patient, String oldPassword, String newPassword) {
-        if (oldPassword.equals(patient.getPassword())) {
-            patient.setPassword(newPassword);
+    public void editPassword(User user, String oldPassword, String newPassword) {
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+            Patient patient = patientRepository.findById(user.getId());
+            patient.setPassword(passwordEncoder.encode(newPassword));
             patientRepository.save(patient.getId(), patient);
         } else {
             throw new IllegalArgumentException("Incorrect password");

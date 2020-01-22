@@ -44,6 +44,14 @@ public class SqlReturnListFromArray<T> implements SqlReturnType {
                 }
 
                 return listOfValues;
+            } else if (type.isAssignableFrom(Double.class)) {
+                listOfValues = new ArrayList<>(arrayOfValues.length);
+
+                for (BigDecimal value : arrayOfValues) {
+                    listOfValues.add(value.doubleValue());
+                }
+
+                return listOfValues;
             }
         } else if (oracleType.equals(SqlArray.ARRAY_OF_STRINGS)) {
             if (type.isAssignableFrom(String.class)) {
