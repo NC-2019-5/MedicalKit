@@ -33,10 +33,11 @@ public class MedicineRepositoryImpl implements MedicineRepository {
     }
 
     @Override
-    public List<Medicine> findAll(long limit, long offset) {
+    public List<Medicine> findAll(long limit, long offset, String searchQuery) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("limit", limit)
-                .addValue("offset", offset);
+                .addValue("offset", offset)
+                .addValue("searchQuery", searchQuery);
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("MEDICINE_PKG")

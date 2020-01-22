@@ -11,6 +11,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,13 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @Api(value = "prescriptions")
+@RequestMapping("/api/prescriptions")
 public class PrescriptionController {
 
     @Autowired
     private PrescriptionService prescriptionService;
 
-    @GetMapping("/profile/prescriptions")
+    @GetMapping
     @ApiOperation(value = "FindPrescriptionsByPatientId")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
@@ -43,7 +45,7 @@ public class PrescriptionController {
         return ResponseEntity.ok(prescriptionsResponse);
     }
 
-    @PostMapping("/profile/prescriptions/add")
+    @PostMapping
     @ApiOperation(value = "AddPrescription")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
@@ -55,10 +57,12 @@ public class PrescriptionController {
         Prescription prescription = new Prescription(addPrescriptionRequest);
         prescriptionService.addPrescription(prescription);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .build();
     }
 
-    @DeleteMapping("/profile/prescriptions/delete")
+    @DeleteMapping
     @ApiOperation(value = "DeletePrescription")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
@@ -73,21 +77,24 @@ public class PrescriptionController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/profile/prescription-items")
+    @GetMapping("/items/{id}")
     @ApiOperation(value = "FindPrescriptionItemsByPrescriptionId")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
     })
     @ApiImplicitParam(name = "Authorization", value = "Bearer token",
             required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
-    public ResponseEntity<?> findPrescriptionItemsByPrescriptionId(@PageableDefault Pageable pageable, @RequestParam("id") Long prescriptionId) {
+    public ResponseEntity<?> findPrescriptionItemsByPrescriptionId(@PageableDefault Pageable pageable,
+                                                                   @NotNull(message = "Id can not be empty")
+                                                                   @Positive(message = "Id must be greater than 0")
+                                                                   @PathVariable("id") Long prescriptionId) {
         List<PrescriptionItem> prescriptionItems = prescriptionService.findPrescriptionItemsByPrescriptionId(pageable, prescriptionId);
         FindPrescriptionItemsResponse prescriptionItemsResponse = new FindPrescriptionItemsResponse(prescriptionItems);
 
         return ResponseEntity.ok(prescriptionItemsResponse);
     }
 
-    @PostMapping("/profile/prescription-items/add")
+    @PostMapping("/items")
     @ApiOperation(value = "AddPrescriptionItem")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
@@ -99,7 +106,9 @@ public class PrescriptionController {
         PrescriptionItem prescriptionItem = new PrescriptionItem(addPrescriptionItemRequest);
         prescriptionService.addPrescriptionItem(prescriptionItem);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .build();
     }
 
 }

@@ -14,20 +14,19 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
 @Api(value = "user")
+@RequestMapping("api/")
 public class UserController {
 
     @Autowired
@@ -58,7 +57,7 @@ public class UserController {
         User user = userService.getUserByEmail(requestItem.getEmail());
         String token = tokenHandler.generateToken(user);
 
-        //notificationAutoGeneratorService.generateNotification(user.getId());
+        notificationAutoGeneratorService.generateNotification(user.getId());
 
         return ResponseEntity.ok(new AuthTokenResponse(token));
     }
@@ -71,6 +70,8 @@ public class UserController {
     public ResponseEntity<?> registerUser(@Valid
                                           @RequestBody RegisterPatientRequestItem registerPatientRequestItem) {
         Patient patient = (Patient) userService.registerUser(new Patient(registerPatientRequestItem));
-        return ResponseEntity.ok(new RegisterPatientResponseItem(patient.getEmail()));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new RegisterPatientResponseItem(patient.getEmail()));
     }
 }

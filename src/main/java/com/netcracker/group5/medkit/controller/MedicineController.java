@@ -2,7 +2,6 @@ package com.netcracker.group5.medkit.controller;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineRequestItem;
-import com.netcracker.group5.medkit.model.dto.medicine.FindMedicinesResponseItem;
 import com.netcracker.group5.medkit.model.dto.medicine.SaveMedicineRequestItem;
 import com.netcracker.group5.medkit.service.MedicineService;
 import io.swagger.annotations.Api;
@@ -12,6 +11,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,29 +19,33 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Validated
 @CrossOrigin
 @RestController
 @Api(value = "all-medicines")
+@RequestMapping("/api/all-medicines")
 public class MedicineController {
 
     @Autowired
     private MedicineService medicineService;
 
-    @GetMapping("/all-medicines")
+    @GetMapping
     @ApiOperation(value = "FindAllMedicines")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "OK")
     })
-    public ResponseEntity<?> findAllMedicines(@PageableDefault Pageable pageable) {
-        List<Medicine> medicines = medicineService.findAllMedicines(pageable);
+    public ResponseEntity<?> findAllMedicines(@PageableDefault Pageable pageable,
+                                              @Size(max = 256, message = "Search query is too long")
+                                              @RequestParam(name = "query", required = false) String searchQuery) {
+        List<Medicine> medicines = medicineService.findAllMedicines(pageable, searchQuery);
 
-        return ResponseEntity.ok(new FindMedicinesResponseItem(medicines));
+        return ResponseEntity.ok(medicines);
     }
 
-    @GetMapping("/all-medicines/{id}")
+    @GetMapping("/{id}")
     @ApiOperation(value = "FindMedicine")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "OK")
@@ -54,7 +58,7 @@ public class MedicineController {
         return ResponseEntity.ok(medicine);
     }
 
-    @DeleteMapping("/all-medicines")
+    @DeleteMapping
     @ApiOperation(value = "DeleteMedicine")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "OK")
@@ -67,7 +71,7 @@ public class MedicineController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/all-medicines")
+    @PostMapping
     @ApiOperation(value = "SaveMedicine")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "OK")
@@ -76,10 +80,12 @@ public class MedicineController {
                                           @RequestBody SaveMedicineRequestItem requestItem) {
         Medicine medicine = medicineService.saveMedicine(new Medicine(requestItem));
 
-        return ResponseEntity.ok(medicine);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(medicine);
     }
 
-    @PutMapping("/all-medicines")
+    @PutMapping
     @ApiOperation(value = "EditMedicine")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "OK")
