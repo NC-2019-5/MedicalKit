@@ -21,7 +21,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @Api(value = "purchases")
-@RequestMapping("/api/purchases")
+@RequestMapping("/purchases")
 public class PurchaseController {
 
     @Autowired

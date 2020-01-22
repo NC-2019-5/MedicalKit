@@ -24,7 +24,7 @@ import java.util.List;
 @Validated
 @CrossOrigin
 @RestController
-@RequestMapping("/api/medicine-kit")
+@RequestMapping("/medicine-kit")
 @Api(value = "medicine-kit")
 public class MedicineInstanceController {
 
