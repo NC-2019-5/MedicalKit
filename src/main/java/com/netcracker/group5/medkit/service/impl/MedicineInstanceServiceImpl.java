@@ -31,7 +31,7 @@ public class MedicineInstanceServiceImpl implements MedicineInstanceService {
     }
 
     @Override
-    public MedicineInstance createMedicineInstance(MedicineInstance medicineInstance) {
+    public MedicineInstance saveMedicineInstance(MedicineInstance medicineInstance) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         return medicineInstanceRepository.save(currentUser.getId(), medicineInstance);

@@ -10,20 +10,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Optional;
 
 @Repository
-public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository {
-
-    @Autowired
-    private DataSource dataSource;
+public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     private PatientRepository patientRepository;
@@ -33,7 +28,6 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
 
     @PostConstruct
     private void postConstruct() {
-        setDataSource(dataSource);
         jdbcTemplate.setResultsMapCaseInsensitive(true);
     }
 
@@ -61,25 +55,24 @@ public class UserRepositoryImpl extends JdbcDaoSupport implements UserRepository
      */
     @Override
     public User saveByRole(User user) {
-            if (user.getRole().equals(Role.PATIENT)) {
+        if (user.getRole().equals(Role.PATIENT)) {
 
-                Patient editedPatient = (Patient) user;
+            Patient editedPatient = (Patient) user;
 
-                if (user.getId() != null) {
-                    Optional<Patient> patientToBeSaved = Optional.of(patientRepository.findById(user.getId()));
+            if (user.getId() != null) {
+                Optional<Patient> patientToBeSaved = Optional.of(patientRepository.findById(user.getId()));
 
-                    editedPatient.setId(patientToBeSaved.get().getId());
-                    editedPatient.setSex(patientToBeSaved.get().getSex());
-                    editedPatient.setPassword(patientToBeSaved.get().getPassword());
-                    editedPatient.setEmail(patientToBeSaved.get().getEmail());
-                    editedPatient.setRole(patientToBeSaved.get().getRole());
-                }
-
-                return patientRepository.save(user.getId(), editedPatient);
-
+                editedPatient.setId(patientToBeSaved.get().getId());
+                editedPatient.setSex(patientToBeSaved.get().getSex());
+                editedPatient.setPassword(patientToBeSaved.get().getPassword());
+                editedPatient.setEmail(patientToBeSaved.get().getEmail());
+                editedPatient.setRole(patientToBeSaved.get().getRole());
             }
 
-            throw new IllegalArgumentException("User role" + user.getRole() + " does not exist");
+            return patientRepository.save(user.getId(), editedPatient);
+        }
+
+        throw new IllegalArgumentException("User role" + user.getRole() + " does not exist");
     }
 
     @Override

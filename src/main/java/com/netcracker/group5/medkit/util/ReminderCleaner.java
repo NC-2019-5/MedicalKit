@@ -14,8 +14,9 @@ public class ReminderCleaner {
     private NotificationService notificationService;
 
     @Scheduled(cron = "${spring.cron.expression}")
-    public void clearReminders(){
+    public void clearReminders() {
+        System.out.println("Start reminder cleaner...");
         notificationService.bulkDeleteNotifications();
+        System.out.println("Shut down reminder cleaner");
     }
-
 }

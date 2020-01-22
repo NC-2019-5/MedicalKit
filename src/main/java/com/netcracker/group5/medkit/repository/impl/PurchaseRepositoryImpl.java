@@ -107,17 +107,6 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
     }
 
     @Override
-    public void removePurchaseItem(Long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("p_purchase_item_id", id);
-
-        new SimpleJdbcCall(jdbcTemplate)
-                .withCatalogName("PURCHASE_PKG")
-                .withProcedureName("deletePurchaseItem")
-                .execute(parameterSource);
-    }
-
-    @Override
     public void bulkDeletePurchaseItems(List<Long> idList) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_purchase_item_id_array", SqlArray.of(idList, SqlArray.ARRAY_OF_NUMBERS));

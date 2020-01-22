@@ -83,10 +83,10 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                                 (callableStatement, i, i1, s) -> {
                                     Array sqlArray = callableStatement.getArray(7);
                                     BigDecimal[] bigDecAmounts = (BigDecimal[]) sqlArray.getArray();
-                                    List<Integer> amountList = new ArrayList<>();
+                                    List<Double> amountList = new ArrayList<>();
 
                                     for (BigDecimal bigDecAmount : bigDecAmounts) {
-                                        amountList.add(bigDecAmount.intValue());
+                                        amountList.add(bigDecAmount.doubleValue());
                                     }
 
                                     return amountList;
@@ -110,7 +110,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
         List<Long> idList = (List<Long>) result.get("p_medicine_instance_id_array");
         List<Long> medicineIdList = (List<Long>) result.get("p_medicine_id_array");
         List<LocalDate> datesList = (List<LocalDate>) result.get("p_self_life_array");
-        List<Integer> amountList = (List<Integer>) result.get("p_amount_array");
+        List<Double> amountList = (List<Double>) result.get("p_amount_array");
         List<String> medicineNames = (List<String>) result.get("p_medicine_names");
         List<String> medicineManufacturers = (List<String>) result.get("p_medicine_manufacturers");
 
@@ -157,7 +157,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                         .setId(((BigDecimal) result.get("p_medicine_id")).longValue())
                         .build())
                 .setSelfLife(((Timestamp) result.get("p_self_life")).toLocalDateTime().toLocalDate())
-                .setAmount(((BigDecimal) result.get("p_amount")).intValue())
+                .setAmount(((BigDecimal) result.get("p_amount")).doubleValue())
                 .build();
     }
 

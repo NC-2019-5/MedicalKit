@@ -113,14 +113,6 @@ public class PrescriptionItem implements Requestable {
         isReminderEnabled = reminderEnabled;
     }
 
-    public boolean isReminderEnabled() {
-        return isReminderEnabled;
-    }
-
-    public void setReminderEnabled(boolean reminderEnabled) {
-        isReminderEnabled = reminderEnabled;
-    }
-
     public double getDosage() {
         return dosage;
     }
@@ -137,13 +129,13 @@ public class PrescriptionItem implements Requestable {
         return takingDurationDays == that.takingDurationDays &&
                 isReminderEnabled == that.isReminderEnabled &&
                 Double.compare(that.dosage, dosage) == 0 &&
-                id.equals(that.id) &&
-                medicine.equals(that.medicine) &&
-                startDate.equals(that.startDate) &&
-                endDate.equals(that.endDate) &&
-                takingTime.equals(that.takingTime) &&
-                description.equals(that.description) &&
-                prescription.equals(that.prescription);
+                Objects.equals(id, that.id) &&
+                Objects.equals(medicine, that.medicine) &&
+                Objects.equals(startDate, that.startDate) &&
+                Objects.equals(endDate, that.endDate) &&
+                Objects.equals(takingTime, that.takingTime) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(prescription, that.prescription);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.netcracker.group5.medkit.model.domain.request;
 
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
+import com.netcracker.group5.medkit.model.dto.request.NotificationRequestItem;
 
 public class Notification {
 
@@ -13,7 +14,17 @@ public class Notification {
     private PrescriptionItem prescriptionItem;
     private String message;
 
-    private Notification() {
+    public Notification() {
+    }
+
+    public Notification(NotificationRequestItem requestItem) {
+        this.id = requestItem.getId();
+        this.userId = requestItem.getId();
+        this.type = requestItem.getType();
+        this.remindTime = requestItem.getRemindTime();
+        this.medicineInstance = requestItem.getMedicineInstance();
+        this.prescriptionItem = requestItem.getPrescriptionItem();
+        this.message = requestItem.getMessage();
     }
 
     public Long getId() {

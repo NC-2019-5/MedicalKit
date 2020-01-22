@@ -6,6 +6,7 @@ import com.netcracker.group5.medkit.model.dto.user.EditPasswordRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.EditPatientRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.GetPatientResponseItem;
 import com.netcracker.group5.medkit.service.PatientService;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,27 +16,49 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
+@Api(value = "account")
+@RequestMapping("api/")
 public class PatientController {
 
     @Autowired
     private PatientService patientService;
 
-    @GetMapping("/account")
+    @GetMapping("account")
+    @ApiOperation(value = "GetPatient")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> getPatient() {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         return ResponseEntity.ok(new GetPatientResponseItem(patientService.getPatient(currentUser.getId())));
     }
 
-    @PutMapping("/edit")
-    public ResponseEntity<?> editPatient(@Valid @RequestBody EditPatientRequestItem requestItem) {
+    @PutMapping
+    @ApiOperation(value = "EditPatient")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
+    public ResponseEntity<?> editPatient(@Valid
+                                         @RequestBody EditPatientRequestItem requestItem) {
         Patient patient = new Patient(requestItem);
 
         return ResponseEntity.ok(new GetPatientResponseItem(patientService.editPatient(patient)));
     }
 
-    @PutMapping("/change-password")
-    public ResponseEntity<?> editPassword(@Valid @RequestBody EditPasswordRequestItem requestItem) {
+
+    @ApiOperation(value = "EditPassword")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
+    public ResponseEntity<?> editPassword(@Valid
+                                          @RequestBody EditPasswordRequestItem requestItem) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         patientService.editPassword(user, requestItem.getPassword(), requestItem.getNewPassword());
