@@ -27,7 +27,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public void addPurchaseItem(PurchaseItem purchaseItem) {
+    public void savePurchaseItem(PurchaseItem purchaseItem) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         purchaseRepository.save(currentUser.getId(), purchaseItem);

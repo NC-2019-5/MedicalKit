@@ -2,6 +2,7 @@ package com.netcracker.group5.medkit.model.domain.purchase;
 
 import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.dto.purchase.AddPurchaseItemRequest;
+import com.netcracker.group5.medkit.model.dto.purchase.EditPurchaseItemRequest;
 
 import java.util.Objects;
 
@@ -15,6 +16,14 @@ public class PurchaseItem {
     }
 
     public PurchaseItem(AddPurchaseItemRequest request) {
+        this.medicine = Medicine.newBuilder()
+                .setId(request.getMedicineId())
+                .build();
+        this.amount = request.getAmount();
+    }
+
+    public PurchaseItem(EditPurchaseItemRequest request) {
+        this.id = request.getId();
         this.medicine = Medicine.newBuilder()
                 .setId(request.getMedicineId())
                 .build();
