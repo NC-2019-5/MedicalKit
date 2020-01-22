@@ -4,10 +4,7 @@ import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineRequestItem;
 import com.netcracker.group5.medkit.model.dto.medicine.SaveMedicineRequestItem;
 import com.netcracker.group5.medkit.service.MedicineService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -37,6 +34,8 @@ public class MedicineController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "OK")
     })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> findAllMedicines(@PageableDefault Pageable pageable,
                                               @Size(max = 256, message = "Search query is too long")
                                               @RequestParam(name = "query", required = false) String searchQuery) {
@@ -50,6 +49,8 @@ public class MedicineController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "OK")
     })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> findMedicine(@NotNull(message = "Id cannot be empty")
                                           @Positive(message = "Id must be greater than 0")
                                           @PathVariable Long id) {
@@ -63,6 +64,8 @@ public class MedicineController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "OK")
     })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> deleteMedicine(@NotNull(message = "Id cannot be empty")
                                             @Positive(message = "Id must be greater than 0")
                                             @RequestParam Long id) {
@@ -76,6 +79,8 @@ public class MedicineController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "OK")
     })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> saveMedicine(@Valid
                                           @RequestBody SaveMedicineRequestItem requestItem) {
         Medicine medicine = medicineService.saveMedicine(new Medicine(requestItem));
@@ -90,6 +95,8 @@ public class MedicineController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "OK")
     })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> editMedicine(@Valid
                                           @RequestBody EditMedicineRequestItem requestItem) {
         Medicine medicine = medicineService.saveMedicine(new Medicine(requestItem));
