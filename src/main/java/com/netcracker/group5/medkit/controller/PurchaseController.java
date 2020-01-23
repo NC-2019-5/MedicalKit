@@ -21,7 +21,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @Api(value = "purchases")
-@RequestMapping("/api/purchases")
+@RequestMapping("/purchases")
 public class PurchaseController {
 
     @Autowired
@@ -43,7 +43,7 @@ public class PurchaseController {
     @PostMapping
     @ApiOperation(value = "AddPurchaseItem")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK")
+            @ApiResponse(code = 201, message = "OK")
     })
     @ApiImplicitParam(name = "Authorization", value = "Bearer token",
             required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")

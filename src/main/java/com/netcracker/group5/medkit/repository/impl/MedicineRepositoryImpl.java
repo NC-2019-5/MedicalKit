@@ -6,6 +6,7 @@ import com.netcracker.group5.medkit.util.SqlArray;
 import com.netcracker.group5.medkit.util.SqlReturnListFromArray;
 import oracle.jdbc.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -98,10 +99,16 @@ public class MedicineRepositoryImpl implements MedicineRepository {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_medicine_object_id", id);
 
-        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
-                .withCatalogName("MEDICINE_PKG")
-                .withProcedureName("getMedicineObject")
-                .execute(parameterSource);
+        Map<String, Object> result;
+
+        try {
+            result = new SimpleJdbcCall(jdbcTemplate)
+                    .withCatalogName("MEDICINE_PKG")
+                    .withProcedureName("getMedicineObject")
+                    .execute(parameterSource);
+        } catch (DataIntegrityViolationException ex){
+            return null;
+        }
 
         return Medicine.newBuilder()
                 .setId(((BigDecimal) result.get("p_medicine_object_id")).longValue())

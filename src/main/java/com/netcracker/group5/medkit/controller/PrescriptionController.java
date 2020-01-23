@@ -9,6 +9,7 @@ import com.netcracker.group5.medkit.model.dto.prescription.FindPrescriptionsResp
 import com.netcracker.group5.medkit.service.PrescriptionService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @Api(value = "prescriptions")
-@RequestMapping("/api/prescriptions")
+@RequestMapping("/prescriptions")
 public class PrescriptionController {
 
     @Autowired
@@ -48,7 +49,7 @@ public class PrescriptionController {
     @PostMapping
     @ApiOperation(value = "AddPrescription")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK")
+            @ApiResponse(code = 201, message = "OK")
     })
     @ApiImplicitParam(name = "Authorization", value = "Bearer token",
             required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
@@ -65,16 +66,21 @@ public class PrescriptionController {
     @DeleteMapping
     @ApiOperation(value = "DeletePrescription")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK")
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 404, message = "No data found")
     })
     @ApiImplicitParam(name = "Authorization", value = "Bearer token",
             required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> deletePrescription(@NotNull(message = "Id can not be empty")
                                                 @Positive(message = "Id must be greater than 0")
                                                 @RequestParam Long id) {
-        prescriptionService.deletePrescriptionWithItems(id);
+        try {
+            prescriptionService.deletePrescriptionWithItems(id);
 
-        return ResponseEntity.ok().build();
+            return ResponseEntity.ok().build();
+        } catch (DataIntegrityViolationException ex){
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/items/{id}")
@@ -97,7 +103,7 @@ public class PrescriptionController {
     @PostMapping("/items")
     @ApiOperation(value = "AddPrescriptionItem")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK")
+            @ApiResponse(code = 201, message = "OK")
     })
     @ApiImplicitParam(name = "Authorization", value = "Bearer token",
             required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")

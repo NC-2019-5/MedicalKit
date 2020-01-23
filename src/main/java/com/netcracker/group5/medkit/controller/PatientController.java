@@ -17,7 +17,7 @@ import javax.validation.Valid;
 @CrossOrigin
 @RestController
 @Api(value = "account")
-@RequestMapping("api/")
+@RequestMapping("/")
 public class PatientController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class PatientController {
         return ResponseEntity.ok(new GetPatientResponseItem(patientService.getPatient(currentUser.getId())));
     }
 
-    @PutMapping
+    @PutMapping("account")
     @ApiOperation(value = "EditPatient")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")

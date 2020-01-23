@@ -1,6 +1,7 @@
 package com.netcracker.group5.medkit.controller;
 
 import com.netcracker.group5.medkit.model.domain.user.Patient;
+import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.User;
 import com.netcracker.group5.medkit.model.dto.user.AuthTokenResponse;
 import com.netcracker.group5.medkit.model.dto.user.LoginUserRequestItem;
@@ -26,7 +27,7 @@ import javax.validation.Valid;
 @CrossOrigin
 @RestController
 @Api(value = "user")
-@RequestMapping("api/")
+@RequestMapping("/")
 public class UserController {
 
     @Autowired
@@ -41,7 +42,7 @@ public class UserController {
     @Autowired
     private NotificationAutoGeneratorService notificationAutoGeneratorService;
 
-    @PostMapping("/login")
+    @PostMapping("login")
     @ApiOperation(value = "Login")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
@@ -57,12 +58,14 @@ public class UserController {
         User user = userService.getUserByEmail(requestItem.getEmail());
         String token = tokenHandler.generateToken(user);
 
-        notificationAutoGeneratorService.generateNotification(user.getId());
+        if (user.getRole().equals(Role.PATIENT)) {
+            notificationAutoGeneratorService.generateNotification(user.getId());
+        }
 
         return ResponseEntity.ok(new AuthTokenResponse(token));
     }
 
-    @PostMapping("/register")
+    @PostMapping("register")
     @ApiOperation(value = "RegisterUser")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
