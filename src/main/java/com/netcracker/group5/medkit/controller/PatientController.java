@@ -17,7 +17,7 @@ import javax.validation.Valid;
 @CrossOrigin
 @RestController
 @Api(value = "account")
-@RequestMapping("api/")
+@RequestMapping("/")
 public class PatientController {
 
     @Autowired

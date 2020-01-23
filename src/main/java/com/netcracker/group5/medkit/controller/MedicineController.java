@@ -23,7 +23,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @Api(value = "all-medicines")
-@RequestMapping("/api/all-medicines")
+@RequestMapping("/all-medicines")
 public class MedicineController {
 
     @Autowired
@@ -93,7 +93,7 @@ public class MedicineController {
     @PutMapping
     @ApiOperation(value = "EditMedicine")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "OK")
+            @ApiResponse(code = 200, message = "OK")
     })
     @ApiImplicitParam(name = "Authorization", value = "Bearer token",
             required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")

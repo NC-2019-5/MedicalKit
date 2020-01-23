@@ -24,7 +24,7 @@ import java.util.List;
 @Validated
 @CrossOrigin
 @RestController
-@RequestMapping("/api/medicine-kit")
+@RequestMapping("/medicine-kit")
 @Api(value = "medicine-kit")
 public class MedicineInstanceController {
 
@@ -50,7 +50,7 @@ public class MedicineInstanceController {
     @PostMapping
     @ApiOperation(value = "SaveMedicineInstance")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK")
+            @ApiResponse(code = 201, message = "OK")
     })
     @ApiImplicitParam(name = "Authorization", value = "Bearer token",
             required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")

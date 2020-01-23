@@ -27,7 +27,7 @@ import javax.validation.Valid;
 @CrossOrigin
 @RestController
 @Api(value = "user")
-@RequestMapping("api/")
+@RequestMapping("/")
 public class UserController {
 
     @Autowired
@@ -42,7 +42,7 @@ public class UserController {
     @Autowired
     private NotificationAutoGeneratorService notificationAutoGeneratorService;
 
-    @PostMapping("/login")
+    @PostMapping("login")
     @ApiOperation(value = "Login")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
@@ -65,7 +65,7 @@ public class UserController {
         return ResponseEntity.ok(new AuthTokenResponse(token));
     }
 
-    @PostMapping("/register")
+    @PostMapping("register")
     @ApiOperation(value = "RegisterUser")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
