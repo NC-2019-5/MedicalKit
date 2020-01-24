@@ -138,6 +138,27 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
     }
 
     @Override
+    public MedicineInstance findMedicineInstance(Long patientId, Long medicineInstanceId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_patient_id", patientId)
+                .addValue("p_medicine_instance_id", medicineInstanceId);
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("MEDICINE_INSTANCE_PKG")
+                .withProcedureName("getMedicineInstance")
+                .execute(parameterSource);
+
+        return MedicineInstance.newBuilder()
+                .setId(((BigDecimal) result.get("p_medicine_instance_id")).longValue())
+                .setMedicine(Medicine.newBuilder()
+                        .setId(((BigDecimal) result.get("p_medicine_id")).longValue())
+                        .build())
+                .setSelfLife(((Timestamp) result.get("p_self_life")).toLocalDateTime().toLocalDate())
+                .setAmount(((BigDecimal) result.get("p_amount")).doubleValue())
+                .build();
+    }
+
+    @Override
     public MedicineInstance save(Long patientId, MedicineInstance medicineInstance) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_medicine_instance_id", medicineInstance.getId())
