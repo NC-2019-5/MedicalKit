@@ -18,16 +18,15 @@ public class NotificationRequestItem {
     @Positive(message = "User id must be greater than 0")
     private Long userId;
 
-    @NotBlank(message = "Notification type can not be empty")
+    @NotNull(message = "Notification type can not be empty")
     private NotificationType type;
 
     @NotBlank(message = "Notification remind time can not be empty")
     private String remindTime;
 
-    @NotBlank(message = "Medicine instance in notification can not be empty")
     private Long medicineInstanceId;
 
-    @NotBlank(message = "Prescription item in notification can not be empty")
+    @NotNull(message = "Prescription item in notification can not be empty")
     private Long prescriptionItemId;
 
     @NotBlank(message = "Notification message can not be empty")
