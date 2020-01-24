@@ -42,6 +42,7 @@ public class NotificationServiceImpl implements NotificationService {
             if(medicineInstance.getAmount() > prescriptionItem.getDosage()){
                 medicineInstance.setAmount(medicineInstance.getAmount() - prescriptionItem.getDosage());
                 medicineInstanceService.saveMedicineInstance(medicineInstance);
+                notificationRepository.deleteNotification(confirmedNotification.getId());
             }else{
                 throw new IllegalArgumentException();
             }
