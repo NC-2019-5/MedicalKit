@@ -8,6 +8,7 @@ import com.netcracker.group5.medkit.model.dto.medicine.SaveMedicineInstanceReque
 import com.netcracker.group5.medkit.service.MedicineInstanceService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class MedicineInstanceController {
     @PostMapping
     @ApiOperation(value = "SaveMedicineInstance")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK")
+            @ApiResponse(code = 201, message = "OK")
     })
     @ApiImplicitParam(name = "Authorization", value = "Bearer token",
             required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
@@ -88,8 +89,11 @@ public class MedicineInstanceController {
     public ResponseEntity<?> deleteMedicineInstance(@NotNull(message = "Id cannot be empty")
                                                     @Positive(message = "Id must be greater than 0")
                                                     @RequestParam Long id) {
-        medicineInstanceService.deleteMedicineInstance(id);
-
-        return ResponseEntity.ok().build();
+        try {
+            medicineInstanceService.deleteMedicineInstance(id);
+            return ResponseEntity.ok().build();
+        } catch (DataIntegrityViolationException ex){
+            return ResponseEntity.notFound().build();
+        }
     }
 }
