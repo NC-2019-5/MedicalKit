@@ -262,4 +262,31 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
         return Optional.of(prescriptionItemIdList);
     }
 
+    @Override
+    public PrescriptionItem findPrescriptionItem(Long prescriptionItemId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_pi_object_id", prescriptionItemId);
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("PRESCRIPTION_PKG")
+                .withProcedureName("getPrescriptionItemById")
+                .execute(parameterSource);
+
+        return PrescriptionItem.newBuilder()
+                .setId(((BigDecimal) result.get("p_pi_object_id")).longValue())
+                .setMedicine(Medicine.newBuilder()
+                        .setId(Long.parseLong((String) result.get("p_pi_medicine_id")))
+                        .build())
+                .setPrescription(Prescription.newBuilder()
+                        .setId(Long.parseLong((String) result.get("p_prescription_object_id")))
+                        .build())
+                .setStartDate(((Timestamp) result.get("p_pi_start_date")).toLocalDateTime().toLocalDate())
+                .setEndDate(((Timestamp) result.get("p_pi_end_date")).toLocalDateTime().toLocalDate())
+                .setTakingDurationDays(Integer.parseInt((String) result.get("p_pi_duration_days")))
+                .setTakingTime((String) result.get("p_pi_taking_time"))
+                .setDescription((String) result.get("p_pi_description"))
+                .setIsReminderEnabled(Boolean.parseBoolean((String) result.get("p_pi_is_reminder_enabled")))
+                .setDosage(Double.parseDouble((String) result.get("p_pi_dosage")))
+                .build();
+    }
 }

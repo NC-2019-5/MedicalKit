@@ -25,10 +25,10 @@ public class NotificationRequestItem {
     private String remindTime;
 
     @NotBlank(message = "Medicine instance in notification can not be empty")
-    private MedicineInstance medicineInstance;
+    private Long medicineInstanceId;
 
     @NotBlank(message = "Prescription item in notification can not be empty")
-    private PrescriptionItem prescriptionItem;
+    private Long prescriptionItemId;
 
     @NotBlank(message = "Notification message can not be empty")
     private String message;
@@ -69,20 +69,20 @@ public class NotificationRequestItem {
         this.remindTime = remindTime;
     }
 
-    public MedicineInstance getMedicineInstance() {
-        return medicineInstance;
+    public Long getMedicineInstanceId() {
+        return medicineInstanceId;
     }
 
-    public void setMedicineInstance(MedicineInstance medicineInstance) {
-        this.medicineInstance = medicineInstance;
+    public void setMedicineInstanceId(Long medicineInstanceId) {
+        this.medicineInstanceId = medicineInstanceId;
     }
 
-    public PrescriptionItem getPrescriptionItem() {
-        return prescriptionItem;
+    public Long getPrescriptionItemId() {
+        return prescriptionItemId;
     }
 
-    public void setPrescriptionItem(PrescriptionItem prescriptionItem) {
-        this.prescriptionItem = prescriptionItem;
+    public void setPrescriptionItemId(Long prescriptionItemId) {
+        this.prescriptionItemId = prescriptionItemId;
     }
 
     public String getMessage() {
