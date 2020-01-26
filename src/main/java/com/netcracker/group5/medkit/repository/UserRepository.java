@@ -11,4 +11,6 @@ public interface UserRepository {
 
     boolean isExistUserWithEmail(String email);
 
+    User update(User user);
+
 }
