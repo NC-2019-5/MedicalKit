@@ -4,8 +4,6 @@ import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
 import com.netcracker.group5.medkit.model.dto.prescription.AddPrescriptionItemRequest;
 import com.netcracker.group5.medkit.model.dto.prescription.AddPrescriptionRequest;
-import com.netcracker.group5.medkit.model.dto.prescription.FindPrescriptionItemsResponse;
-import com.netcracker.group5.medkit.model.dto.prescription.FindPrescriptionsResponse;
 import com.netcracker.group5.medkit.service.PrescriptionService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +39,8 @@ public class PrescriptionController {
             required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> findPrescriptionsByPatientId(@PageableDefault Pageable pageable) {
         List<Prescription> prescriptions = prescriptionService.findPrescriptionsByPatientId(pageable);
-        FindPrescriptionsResponse prescriptionsResponse = new FindPrescriptionsResponse(prescriptions);
 
-        return ResponseEntity.ok(prescriptionsResponse);
+        return ResponseEntity.ok(prescriptions);
     }
 
     @PostMapping
@@ -78,12 +75,12 @@ public class PrescriptionController {
             prescriptionService.deletePrescriptionWithItems(id);
 
             return ResponseEntity.ok().build();
-        } catch (DataIntegrityViolationException ex){
+        } catch (DataIntegrityViolationException ex) {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @GetMapping("/items/{id}")
+    @GetMapping("/{id}/items")
     @ApiOperation(value = "FindPrescriptionItemsByPrescriptionId")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
@@ -95,9 +92,8 @@ public class PrescriptionController {
                                                                    @Positive(message = "Id must be greater than 0")
                                                                    @PathVariable("id") Long prescriptionId) {
         List<PrescriptionItem> prescriptionItems = prescriptionService.findPrescriptionItemsByPrescriptionId(pageable, prescriptionId);
-        FindPrescriptionItemsResponse prescriptionItemsResponse = new FindPrescriptionItemsResponse(prescriptionItems);
 
-        return ResponseEntity.ok(prescriptionItemsResponse);
+        return ResponseEntity.ok(prescriptionItems);
     }
 
     @PostMapping("/items")
