@@ -7,6 +7,7 @@ import com.netcracker.group5.medkit.model.dto.user.AuthTokenResponse;
 import com.netcracker.group5.medkit.model.dto.user.LoginUserRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.RegisterPatientRequestItem;
 import com.netcracker.group5.medkit.model.dto.user.RegisterPatientResponseItem;
+import com.netcracker.group5.medkit.repository.impl.NotificationRepositoryImpl;
 import com.netcracker.group5.medkit.security.TokenHandler;
 import com.netcracker.group5.medkit.service.NotificationAutoGeneratorService;
 import com.netcracker.group5.medkit.service.UserService;
@@ -14,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,9 +62,11 @@ public class UserController {
 
         if (user.getRole().equals(Role.PATIENT)) {
             notificationAutoGeneratorService.generateNotification(user.getId());
+            notificationAutoGeneratorService.generateMNotification(user.getId());
         }
 
         return ResponseEntity.ok(new AuthTokenResponse(token));
+
     }
 
     @PostMapping("register")
