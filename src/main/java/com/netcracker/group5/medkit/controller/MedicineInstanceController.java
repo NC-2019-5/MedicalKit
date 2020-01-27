@@ -3,7 +3,6 @@ package com.netcracker.group5.medkit.controller;
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.dto.medicine.EditMedicineInstanceRequestItem;
 import com.netcracker.group5.medkit.model.dto.medicine.GetMedicineInstanceResponseItem;
-import com.netcracker.group5.medkit.model.dto.medicine.MedicineInstanceResponseItem;
 import com.netcracker.group5.medkit.model.dto.medicine.SaveMedicineInstanceRequestItem;
 import com.netcracker.group5.medkit.service.MedicineInstanceService;
 import io.swagger.annotations.*;
@@ -43,9 +42,8 @@ public class MedicineInstanceController {
                                                    @Size(max = 256, message = "Search query is too long")
                                                    @RequestParam(name = "query", required = false) String searchQuery) {
         List<MedicineInstance> medicineInstances = medicineInstanceService.findMedicineInstances(pageable, searchQuery);
-        MedicineInstanceResponseItem responseItem = new MedicineInstanceResponseItem(medicineInstances);
 
-        return ResponseEntity.ok(responseItem);
+        return ResponseEntity.ok(medicineInstances);
     }
 
     @PostMapping
