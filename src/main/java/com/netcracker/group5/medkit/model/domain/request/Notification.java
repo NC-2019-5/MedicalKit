@@ -1,10 +1,12 @@
 package com.netcracker.group5.medkit.model.domain.request;
 
+import com.netcracker.group5.medkit.model.domain.Requestable;
+import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
 import com.netcracker.group5.medkit.model.dto.request.NotificationRequestItem;
 
-public class Notification {
+public class Notification implements Requestable {
 
     private Long id;
     private Long userId;
@@ -75,7 +77,7 @@ public class Notification {
         this.prescriptionItemId = prescriptionItemId;
     }
 
-    public static Builder newInstance() {
+    public static Builder newBuilder() {
         return new Notification().new Builder();
     }
 
@@ -89,7 +91,7 @@ public class Notification {
 
     public class Builder {
 
-        private Builder() {
+        public Builder() {
         }
 
         public Builder setId(Long id) {
