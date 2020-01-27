@@ -5,6 +5,7 @@ import com.netcracker.group5.medkit.repository.MedicineRepository;
 import com.netcracker.group5.medkit.util.SqlArray;
 import com.netcracker.group5.medkit.util.SqlReturnListFromArray;
 import oracle.jdbc.OracleTypes;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,7 +25,7 @@ import java.util.Map;
 
 @Repository
 public class MedicineRepositoryImpl implements MedicineRepository {
-
+    private static final Logger log = Logger.getLogger(MedicineRepositoryImpl.class);
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -91,6 +92,7 @@ public class MedicineRepositoryImpl implements MedicineRepository {
                     .build();
             medicines.add(medicine);
         }
+        log.info("Medicines found!");
         return medicines;
     }
 
@@ -107,8 +109,10 @@ public class MedicineRepositoryImpl implements MedicineRepository {
                     .withProcedureName("getMedicineObject")
                     .execute(parameterSource);
         } catch (DataIntegrityViolationException ex){
+            log.error("Medicine not found, incorrect data!");
             return null;
         }
+        log.info("Medicine found!");
 
         return Medicine.newBuilder()
                 .setId(((BigDecimal) result.get("p_medicine_object_id")).longValue())
@@ -140,6 +144,7 @@ public class MedicineRepositoryImpl implements MedicineRepository {
                 .withCatalogName("MEDICINE_PKG")
                 .withProcedureName("saveMedicineObject")
                 .execute(parameterSource);
+        log.info("Medicine saved!");
 
         return Medicine.newBuilder()
                 .setId(((BigDecimal) result.get("p_medicine_object_id")).longValue())
@@ -163,5 +168,6 @@ public class MedicineRepositoryImpl implements MedicineRepository {
                 .withCatalogName("MEDICINE_PKG")
                 .withProcedureName("deleteMedicineObject")
                 .execute(parameterSource);
+        log.info("Medicine deleted!");
     }
 }

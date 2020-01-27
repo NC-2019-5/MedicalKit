@@ -19,4 +19,9 @@ public class NotificationAutoGeneratorServiceImpl implements NotificationAutoGen
     public void generateNotification(Long userId) {
         notificationService.bulkCreateNotifications(userId, prescriptionService.findActivePrescriptionItems(userId));
     }
+
+    @Override
+    public void generateMNotification(Long userId) {
+        notificationService.bulkCreateMNotifications(userId);
+    }
 }
