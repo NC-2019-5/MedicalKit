@@ -18,6 +18,8 @@ public interface PrescriptionService {
 
     List<Long> findActivePrescriptionItems(Long patientId);
 
+    PrescriptionItem findPrescriptionItem(Long prescriptionItemId);
+
     void addPrescriptionItem(PrescriptionItem prescriptionItem);
 
 }

@@ -1,17 +1,19 @@
 package com.netcracker.group5.medkit.model.domain.request;
 
+import com.netcracker.group5.medkit.model.domain.Requestable;
+import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
 import com.netcracker.group5.medkit.model.dto.request.NotificationRequestItem;
 
-public class Notification {
+public class Notification implements Requestable {
 
     private Long id;
     private Long userId;
     private NotificationType type;
     private String remindTime;
-    private MedicineInstance medicineInstance;
-    private PrescriptionItem prescriptionItem;
+    private Long medicineInstanceId;
+    private Long prescriptionItemId;
     private String message;
 
     public Notification() {
@@ -22,8 +24,8 @@ public class Notification {
         this.userId = requestItem.getId();
         this.type = requestItem.getType();
         this.remindTime = requestItem.getRemindTime();
-        this.medicineInstance = requestItem.getMedicineInstance();
-        this.prescriptionItem = requestItem.getPrescriptionItem();
+        this.medicineInstanceId = requestItem.getMedicineInstanceId();
+        this.prescriptionItemId = requestItem.getPrescriptionItemId();
         this.message = requestItem.getMessage();
     }
 
@@ -59,23 +61,23 @@ public class Notification {
         this.remindTime = remindTime;
     }
 
-    public MedicineInstance getMedicineInstance() {
-        return medicineInstance;
+    public Long getMedicineInstanceId() {
+        return medicineInstanceId;
     }
 
-    public void setMedicineInstance(MedicineInstance medicineInstance) {
-        this.medicineInstance = medicineInstance;
+    public void setMedicineInstanceId(Long medicineInstanceId) {
+        this.medicineInstanceId = medicineInstanceId;
     }
 
-    public PrescriptionItem getPrescriptionItem() {
-        return prescriptionItem;
+    public Long getPrescriptionItemId() {
+        return prescriptionItemId;
     }
 
-    public void setPrescriptionItem(PrescriptionItem prescriptionItem) {
-        this.prescriptionItem = prescriptionItem;
+    public void setPrescriptionItemId(Long prescriptionItemId) {
+        this.prescriptionItemId = prescriptionItemId;
     }
 
-    public static Builder newInstance() {
+    public static Builder newBuilder() {
         return new Notification().new Builder();
     }
 
@@ -89,7 +91,7 @@ public class Notification {
 
     public class Builder {
 
-        private Builder() {
+        public Builder() {
         }
 
         public Builder setId(Long id) {
@@ -112,13 +114,13 @@ public class Notification {
             return this;
         }
 
-        public Builder setMedicineInstance(MedicineInstance medicineInstance) {
-            Notification.this.medicineInstance = medicineInstance;
+        public Builder setMedicineInstance(Long medicineInstanceId) {
+            Notification.this.medicineInstanceId = medicineInstanceId;
             return this;
         }
 
-        public Builder setPrescriptionItem(PrescriptionItem purchaseItem) {
-            Notification.this.prescriptionItem = purchaseItem;
+        public Builder setPrescriptionItem(Long purchaseItemId) {
+            Notification.this.prescriptionItemId = purchaseItemId;
             return this;
         }
 
