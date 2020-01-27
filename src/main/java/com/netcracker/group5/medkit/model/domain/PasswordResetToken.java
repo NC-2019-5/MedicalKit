@@ -2,6 +2,8 @@ package com.netcracker.group5.medkit.model.domain;
 
 import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -9,7 +11,7 @@ public class PasswordResetToken {
 
     private String userEmail;
     private String token;
-    private Date cratedDate;
+    private LocalDateTime cratedDate;
 
     public String getUserEmail() {
         return userEmail;
@@ -27,11 +29,11 @@ public class PasswordResetToken {
         this.token = token;
     }
 
-    public Date getCratedDate() {
+    public LocalDateTime getCratedDate() {
         return cratedDate;
     }
 
-    public void setCratedDate(Date cratedDate) {
+    public void setCratedDate(LocalDateTime cratedDate) {
         this.cratedDate = cratedDate;
     }
 
@@ -78,7 +80,7 @@ public class PasswordResetToken {
             return this;
         }
 
-        public PasswordResetToken.Builder setCreatedDate(Date createdDate){
+        public PasswordResetToken.Builder setCreatedDate(LocalDateTime createdDate){
             PasswordResetToken.this.cratedDate = createdDate;
             return this;
         }

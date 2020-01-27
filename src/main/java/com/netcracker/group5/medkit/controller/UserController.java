@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
@@ -71,9 +73,9 @@ public class UserController {
         User user = userService.getUserByEmail(requestItem.getEmail());
         String token = tokenHandler.generateToken(user);
 
-        if (user.getRole().equals(Role.PATIENT)) {
-            notificationAutoGeneratorService.generateNotification(user.getId());
-        }
+//        if (user.getRole().equals(Role.PATIENT)) {
+//            notificationAutoGeneratorService.generateNotification(user.getId());
+//        }
 
         return ResponseEntity.ok(new AuthTokenResponse(token));
     }
@@ -105,7 +107,7 @@ public class UserController {
             PasswordResetToken token = new PasswordResetToken();
             token.setUserEmail(email);
             token.setToken(UUID.randomUUID().toString());
-            token.setCratedDate(new Date());
+            token.setCratedDate(LocalDateTime.now());
             passwordResetTokenServiceService.addToken(token);
 
             String appUrl = request.getScheme() + "://" + request.getServerName();

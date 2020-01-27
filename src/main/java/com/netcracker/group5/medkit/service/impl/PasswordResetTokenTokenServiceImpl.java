@@ -29,4 +29,9 @@ public class PasswordResetTokenTokenServiceImpl implements PasswordResetTokenSer
     public void deleteToken(String token) {
         resetTokenRepository.deleteToken(token);
     }
+
+    @Override
+    public void bulkDeleteToken() {
+        resetTokenRepository.bulkDeleteToken();
+    }
 }

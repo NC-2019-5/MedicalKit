@@ -15,4 +15,6 @@ public interface PasswordResetTokenRepository{
     PasswordResetToken save(PasswordResetToken token);
 
     void deleteToken(String token);
+
+    void bulkDeleteToken();
 }

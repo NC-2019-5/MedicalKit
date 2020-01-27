@@ -12,4 +12,6 @@ public interface PasswordResetTokenService {
 
     void deleteToken(String token);
 
+    void bulkDeleteToken();
+
 }

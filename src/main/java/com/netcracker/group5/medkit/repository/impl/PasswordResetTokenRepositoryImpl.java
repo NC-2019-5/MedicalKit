@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
@@ -59,7 +60,7 @@ public class PasswordResetTokenRepositoryImpl implements PasswordResetTokenRepos
         PasswordResetToken resetToken = PasswordResetToken.newBuilder()
                 .setUserEmail((String) result.get("p_user_email"))
                 .setToken((String) result.get("p_token"))
-                .setCreatedDate((Date) result.get("p_created_date"))
+                .setCreatedDate(((Timestamp) result.get("p_created_date")).toLocalDateTime())
                 .build();
 
         return resetToken;
@@ -73,6 +74,16 @@ public class PasswordResetTokenRepositoryImpl implements PasswordResetTokenRepos
         new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("TOKEN_PKG")
                 .withProcedureName("deleteToken")
+                .execute(parameterSource);
+    }
+
+    @Override
+    public void bulkDeleteToken() {
+        SqlParameterSource parameterSource = new MapSqlParameterSource();
+
+        new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("TOKEN_PKG")
+                .withProcedureName("bulkDeleteToken")
                 .execute(parameterSource);
     }
 }
