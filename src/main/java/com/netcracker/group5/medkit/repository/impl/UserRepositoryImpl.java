@@ -1,5 +1,6 @@
 package com.netcracker.group5.medkit.repository.impl;
 
+import com.netcracker.group5.medkit.model.domain.PasswordResetToken;
 import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.User;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -89,5 +91,28 @@ public class UserRepositoryImpl implements UserRepository {
         log.info("Existent of user is known now!");
 
         return Boolean.parseBoolean(result.get("p_return_statement").toString());
+    }
+
+    @Override
+    public User update(User user) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_user_object_id", user.getId())
+                .addValue("p_user_email", user.getEmail())
+                .addValue("p_user_password", user.getPassword())
+                .addValue("p_user_role", user.getRole());
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("USER_PKG")
+                .withProcedureName("updateUserObject")
+                .execute(parameterSource);
+
+        User updatedUser = User.newUserBuilder()
+                .setId(((BigDecimal) result.get("p_user_object_id")).longValue())
+                .setEmail(result.get("p_user_email").toString())
+                .setPassword(result.get("p_user_password").toString())
+                .setRole(Role.getRoleByName(result.get("p_user_role").toString()))
+                .build();
+
+        return updatedUser;
     }
 }
