@@ -36,13 +36,16 @@ public class PasswordResetTokenRepositoryImpl implements PasswordResetTokenRepos
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_token", token);
 
-        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+        try {
+            Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                     .withCatalogName("TOKEN_PKG")
                     .withProcedureName("findUserEmailByToken")
                     .execute(parameterSource);
+            return (String) result.get("p_user_email");
+        } catch (DataIntegrityViolationException ex){
+            return null;
+        }
 
-
-        return (String) result.get("p_user_email");
     }
 
     @Override
