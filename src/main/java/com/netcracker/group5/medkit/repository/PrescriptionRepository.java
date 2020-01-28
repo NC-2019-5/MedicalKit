@@ -20,4 +20,6 @@ public interface PrescriptionRepository {
 
     Optional<List<Long>> findActivePrescriptionItems(Long patientId);
 
+    PrescriptionItem findPrescriptionItem(Long prescriptionItemId);
+
 }

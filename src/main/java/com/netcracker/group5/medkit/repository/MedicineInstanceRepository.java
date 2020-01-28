@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface MedicineInstanceRepository {
     Optional<List<MedicineInstance>> findMedicineInstances(Long patientId, long limit, long offset, String searchQuery);
 
+    MedicineInstance findMedicineInstance(Long patientId, Long medicineInstanceId);
+
     MedicineInstance save(Long patientId, MedicineInstance medicineInstance);
 
     void delete(Long id);

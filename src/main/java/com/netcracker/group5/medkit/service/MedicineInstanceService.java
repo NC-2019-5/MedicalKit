@@ -8,6 +8,8 @@ import java.util.List;
 public interface MedicineInstanceService {
     List<MedicineInstance> findMedicineInstances(Pageable pageable, String searchQuery);
 
+    MedicineInstance findMedicineInstance(Long medicineInstanceId);
+
     MedicineInstance saveMedicineInstance(MedicineInstance medicineInstance);
 
     void deleteMedicineInstance(Long id);

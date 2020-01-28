@@ -8,6 +8,7 @@ import com.netcracker.group5.medkit.repository.PrescriptionRepository;
 import com.netcracker.group5.medkit.util.SqlArray;
 import com.netcracker.group5.medkit.util.SqlReturnListFromArray;
 import oracle.jdbc.OracleTypes;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
@@ -24,7 +25,7 @@ import java.util.*;
 
 @Repository
 public class PrescriptionRepositoryImpl implements PrescriptionRepository {
-
+    private static final Logger log = Logger.getLogger(PrescriptionRepositoryImpl.class);
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -87,6 +88,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
             prescriptionList.add(prescription);
             iterator.next();
         }
+        log.info("Prescriptions found!");
 
         return Optional.of(prescriptionList);
     }
@@ -112,7 +114,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                         .setId(Long.parseLong((String) result.get("p_prescription_doctor_id")))
                         .build())
                 .build();
-
+        log.info("Prescription saved!");
         return prescriptionResult;
     }
 
@@ -125,6 +127,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .withCatalogName("PRESCRIPTION_PKG")
                 .withProcedureName("deletePrescriptionAndItems")
                 .execute(parameterSource);
+        log.info("Prescription with items deleted!");
     }
 
     @Override
@@ -202,7 +205,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
             prescriptionItemList.add(prescriptionItem);
             iterator.next();
         }
-
+        log.info("Prescription items found!");
         return Optional.of(prescriptionItemList);
     }
 
@@ -240,7 +243,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .setIsReminderEnabled(Boolean.parseBoolean((String) result.get("p_pi_is_reminder_enabled")))
                 .setDosage(Double.parseDouble((String) result.get("p_pi_dosage")))
                 .build();
-
+        log.info("Prescription item saved!");
         return prescriptionItemResult;
     }
 
@@ -258,8 +261,33 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .execute(parameterSource);
 
         List<Long> prescriptionItemIdList = (List<Long>) result.get("p_pi_object_id_tbl");
-
+        log.info("Active prescription items found!");
         return Optional.of(prescriptionItemIdList);
     }
 
+    @Override
+    public PrescriptionItem findPrescriptionItem(Long prescriptionItemId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_pi_object_id", prescriptionItemId);
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("PRESCRIPTION_PKG")
+                .withProcedureName("getPrescriptionItemById")
+                .execute(parameterSource);
+        log.info("Prescription item found!");
+
+        return PrescriptionItem.newBuilder()
+                .setId(((BigDecimal) result.get("p_pi_object_id")).longValue())
+                .setMedicine(Medicine.newBuilder()
+                        .setId(Long.parseLong((String) result.get("p_pi_medicine_id")))
+                        .build())
+                .setStartDate(((Timestamp) result.get("p_pi_start_date")).toLocalDateTime().toLocalDate())
+                .setEndDate(((Timestamp) result.get("p_pi_end_date")).toLocalDateTime().toLocalDate())
+                .setTakingDurationDays(Integer.parseInt((String) result.get("p_pi_duration_days")))
+                .setTakingTime((String) result.get("p_pi_taking_time"))
+                .setDescription((String) result.get("p_pi_description"))
+                .setIsReminderEnabled(Boolean.parseBoolean((String) result.get("p_pi_is_reminder_enabled")))
+                .setDosage(Double.parseDouble((String) result.get("p_pi_dosage")))
+                .build();
+    }
 }
