@@ -52,7 +52,7 @@ public class UserController {
     private NotificationAutoGeneratorService notificationAutoGeneratorService;
 
     @Autowired
-    private PasswordResetTokenService passwordResetTokenServiceService;
+    private PasswordResetTokenService passwordResetTokenService;
 
     @Autowired
     private MailService mailService;
@@ -108,10 +108,10 @@ public class UserController {
             token.setUserEmail(email);
             token.setToken(UUID.randomUUID().toString());
             token.setCratedDate(LocalDateTime.now());
-            passwordResetTokenServiceService.addToken(token);
+            passwordResetTokenService.addToken(token);
 
-            String appUrl = request.getScheme() + "://" + request.getServerName();
-            mailService.sendForgotPasswordMail(email, appUrl + "/reset?token=" + token.getToken());
+            String appUrl = request.getScheme() + "://https://med-kit-frontend.herokuapp.com/";
+            mailService.sendForgotPasswordMail(email, appUrl + "/reset-password?token=" + token.getToken());
 
             return ResponseEntity.status(HttpStatus.OK).build();
 
@@ -120,17 +120,31 @@ public class UserController {
         }
     }
 
-    @PostMapping("reset")
+    @PostMapping("reset-password")
     @ApiOperation(value = "ResetPassword")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 404, message = "No valid token")
     })
     public ResponseEntity<?> resetPassword(@RequestParam String token, @RequestBody String newPassword){
-        String userEmail = passwordResetTokenServiceService.getUserEmailByToken(token);
+        String userEmail = passwordResetTokenService.getUserEmailByToken(token);
         if (!userEmail.isEmpty()){
             userService.updatePasswordByEmail(userEmail, newPassword);
-            passwordResetTokenServiceService.deleteToken(token);
+            passwordResetTokenService.deleteToken(token);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @GetMapping("reset-password")
+    @ApiOperation(value = "CheckToken")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 404, message = "No valid token")
+    })
+    public ResponseEntity<?> checkToken(@RequestParam String token){
+        if (passwordResetTokenService.getUserEmailByToken(token) != null){
             return ResponseEntity.status(HttpStatus.OK).build();
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
