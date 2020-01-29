@@ -53,11 +53,11 @@ public class PrescriptionController {
     public ResponseEntity<?> addPrescription(@Valid
                                              @RequestBody AddPrescriptionRequest addPrescriptionRequest) {
         Prescription prescription = new Prescription(addPrescriptionRequest);
-        prescriptionService.addPrescription(prescription);
+        Prescription savedPrescription = prescriptionService.addPrescription(prescription);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .build();
+                .body(savedPrescription);
     }
 
     @DeleteMapping
@@ -106,11 +106,10 @@ public class PrescriptionController {
     public ResponseEntity<?> addPrescriptionItem(@Valid
                                                  @RequestBody AddPrescriptionItemRequest addPrescriptionItemRequest) {
         PrescriptionItem prescriptionItem = new PrescriptionItem(addPrescriptionItemRequest);
-        prescriptionService.addPrescriptionItem(prescriptionItem);
+        PrescriptionItem savedPrescriptionItem = prescriptionService.addPrescriptionItem(prescriptionItem);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .build();
+                .body(savedPrescriptionItem);
     }
-
 }

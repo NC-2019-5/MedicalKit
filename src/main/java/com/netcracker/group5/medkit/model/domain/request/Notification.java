@@ -1,7 +1,5 @@
 package com.netcracker.group5.medkit.model.domain.request;
 
-import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
-import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
 import com.netcracker.group5.medkit.model.dto.request.NotificationRequestItem;
 
 public class Notification {

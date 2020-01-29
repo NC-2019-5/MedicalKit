@@ -1,6 +1,5 @@
 package com.netcracker.group5.medkit.util;
 
-import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
 import com.netcracker.group5.medkit.model.domain.request.Notification;
 import com.netcracker.group5.medkit.model.domain.request.NotificationType;
 import com.netcracker.group5.medkit.service.PatientService;
