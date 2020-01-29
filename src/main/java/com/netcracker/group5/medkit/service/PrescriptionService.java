@@ -10,7 +10,7 @@ public interface PrescriptionService {
 
     List<Prescription> findPrescriptionsByPatientId(Pageable pageable);
 
-    void addPrescription(Prescription prescription);
+    Prescription addPrescription(Prescription prescription);
 
     void deletePrescriptionWithItems(Long id);
 
@@ -20,6 +20,6 @@ public interface PrescriptionService {
 
     PrescriptionItem findPrescriptionItem(Long prescriptionItemId);
 
-    void addPrescriptionItem(PrescriptionItem prescriptionItem);
+    PrescriptionItem addPrescriptionItem(PrescriptionItem prescriptionItem);
 
 }

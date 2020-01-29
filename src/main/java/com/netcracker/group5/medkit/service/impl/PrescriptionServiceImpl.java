@@ -2,7 +2,6 @@ package com.netcracker.group5.medkit.service.impl;
 
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
-import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.User;
 import com.netcracker.group5.medkit.repository.PatientRepository;
 import com.netcracker.group5.medkit.repository.PrescriptionRepository;
@@ -34,10 +33,10 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
-    public void addPrescription(Prescription prescription) {
+    public Prescription addPrescription(Prescription prescription) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        prescriptionRepository.save(currentUser.getId(), prescription);
+        return prescriptionRepository.save(currentUser.getId(), prescription);
     }
 
     @Override
@@ -64,8 +63,8 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
-    public void addPrescriptionItem(PrescriptionItem prescriptionItem) {
-        prescriptionRepository.savePrescriptionItem(prescriptionItem);
+    public PrescriptionItem addPrescriptionItem(PrescriptionItem prescriptionItem) {
+        return prescriptionRepository.savePrescriptionItem(prescriptionItem);
     }
 
 }
