@@ -5,7 +5,6 @@ import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.dto.prescription.AddPrescriptionItemRequest;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class PrescriptionItem implements Requestable {
@@ -208,12 +207,12 @@ public class PrescriptionItem implements Requestable {
             return this;
         }
 
-        public Builder setIsReminderEnabled(boolean isReminderEnabled){
+        public Builder setIsReminderEnabled(boolean isReminderEnabled) {
             PrescriptionItem.this.isReminderEnabled = isReminderEnabled;
             return this;
         }
 
-        public Builder setDosage(double dosage){
+        public Builder setDosage(double dosage) {
             PrescriptionItem.this.dosage = dosage;
             return this;
         }
