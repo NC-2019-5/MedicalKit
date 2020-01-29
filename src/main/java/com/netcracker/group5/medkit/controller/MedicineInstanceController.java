@@ -72,9 +72,8 @@ public class MedicineInstanceController {
     public ResponseEntity<?> editMedicineInstance(@Valid
                                                   @RequestBody EditMedicineInstanceRequestItem requestItem) {
         MedicineInstance savedMedicineInstance = medicineInstanceService.saveMedicineInstance(new MedicineInstance(requestItem));
-        GetMedicineInstanceResponseItem responseItem = new GetMedicineInstanceResponseItem(savedMedicineInstance);
 
-        return ResponseEntity.ok(responseItem);
+        return ResponseEntity.ok(savedMedicineInstance);
     }
 
     @DeleteMapping
