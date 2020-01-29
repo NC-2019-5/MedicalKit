@@ -15,18 +15,14 @@ public class MedicineInstance implements Requestable {
     private double amount;
 
     public MedicineInstance(SaveMedicineInstanceRequestItem requestItem) {
-        this.medicine = Medicine.newBuilder()
-                .setId(requestItem.getMedicineId())
-                .build();
+        this.medicine = requestItem.getMedicine();
         this.selfLife = requestItem.getSelfLife();
         this.amount = requestItem.getAmount();
     }
 
     public MedicineInstance(EditMedicineInstanceRequestItem requestItem) {
         this.id = requestItem.getId();
-        this.medicine = Medicine.newBuilder()
-                .setId(requestItem.getMedicineId())
-                .build();
+        this.medicine = requestItem.getMedicine();
         this.selfLife = requestItem.getSelfLife();
         this.amount = requestItem.getAmount();
     }
