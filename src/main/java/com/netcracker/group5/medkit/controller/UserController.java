@@ -115,7 +115,7 @@ public class UserController {
             token.setCratedDate(LocalDateTime.now());
             passwordResetTokenService.addToken(token);
 
-            String appUrl = request.getScheme() + "://https://med-kit-frontend.herokuapp.com/";
+            String appUrl = request.getScheme() + "://https://med-kit-frontend.herokuapp.com";
             mailService.sendForgotPasswordMail(email, appUrl + "/reset-password?token=" + token.getToken());
 
             return ResponseEntity.status(HttpStatus.OK).build();
