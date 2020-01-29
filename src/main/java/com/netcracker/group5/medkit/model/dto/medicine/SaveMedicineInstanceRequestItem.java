@@ -1,5 +1,7 @@
 package com.netcracker.group5.medkit.model.dto.medicine;
 
+import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -7,9 +9,8 @@ import java.time.LocalDate;
 
 public class SaveMedicineInstanceRequestItem {
 
-    @NotNull(message = "Medicine id is mandatory")
-    @Positive(message = "Medicine id must be greater than 0")
-    private Long medicineId;
+    @NotNull(message = "Medicine is mandatory")
+    private Medicine medicine;
 
     @NotNull(message = "Medicine self life is mandatory")
     private LocalDate selfLife;
@@ -21,12 +22,12 @@ public class SaveMedicineInstanceRequestItem {
     public SaveMedicineInstanceRequestItem() {
     }
 
-    public Long getMedicineId() {
-        return medicineId;
+    public Medicine getMedicine() {
+        return medicine;
     }
 
-    public void setMedicineId(Long medicineId) {
-        this.medicineId = medicineId;
+    public void setMedicine(Medicine medicine) {
+        this.medicine = medicine;
     }
 
     public LocalDate getSelfLife() {
