@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(prefix = "spring.cron", name = "expression")
+@ConditionalOnProperty("spring.cron.expression")
 public class ReminderCleaner {
     private static final Logger logger = LogManager.getLogger();
 

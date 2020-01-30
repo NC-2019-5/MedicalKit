@@ -50,4 +50,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByEmail(email);
     }
 
+    @Override
+    public boolean isExistUserWithEmail(String email) {
+        return userRepository.isExistUserWithEmail(email);
+    }
+
+    @Override
+    public void updatePasswordByEmail(String email, String newPassword) {
+        User user = userRepository.findUserByEmail(email);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.update(user);
+    }
+
 }
