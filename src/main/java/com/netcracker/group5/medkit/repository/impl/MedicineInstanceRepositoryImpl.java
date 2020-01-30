@@ -5,7 +5,8 @@ import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
 import com.netcracker.group5.medkit.repository.MedicineInstanceRepository;
 import oracle.jdbc.OracleTypes;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,7 +25,7 @@ import java.util.*;
 
 @Repository
 public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepository {
-    private static final Logger log = Logger.getLogger(MedicineInstanceRepositoryImpl.class);
+    private static final Logger logger = LogManager.getLogger();
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -135,7 +136,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
 
             medicineInstances.add(medicineInstance);
         }
-        log.info("Medicine instances found!");
+        logger.info("Medicine instances found!");
 
 
         return Optional.of(medicineInstances);
@@ -151,7 +152,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                 .withCatalogName("MEDICINE_INSTANCE_PKG")
                 .withProcedureName("getMedicineInstance")
                 .execute(parameterSource);
-        log.info("Medicine instance found!");
+        logger.info("Medicine instance found!");
 
         return MedicineInstance.newBuilder()
                 .setId(((BigDecimal) result.get("p_medicine_instance_id")).longValue())
@@ -176,7 +177,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                 .withCatalogName("MEDICINE_INSTANCE_PKG")
                 .withProcedureName("saveMedicineInstance")
                 .execute(parameterSource);
-        log.info("Medicine instance saved!");
+        logger.info("Medicine instance saved!");
 
         return MedicineInstance.newBuilder()
                 .setId(((BigDecimal) result.get("p_medicine_instance_id")).longValue())
@@ -197,6 +198,6 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                 .withCatalogName("MEDICINE_INSTANCE_PKG")
                 .withProcedureName("deleteMedicineInstance")
                 .execute(parameterSource);
-        log.info("Medicine instance deleted!");
+        logger.info("Medicine instance deleted!");
     }
 }
