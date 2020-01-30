@@ -2,6 +2,7 @@ package com.netcracker.group5.medkit.util;
 
 import org.springframework.jdbc.core.SqlReturnType;
 
+import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.CallableStatement;
@@ -32,7 +33,12 @@ public class SqlReturnListFromArray<T> implements SqlReturnType {
                 listOfValues = new ArrayList<>(arrayOfValues.length);
 
                 for (BigDecimal value : arrayOfValues) {
-                    listOfValues.add(value.longValue());
+                    if (value != null) {
+                        listOfValues.add(value.longValue());
+                    } else {
+                        listOfValues.add(null);
+                    }
+
                 }
 
                 return listOfValues;

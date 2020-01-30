@@ -10,7 +10,8 @@ import com.netcracker.group5.medkit.repository.NotificationRepository;
 import com.netcracker.group5.medkit.util.SqlArray;
 import com.netcracker.group5.medkit.util.SqlReturnListFromArray;
 import oracle.jdbc.OracleTypes;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
@@ -30,7 +31,7 @@ import java.util.*;
 
 @Repository
 public class NotificationRepositoryImpl implements NotificationRepository {
-    private static final Logger log = Logger.getLogger(NotificationRepositoryImpl.class);
+    private static final Logger logger = LogManager.getLogger();
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -52,7 +53,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                         new SqlParameter("p_prescr_item_id", OracleTypes.ARRAY, SqlArray.ARRAY_OF_NUMBERS)
                 )
                 .execute(parameterSource);
-        log.info("Reminders created!");
+        logger.info("Reminders created!");
 
     }
 
@@ -62,19 +63,19 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 .withCatalogName("NOTIFICATIONS_PKG")
                 .withProcedureName("deleteAllReminders")
                 .execute();
-        log.info("Reminders deleted!");
+        logger.info("Reminders deleted!");
     }
 
     @Override
     public void deleteNotification(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("(p_n_object_id", id);
+                .addValue("p_n_object_id", id);
 
         new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("NOTIFICATIONS_PKG")
                 .withProcedureName("deletePINotification")
                 .execute(parameterSource);
-        log.info("Reminder deleted!");
+        logger.info("Reminder deleted!");
     }
 
     @Override
@@ -98,10 +99,12 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                                 SqlArray.ARRAY_OF_DATES, SqlReturnListFromArray.of(LocalDate.class)),
                         new SqlOutParameter("p_prescription_id_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
-                        //new SqlOutParameter("p_medicine_id_tbl", OracleTypes.ARRAY,
-                             //   SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                        new SqlOutParameter("p_medicine_id_tbl", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_user_id_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                        new SqlOutParameter("p_mes_tbl", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_rn_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Integer.class)))
                 .execute(parameterSource);
@@ -111,9 +114,9 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         List<String> reminderTypeList = (List<String>) result.get("p_reminder_type_tbl");
         //List<LocalDate> reminderDateList = (List<LocalDate>) result.get("p_reminder_date_tbl");
         List<Long> prescrIdList = (List<Long>) result.get("p_prescription_id_tbl");
-       // List<Long> medIdList = (List<Long>) result.get("p_medicine_id_tbl");
+        List<Long> medIdList = (List<Long>) result.get("p_medicine_id_tbl");
         List<Long> userIdList = (List<Long>) result.get("p_user_id_tbl");
-
+        List<String> messageList = (List<String>) result.get("p_mes_tbl");
         List<Notification> notificationList = new ArrayList<>();
         ListIterator<Long> iterator = reminderIdList.listIterator();
 
@@ -123,11 +126,13 @@ public class NotificationRepositoryImpl implements NotificationRepository {
             .setType(NotificationType.REMINDER)
             .setUserId(userIdList.get(iterator.nextIndex()))
             .setPrescriptionItem(prescrIdList.get(iterator.nextIndex()))
+            .setMedicineInstance(medIdList.get(iterator.nextIndex()))
+            .setMessage(messageList.get(iterator.nextIndex()))
             .build();
             notificationList.add(notification);
             iterator.next();
         }
-        log.info("Reminders found!");
+        logger.info("Reminders found!");
 
         return Optional.of(notificationList);
     }
@@ -139,7 +144,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 .withCatalogName("NOTIFICATIONS_PKG")
                 .withProcedureName("createNotifications")
                 .execute(parameterSource);
-        log.info("Notifications created!");
+        logger.info("Notifications created!");
     }
     @Override
     public void bulkDeleteMNotifications() {
@@ -147,7 +152,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 .withCatalogName("NOTIFICATIONS_PKG")
                 .withProcedureName("deleteAllNotifications")
                 .execute();
-        log.info("Notifications deleted!");
+        logger.info("Notifications deleted!");
     }
 
     @Override
@@ -175,6 +180,8 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                            SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_user_id_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                        new SqlOutParameter("p_mes_tbl", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_rn_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Integer.class)))
                 .execute(parameterSource);
@@ -186,7 +193,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         //List<Long> prescrIdList = (List<Long>) result.get("p_prescription_id_tbl");
         List<Long> medIdList = (List<Long>) result.get("p_medicine_id_tbl");
         List<Long> userIdList = (List<Long>) result.get("p_user_id_tbl");
-
+        List<String> messageList = (List<String>) result.get("p_mes_tbl");
         List<Notification> notificationList = new ArrayList<>();
         ListIterator<Long> iterator = reminderIdList.listIterator();
 
@@ -197,11 +204,12 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                     .setType(NotificationType.NOTIFICATION)
                     .setUserId(userIdList.get(iterator.nextIndex()))
                     .setMedicineInstance(medIdList.get(iterator.nextIndex()))
+                    .setMessage(messageList.get(iterator.nextIndex()))
                     .build();
             notificationList.add(notification);
             iterator.next();
         }
-        log.info("Notifications found!");
+        logger.info("Notifications found!");
 
         return Optional.of(notificationList);
     }

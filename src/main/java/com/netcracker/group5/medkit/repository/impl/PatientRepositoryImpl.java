@@ -4,7 +4,8 @@ import com.netcracker.group5.medkit.model.domain.user.Patient;
 import com.netcracker.group5.medkit.model.domain.user.Role;
 import com.netcracker.group5.medkit.model.domain.user.Sex;
 import com.netcracker.group5.medkit.repository.PatientRepository;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 @Repository
 public class PatientRepositoryImpl implements PatientRepository {
-    private static final Logger log = Logger.getLogger(PatientRepositoryImpl.class);
+    private static final Logger logger = LogManager.getLogger();
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -50,7 +51,7 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .withCatalogName("PATIENT_PKG")
                 .withProcedureName("savePatientObject")
                 .execute(parameterSourcePatient);
-        log.info("Patient saved!");
+        logger.info("Patient saved!");
 
         return buildPatientFromResult(resultPatient);
     }
@@ -64,7 +65,7 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .withCatalogName("PATIENT_PKG")
                 .withProcedureName("getPatientObject")
                 .execute(parameterSource);
-        log.info("Patient found by it's id!");
+        logger.info("Patient found by it's id!");
         return buildPatientFromResult(result);
 
     }
@@ -89,7 +90,7 @@ public class PatientRepositoryImpl implements PatientRepository {
         patient.setId(patientId == null ? -1L : ((BigDecimal) patientId).longValue());
         patient.setBirthDate(patientBirthDate == null ? null : ((Timestamp) patientBirthDate).toLocalDateTime().toLocalDate());
         patient.setSex(patientSex == null ? null : Sex.valueOf(patientSex.toString()));
-        log.info("Patient builded!");
+        logger.info("Patient builded!");
         return patient;
     }
 }
