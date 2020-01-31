@@ -9,6 +9,7 @@ import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -73,6 +74,13 @@ public class SqlReturnListFromArray<T> implements SqlReturnType {
 
                 for (Timestamp value : arrayOfValues) {
                     listOfValues.add(value.toLocalDateTime().toLocalDate());
+                }
+                return listOfValues;
+            }else if(type.isAssignableFrom(LocalDateTime.class)){
+                listOfValues = new ArrayList<>(arrayOfValues.length);
+
+                for (Timestamp value : arrayOfValues) {
+                    listOfValues.add(value.toLocalDateTime());
                 }
                 return listOfValues;
             }
