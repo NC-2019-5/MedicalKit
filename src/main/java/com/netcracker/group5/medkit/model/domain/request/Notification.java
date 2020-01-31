@@ -6,12 +6,14 @@ import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
 import com.netcracker.group5.medkit.model.dto.request.NotificationRequestItem;
 
+import java.time.LocalDateTime;
+
 public class Notification implements Requestable {
 
     private Long id;
     private Long userId;
     private NotificationType type;
-    private String remindTime;
+    private LocalDateTime remindTime;
     private Long medicineInstanceId;
     private Long prescriptionItemId;
     private String message;
@@ -53,11 +55,11 @@ public class Notification implements Requestable {
         this.type = type;
     }
 
-    public String getRemindTime() {
+    public LocalDateTime getRemindTime() {
         return remindTime;
     }
 
-    public void setRemindTime(String remindTime) {
+    public void setRemindTime(LocalDateTime remindTime) {
         this.remindTime = remindTime;
     }
 
@@ -109,7 +111,7 @@ public class Notification implements Requestable {
             return this;
         }
 
-        public Builder setRemindTime(String remindTime) {
+        public Builder setRemindTime(LocalDateTime remindTime) {
             Notification.this.remindTime = remindTime;
             return this;
         }

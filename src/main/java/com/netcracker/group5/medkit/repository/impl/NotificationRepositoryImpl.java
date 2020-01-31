@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -92,7 +93,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                         new SqlOutParameter("p_reminder_object_id_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_reminder_time_tbl", OracleTypes.ARRAY,
-                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_DATES, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_reminder_type_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_reminder_date_tbl", OracleTypes.ARRAY,
@@ -110,7 +111,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 .execute(parameterSource);
 
         List<Long> reminderIdList = (List<Long>) result.get("p_reminder_object_id_tbl");
-        List<String> reminderTimeList = (List<String>) result.get("p_reminder_time_tbl");
+        List<LocalDateTime> reminderTimeList = (List<LocalDateTime>) result.get("p_reminder_time_tbl");
         List<String> reminderTypeList = (List<String>) result.get("p_reminder_type_tbl");
         //List<LocalDate> reminderDateList = (List<LocalDate>) result.get("p_reminder_date_tbl");
         List<Long> prescrIdList = (List<Long>) result.get("p_prescription_id_tbl");
@@ -169,7 +170,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                         new SqlOutParameter("p_reminder_object_id_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_reminder_time_tbl", OracleTypes.ARRAY,
-                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_DATES, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_reminder_type_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_reminder_date_tbl", OracleTypes.ARRAY,
@@ -187,7 +188,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 .execute(parameterSource);
 
         List<Long> reminderIdList = (List<Long>) result.get("p_reminder_object_id_tbl");
-        List<String> reminderTimeList = (List<String>) result.get("p_reminder_time_tbl");
+        List<LocalDateTime> reminderTimeList = (List<LocalDateTime>) result.get("p_reminder_time_tbl");
         List<String> reminderTypeList = (List<String>) result.get("p_reminder_type_tbl");
         //List<LocalDate> reminderDateList = (List<LocalDate>) result.get("p_reminder_date_tbl");
         //List<Long> prescrIdList = (List<Long>) result.get("p_prescription_id_tbl");
