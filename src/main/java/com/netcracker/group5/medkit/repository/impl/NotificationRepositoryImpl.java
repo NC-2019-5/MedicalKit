@@ -21,12 +21,14 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -40,6 +42,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         jdbcTemplate.setResultsMapCaseInsensitive(true);
     }
 
+    @Transactional
     @Override
     public void bulkCreateNotifications(Long userId, List<Long> prescriptionItemIdList) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
@@ -57,6 +60,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
     }
 
+    @Transactional
     @Override
     public void bulkDeleteNotifications() {
         new SimpleJdbcCall(jdbcTemplate)
@@ -66,6 +70,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         logger.info("Reminders deleted!");
     }
 
+    @Transactional
     @Override
     public void deleteNotification(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
@@ -92,7 +97,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                         new SqlOutParameter("p_reminder_object_id_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_reminder_time_tbl", OracleTypes.ARRAY,
-                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_DATES, SqlReturnListFromArray.of(LocalDateTime.class)),
                         new SqlOutParameter("p_reminder_type_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_reminder_date_tbl", OracleTypes.ARRAY,
@@ -110,7 +115,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 .execute(parameterSource);
 
         List<Long> reminderIdList = (List<Long>) result.get("p_reminder_object_id_tbl");
-        List<String> reminderTimeList = (List<String>) result.get("p_reminder_time_tbl");
+        List<LocalDateTime> reminderTimeList = (List<LocalDateTime>) result.get("p_reminder_time_tbl");
         List<String> reminderTypeList = (List<String>) result.get("p_reminder_type_tbl");
         //List<LocalDate> reminderDateList = (List<LocalDate>) result.get("p_reminder_date_tbl");
         List<Long> prescrIdList = (List<Long>) result.get("p_prescription_id_tbl");
@@ -136,6 +141,8 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
         return Optional.of(notificationList);
     }
+    @Transactional
+    @Override
     public void bulkCreateMNotifications(Long userId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_user_object_id", userId);
@@ -146,6 +153,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 .execute(parameterSource);
         logger.info("Notifications created!");
     }
+    @Transactional
     @Override
     public void bulkDeleteMNotifications() {
         new SimpleJdbcCall(jdbcTemplate)
@@ -169,7 +177,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                         new SqlOutParameter("p_reminder_object_id_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
                         new SqlOutParameter("p_reminder_time_tbl", OracleTypes.ARRAY,
-                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                                SqlArray.ARRAY_OF_DATES, SqlReturnListFromArray.of(LocalDateTime.class)),
                         new SqlOutParameter("p_reminder_type_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_reminder_date_tbl", OracleTypes.ARRAY,
@@ -187,7 +195,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 .execute(parameterSource);
 
         List<Long> reminderIdList = (List<Long>) result.get("p_reminder_object_id_tbl");
-        List<String> reminderTimeList = (List<String>) result.get("p_reminder_time_tbl");
+        List<LocalDateTime> reminderTimeList = (List<LocalDateTime>) result.get("p_reminder_time_tbl");
         List<String> reminderTypeList = (List<String>) result.get("p_reminder_type_tbl");
         //List<LocalDate> reminderDateList = (List<LocalDate>) result.get("p_reminder_date_tbl");
         //List<Long> prescrIdList = (List<Long>) result.get("p_prescription_id_tbl");

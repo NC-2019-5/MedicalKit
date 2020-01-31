@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -94,6 +95,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
         return Optional.of(prescriptionList);
     }
 
+    @Transactional
     @Override
     public Prescription save(Long patientId, Prescription prescription) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
@@ -119,6 +121,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
         return prescriptionResult;
     }
 
+    @Transactional
     @Override
     public void deletePrescriptionWithItems(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
@@ -210,6 +213,7 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
         return Optional.of(prescriptionItemList);
     }
 
+    @Transactional
     @Override
     public PrescriptionItem savePrescriptionItem(PrescriptionItem prescriptionItem) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
