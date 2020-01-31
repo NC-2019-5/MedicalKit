@@ -5,7 +5,8 @@ import com.netcracker.group5.medkit.model.domain.medicine.MedicineInstance;
 import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
 import com.netcracker.group5.medkit.repository.MedicineInstanceRepository;
 import oracle.jdbc.OracleTypes;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,7 +25,7 @@ import java.util.*;
 
 @Repository
 public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepository {
-    private static final Logger log = Logger.getLogger(MedicineInstanceRepositoryImpl.class);
+    private static final Logger logger = LogManager.getLogger();
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -39,7 +40,8 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_patient_id", patientId)
                 .addValue("limit", offset + limit)
-                .addValue("offset", offset);
+                .addValue("offset", offset)
+                .addValue("searchQuery", searchQuery);
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("MEDICINE_INSTANCE_PKG")
@@ -47,7 +49,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                 .declareParameters(
                         new SqlOutParameter("p_medicine_instance_id_array", OracleTypes.ARRAY, "ARRAY_OF_NUMBERS",
                                 (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(4);
+                                    Array sqlArray = callableStatement.getArray(i);
                                     BigDecimal[] bigDecIds = (BigDecimal[]) sqlArray.getArray();
                                     List<Long> idList = new ArrayList<>();
 
@@ -59,7 +61,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                                 }),
                         new SqlOutParameter("p_medicine_id_array", OracleTypes.ARRAY, "ARRAY_OF_NUMBERS",
                                 (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(5);
+                                    Array sqlArray = callableStatement.getArray(i);
                                     BigDecimal[] bigDecMedicineIds = (BigDecimal[]) sqlArray.getArray();
                                     List<Long> medicineIdList = new ArrayList<>();
 
@@ -71,7 +73,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                                 }),
                         new SqlOutParameter("p_self_life_array", OracleTypes.ARRAY, "ARRAY_OF_DATES",
                                 (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(6);
+                                    Array sqlArray = callableStatement.getArray(i);
                                     Timestamp[] timestamps = (Timestamp[]) sqlArray.getArray();
                                     List<LocalDate> localDates = new ArrayList<>();
 
@@ -83,7 +85,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                                 }),
                         new SqlOutParameter("p_amount_array", OracleTypes.ARRAY, "ARRAY_OF_NUMBERS",
                                 (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(7);
+                                    Array sqlArray = callableStatement.getArray(i);
                                     BigDecimal[] bigDecAmounts = (BigDecimal[]) sqlArray.getArray();
                                     List<Double> amountList = new ArrayList<>();
 
@@ -95,14 +97,14 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                                 }),
                         new SqlOutParameter("p_medicine_names", OracleTypes.ARRAY, "ARRAY_OF_STRINGS",
                                 ((callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(8);
+                                    Array sqlArray = callableStatement.getArray(i);
                                     String[] medicineNames = (String[]) sqlArray.getArray();
 
                                     return Arrays.asList(medicineNames);
                                 })),
                         new SqlOutParameter("p_medicine_manufacturers", OracleTypes.ARRAY, "ARRAY_OF_STRINGS",
                                 (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(9);
+                                    Array sqlArray = callableStatement.getArray(i);
                                     String[] medicineManufacturers = (String[]) sqlArray.getArray();
 
                                     return Arrays.asList(medicineManufacturers);
@@ -135,7 +137,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
 
             medicineInstances.add(medicineInstance);
         }
-        log.info("Medicine instances found!");
+        logger.info("Medicine instances found!");
 
 
         return Optional.of(medicineInstances);
@@ -151,7 +153,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                 .withCatalogName("MEDICINE_INSTANCE_PKG")
                 .withProcedureName("getMedicineInstance")
                 .execute(parameterSource);
-        log.info("Medicine instance found!");
+        logger.info("Medicine instance found!");
 
         return MedicineInstance.newBuilder()
                 .setId(((BigDecimal) result.get("p_medicine_instance_id")).longValue())
@@ -176,7 +178,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                 .withCatalogName("MEDICINE_INSTANCE_PKG")
                 .withProcedureName("saveMedicineInstance")
                 .execute(parameterSource);
-        log.info("Medicine instance saved!");
+        logger.info("Medicine instance saved!");
 
         return MedicineInstance.newBuilder()
                 .setId(((BigDecimal) result.get("p_medicine_instance_id")).longValue())
@@ -197,6 +199,6 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                 .withCatalogName("MEDICINE_INSTANCE_PKG")
                 .withProcedureName("deleteMedicineInstance")
                 .execute(parameterSource);
-        log.info("Medicine instance deleted!");
+        logger.info("Medicine instance deleted!");
     }
 }

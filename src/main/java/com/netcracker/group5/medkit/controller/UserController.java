@@ -18,7 +18,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ import java.util.UUID;
 @Api(value = "user")
 @RequestMapping("/")
 public class UserController {
-
+    private static final Logger logger = LogManager.getLogger();
     @Autowired
     private AuthenticationManager authenticationManager;
 

@@ -6,7 +6,8 @@ import com.netcracker.group5.medkit.repository.PurchaseRepository;
 import com.netcracker.group5.medkit.util.SqlArray;
 import com.netcracker.group5.medkit.util.SqlReturnListFromArray;
 import oracle.jdbc.OracleTypes;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
@@ -25,7 +26,7 @@ import java.util.Map;
 
 @Service
 public class PurchaseRepositoryImpl implements PurchaseRepository {
-    private static final Logger log = Logger.getLogger(PurchaseRepositoryImpl.class);
+    private static final Logger logger = LogManager.getLogger();
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -81,7 +82,7 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
 
             purchaseItems.add(purchaseItem);
         }
-        log.info("Purchase items found!");
+        logger.info("Purchase items found!");
         return purchaseItems;
     }
 
@@ -97,7 +98,7 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
                 .withCatalogName("PURCHASE_PKG")
                 .withProcedureName("savePurchaseItem")
                 .execute(parameterSource);
-        log.info("Purchase item saved!");
+        logger.info("Purchase item saved!");
 
         return PurchaseItem.newBuilder()
                 .setId(((BigDecimal) result.get("p_purchase_item_id")).longValue())
@@ -119,6 +120,6 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
                 .declareParameters(
                         new SqlParameter("p_purchase_item_id_array", OracleTypes.ARRAY, SqlArray.ARRAY_OF_NUMBERS))
                 .execute(parameterSource);
-        log.info("Purchase items deleted!");
+        logger.info("Purchase items deleted!");
     }
 }
