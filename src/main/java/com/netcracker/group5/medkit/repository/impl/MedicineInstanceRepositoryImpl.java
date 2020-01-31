@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -165,6 +166,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                 .build();
     }
 
+    @Transactional
     @Override
     public MedicineInstance save(Long patientId, MedicineInstance medicineInstance) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
@@ -190,6 +192,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                 .build();
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
