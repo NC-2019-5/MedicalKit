@@ -7,6 +7,7 @@ import com.netcracker.group5.medkit.model.domain.request.NotificationType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.time.LocalDateTime;
 
 public class NotificationRequestItem {
 
@@ -22,7 +23,7 @@ public class NotificationRequestItem {
     private NotificationType type;
 
     @NotBlank(message = "Notification remind time can not be empty")
-    private String remindTime;
+    private LocalDateTime remindTime;
 
     private Long medicineInstanceId;
 
@@ -60,11 +61,11 @@ public class NotificationRequestItem {
         this.type = type;
     }
 
-    public String getRemindTime() {
+    public LocalDateTime getRemindTime() {
         return remindTime;
     }
 
-    public void setRemindTime(String remindTime) {
+    public void setRemindTime(LocalDateTime remindTime) {
         this.remindTime = remindTime;
     }
 
