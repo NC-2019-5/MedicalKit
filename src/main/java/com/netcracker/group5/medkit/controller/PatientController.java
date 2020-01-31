@@ -16,14 +16,14 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
-@Api(value = "account")
-@RequestMapping("/")
+@Api(value = "/account")
+@RequestMapping("/account")
 public class PatientController {
 
     @Autowired
     private PatientService patientService;
 
-    @GetMapping("account")
+    @GetMapping
     @ApiOperation(value = "GetPatient")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
@@ -36,7 +36,7 @@ public class PatientController {
         return ResponseEntity.ok(new GetPatientResponseItem(patientService.getPatient(currentUser.getId())));
     }
 
-    @PutMapping("account")
+    @PutMapping
     @ApiOperation(value = "EditPatient")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
@@ -51,6 +51,7 @@ public class PatientController {
     }
 
 
+    @PutMapping("/password")
     @ApiOperation(value = "EditPassword")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
