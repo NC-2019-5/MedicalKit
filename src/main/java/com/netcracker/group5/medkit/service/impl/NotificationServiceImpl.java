@@ -51,6 +51,7 @@ public class NotificationServiceImpl implements NotificationService {
             }
 
         }else{
+            notificationRepository.deleteNotification(confirmedNotification.getId());
             throw new IllegalArgumentException();
         }
     }

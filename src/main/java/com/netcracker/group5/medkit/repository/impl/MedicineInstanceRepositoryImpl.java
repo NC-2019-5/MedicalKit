@@ -39,7 +39,8 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_patient_id", patientId)
                 .addValue("limit", offset + limit)
-                .addValue("offset", offset);
+                .addValue("offset", offset)
+                .addValue("searchQuery", searchQuery);
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("MEDICINE_INSTANCE_PKG")
@@ -47,7 +48,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                 .declareParameters(
                         new SqlOutParameter("p_medicine_instance_id_array", OracleTypes.ARRAY, "ARRAY_OF_NUMBERS",
                                 (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(4);
+                                    Array sqlArray = callableStatement.getArray(i);
                                     BigDecimal[] bigDecIds = (BigDecimal[]) sqlArray.getArray();
                                     List<Long> idList = new ArrayList<>();
 
@@ -59,7 +60,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                                 }),
                         new SqlOutParameter("p_medicine_id_array", OracleTypes.ARRAY, "ARRAY_OF_NUMBERS",
                                 (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(5);
+                                    Array sqlArray = callableStatement.getArray(i);
                                     BigDecimal[] bigDecMedicineIds = (BigDecimal[]) sqlArray.getArray();
                                     List<Long> medicineIdList = new ArrayList<>();
 
@@ -71,7 +72,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                                 }),
                         new SqlOutParameter("p_self_life_array", OracleTypes.ARRAY, "ARRAY_OF_DATES",
                                 (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(6);
+                                    Array sqlArray = callableStatement.getArray(i);
                                     Timestamp[] timestamps = (Timestamp[]) sqlArray.getArray();
                                     List<LocalDate> localDates = new ArrayList<>();
 
@@ -83,7 +84,7 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                                 }),
                         new SqlOutParameter("p_amount_array", OracleTypes.ARRAY, "ARRAY_OF_NUMBERS",
                                 (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(7);
+                                    Array sqlArray = callableStatement.getArray(i);
                                     BigDecimal[] bigDecAmounts = (BigDecimal[]) sqlArray.getArray();
                                     List<Double> amountList = new ArrayList<>();
 
@@ -95,14 +96,14 @@ public class MedicineInstanceRepositoryImpl implements MedicineInstanceRepositor
                                 }),
                         new SqlOutParameter("p_medicine_names", OracleTypes.ARRAY, "ARRAY_OF_STRINGS",
                                 ((callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(8);
+                                    Array sqlArray = callableStatement.getArray(i);
                                     String[] medicineNames = (String[]) sqlArray.getArray();
 
                                     return Arrays.asList(medicineNames);
                                 })),
                         new SqlOutParameter("p_medicine_manufacturers", OracleTypes.ARRAY, "ARRAY_OF_STRINGS",
                                 (callableStatement, i, i1, s) -> {
-                                    Array sqlArray = callableStatement.getArray(9);
+                                    Array sqlArray = callableStatement.getArray(i);
                                     String[] medicineManufacturers = (String[]) sqlArray.getArray();
 
                                     return Arrays.asList(medicineManufacturers);
