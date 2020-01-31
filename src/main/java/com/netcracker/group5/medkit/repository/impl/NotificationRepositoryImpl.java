@@ -21,12 +21,14 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -40,6 +42,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         jdbcTemplate.setResultsMapCaseInsensitive(true);
     }
 
+    @Transactional
     @Override
     public void bulkCreateNotifications(Long userId, List<Long> prescriptionItemIdList) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
@@ -57,6 +60,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
     }
 
+    @Transactional
     @Override
     public void bulkDeleteNotifications() {
         new SimpleJdbcCall(jdbcTemplate)
@@ -66,6 +70,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         logger.info("Reminders deleted!");
     }
 
+    @Transactional
     @Override
     public void deleteNotification(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
@@ -136,6 +141,8 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
         return Optional.of(notificationList);
     }
+    @Transactional
+    @Override
     public void bulkCreateMNotifications(Long userId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_user_object_id", userId);
@@ -146,6 +153,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 .execute(parameterSource);
         logger.info("Notifications created!");
     }
+    @Transactional
     @Override
     public void bulkDeleteMNotifications() {
         new SimpleJdbcCall(jdbcTemplate)

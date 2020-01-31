@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -31,6 +32,7 @@ public class PatientRepositoryImpl implements PatientRepository {
         jdbcTemplate.setResultsMapCaseInsensitive(true);
     }
 
+    @Transactional
     @Override
     public Patient save(Long userId, Patient patient) {
         SqlParameterSource parameterSourcePatient = new MapSqlParameterSource()
