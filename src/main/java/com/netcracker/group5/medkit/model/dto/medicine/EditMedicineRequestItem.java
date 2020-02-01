@@ -34,6 +34,9 @@ public class EditMedicineRequestItem {
     @NotBlank(message = "Medicine description can not be empty")
     private String description;
 
+    @NotBlank(message = "Medicine dosage can not be empty")
+    private String dosage;
+
     public EditMedicineRequestItem() {
     }
 
@@ -107,5 +110,13 @@ public class EditMedicineRequestItem {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDosage(){
+        return dosage;
+    }
+
+    public void setDosage(String dosage){
+        this.dosage = dosage;
     }
 }

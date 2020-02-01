@@ -64,6 +64,8 @@ public class MedicineRepositoryImpl implements MedicineRepository {
                         new SqlOutParameter("p_medicine_taking_method", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_medicine_description", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_dosage", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class))
                 ).execute(parameterSource);
 
@@ -76,6 +78,7 @@ public class MedicineRepositoryImpl implements MedicineRepository {
         List<String> medicinePkContent = (List<String>) result.get("p_medicine_pk_content");
         List<String> medicineTakingMethod = (List<String>) result.get("p_medicine_taking_method");
         List<String> medicineDescription = (List<String>) result.get("p_medicine_description");
+        List<String> medicineDosage = (List<String>) result.get("p_medicine_dosage");
 
         List<Medicine> medicines = new ArrayList<>(medicineId.size());
         ListIterator<Long> iterator = medicineId.listIterator();
@@ -90,6 +93,7 @@ public class MedicineRepositoryImpl implements MedicineRepository {
                     .setPackageContent(medicinePkContent.get(iterator.nextIndex()))
                     .setTakingMethod(medicineTakingMethod.get(iterator.nextIndex()))
                     .setDescription(medicineDescription.get(iterator.nextIndex()))
+                    .setDosage(medicineDosage.get(iterator.nextIndex()))
                     .setId(iterator.next())
                     .build();
             medicines.add(medicine);
@@ -126,6 +130,7 @@ public class MedicineRepositoryImpl implements MedicineRepository {
                 .setPackageContent(result.get("p_medicine_pk_content").toString())
                 .setTakingMethod(result.get("p_medicine_taking_method").toString())
                 .setDescription(result.get("p_medicine_description").toString())
+                .setDosage(result.get("p_medicine_dosage").toString())
                 .build();
     }
 
@@ -141,7 +146,8 @@ public class MedicineRepositoryImpl implements MedicineRepository {
                 .addValue("p_medicine_inters", medicine.getInteractions())
                 .addValue("p_medicine_pk_content", medicine.getPackageContent())
                 .addValue("p_medicine_taking_method", medicine.getTakingMethod())
-                .addValue("p_medicine_description", medicine.getDescription());
+                .addValue("p_medicine_description", medicine.getDescription())
+                .addValue("p_medicine_dosage", medicine.getDosage());
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("MEDICINE_PKG")
@@ -159,6 +165,7 @@ public class MedicineRepositoryImpl implements MedicineRepository {
                 .setPackageContent(result.get("p_medicine_pk_content").toString())
                 .setTakingMethod(result.get("p_medicine_taking_method").toString())
                 .setDescription(result.get("p_medicine_description").toString())
+                .setDosage(result.get("p_medicine_dosage").toString())
                 .build();
     }
 
