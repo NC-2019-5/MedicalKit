@@ -106,6 +106,8 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
                 .setId(((BigDecimal) result.get("p_purchase_item_id")).longValue())
                 .setMedicine(Medicine.newBuilder()
                         .setId(((BigDecimal) result.get("p_medicine_id")).longValue())
+                        .setName((String) result.get("p_medicine_name"))
+                        .setManufacturer((String) result.get("p_medicine_manufacturer"))
                         .build())
                 .setAmount(((BigDecimal) result.get("p_amount")).intValue())
                 .build();
