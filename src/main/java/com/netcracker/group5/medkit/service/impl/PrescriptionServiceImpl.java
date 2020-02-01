@@ -67,4 +67,8 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         return prescriptionRepository.savePrescriptionItem(prescriptionItem);
     }
 
+    @Override
+    public void deletePrescriptionItem(Long prescriptionItemId) {
+        prescriptionRepository.deletePrescriptionItem(prescriptionItemId);
+    }
 }

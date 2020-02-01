@@ -290,4 +290,16 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .setDosage(Double.parseDouble((String) result.get("p_pi_dosage")))
                 .build();
     }
+
+    @Transactional
+    @Override
+    public void deletePrescriptionItem(Long prescriptionItemId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_prescription_item_id", prescriptionItemId);
+
+        new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("PRESCRIPTION_PKG")
+                .withProcedureName("deletePrescriptionItem")
+                .execute(parameterSource);
+    }
 }

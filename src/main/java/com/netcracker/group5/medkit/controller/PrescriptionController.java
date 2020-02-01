@@ -112,4 +112,19 @@ public class PrescriptionController {
                 .status(HttpStatus.CREATED)
                 .body(savedPrescriptionItem);
     }
+
+    @DeleteMapping("/items/{id}")
+    @ApiOperation(value = "DeletePrescriptionItem")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
+    public ResponseEntity<?> deletePrescriptionItem(@NotNull(message = "Id can not be empty")
+                                                    @Positive(message = "Id must be greater than 0")
+                                                    @PathVariable("id") Long prescriptionItemId) {
+        prescriptionService.deletePrescriptionItem(prescriptionItemId);
+
+        return ResponseEntity.ok().build();
+    }
 }
