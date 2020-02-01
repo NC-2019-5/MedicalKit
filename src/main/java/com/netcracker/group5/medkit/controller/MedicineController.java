@@ -35,8 +35,14 @@ public class MedicineController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
     })
-    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
-            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+                    value = "Results page you want to retrieve (0..N)"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+                    value = "Number of records per page."),
+            @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+                    required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
+    })
     public ResponseEntity<?> findAllMedicines(@PageableDefault Pageable pageable,
                                               @Size(max = 256, message = "Search query is too long")
                                               @RequestParam(name = "query", required = false) String searchQuery) {
