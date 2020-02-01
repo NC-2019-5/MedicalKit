@@ -103,6 +103,72 @@ public class MedicineRepositoryImpl implements MedicineRepository {
     }
 
     @Override
+    public List<Medicine> findAllByParams(long limit, long offset, String searchQuery) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("limit", limit)
+                .addValue("offset", offset)
+                .addValue("searchQuery", searchQuery);
+
+        Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("MEDICINE_PKG")
+                .withProcedureName("getAllMedicineObjectsByParams")
+                .declareParameters(
+                        new SqlOutParameter("p_medicine_object_id", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_NUMBERS, SqlReturnListFromArray.of(Long.class)),
+                        new SqlOutParameter("p_medicine_name", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_manufacturer", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_prod_form", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_contrs", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_inters", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_pk_content", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_taking_method", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_description", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
+                        new SqlOutParameter("p_medicine_dosage", OracleTypes.ARRAY,
+                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class))
+                ).execute(parameterSource);
+
+        List<Long> medicineId = (List<Long>) result.get("p_medicine_object_id");
+        List<String> medicineName = (List<String>) result.get("p_medicine_name");
+        List<String> medicineManufacturer = (List<String>) result.get("p_medicine_manufacturer");
+        List<String> medicineProdForm = (List<String>) result.get("p_medicine_prod_form");
+        List<String> medicineContrs = (List<String>) result.get("p_medicine_contrs");
+        List<String> medicineInters = (List<String>) result.get("p_medicine_inters");
+        List<String> medicinePkContent = (List<String>) result.get("p_medicine_pk_content");
+        List<String> medicineTakingMethod = (List<String>) result.get("p_medicine_taking_method");
+        List<String> medicineDescription = (List<String>) result.get("p_medicine_description");
+        List<String> medicineDosage = (List<String>) result.get("p_medicine_dosage");
+
+        List<Medicine> medicines = new ArrayList<>(medicineId.size());
+        ListIterator<Long> iterator = medicineId.listIterator();
+
+        while (iterator.hasNext()) {
+            Medicine medicine = Medicine.newBuilder()
+                    .setName(medicineName.get(iterator.nextIndex()))
+                    .setManufacturer(medicineManufacturer.get(iterator.nextIndex()))
+                    .setProductionForm(medicineProdForm.get(iterator.nextIndex()))
+                    .setContraindications(medicineContrs.get(iterator.nextIndex()))
+                    .setInteractions(medicineInters.get(iterator.nextIndex()))
+                    .setPackageContent(medicinePkContent.get(iterator.nextIndex()))
+                    .setTakingMethod(medicineTakingMethod.get(iterator.nextIndex()))
+                    .setDescription(medicineDescription.get(iterator.nextIndex()))
+                    .setDosage(medicineDosage.get(iterator.nextIndex()))
+                    .setId(iterator.next())
+                    .build();
+            medicines.add(medicine);
+        }
+        logger.info("Medicines with params found!");
+        return medicines;
+    }
+
+    @Override
     public Medicine find(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_medicine_object_id", id);

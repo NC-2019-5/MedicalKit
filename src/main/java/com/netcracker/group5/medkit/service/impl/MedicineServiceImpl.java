@@ -23,6 +23,13 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
+    public List<Medicine> findAllMedicinesByParams(Pageable pageable, String searchQuery) {
+        long limit = pageable.getOffset() + pageable.getPageSize();
+
+        return medicineRepository.findAllByParams(limit, pageable.getOffset(), searchQuery);
+    }
+
+    @Override
     public Medicine findMedicine(Long id) {
         return medicineRepository.find(id);
     }
