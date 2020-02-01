@@ -28,6 +28,9 @@ public class SaveMedicineRequestItem {
     @NotBlank(message = "Medicine description can not be empty")
     private String description;
 
+    @NotBlank(message = "Medicine dosage can not be empty")
+    private String dosage;
+
     public SaveMedicineRequestItem() {
     }
 
@@ -93,5 +96,13 @@ public class SaveMedicineRequestItem {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDosage(){
+        return dosage;
+    }
+
+    public void setDosage(String dosage){
+        this.dosage = dosage;
     }
 }

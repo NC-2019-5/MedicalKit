@@ -17,6 +17,7 @@ public class Medicine implements Requestable {
     private String packageContent;
     private String takingMethod;
     private String description;
+    private String dosage;
 
     public Medicine(EditMedicineRequestItem requestItem) {
         this.id = requestItem.getId();
@@ -28,6 +29,7 @@ public class Medicine implements Requestable {
         this.packageContent = requestItem.getPackageContent();
         this.takingMethod = requestItem.getTakingMethod();
         this.description = requestItem.getDescription();
+        this.dosage = requestItem.getDosage();
     }
 
     public Medicine(SaveMedicineRequestItem requestItem) {
@@ -39,6 +41,7 @@ public class Medicine implements Requestable {
         this.packageContent = requestItem.getPackageContent();
         this.takingMethod = requestItem.getTakingMethod();
         this.description = requestItem.getDescription();
+        this.dosage = requestItem.getDosage();
     }
 
     public Medicine() {
@@ -116,6 +119,14 @@ public class Medicine implements Requestable {
         this.description = description;
     }
 
+    public String getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(String dosage) {
+        this.dosage = dosage;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -129,12 +140,13 @@ public class Medicine implements Requestable {
                 Objects.equals(interactions, medicine.interactions) &&
                 Objects.equals(packageContent, medicine.packageContent) &&
                 Objects.equals(takingMethod, medicine.takingMethod) &&
-                Objects.equals(description, medicine.description);
+                Objects.equals(description, medicine.description) &&
+                Objects.equals(dosage, medicine.dosage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, manufacturer, productionForm, contraindications, interactions, packageContent, takingMethod, description);
+        return Objects.hash(id, name, manufacturer, productionForm, contraindications, interactions, packageContent, takingMethod, description, dosage);
     }
 
     @Override
@@ -149,6 +161,7 @@ public class Medicine implements Requestable {
                 ", packageContent='" + packageContent + '\'' +
                 ", takingMethod='" + takingMethod + '\'' +
                 ", description='" + description + '\'' +
+                ", dosage='" + dosage + '\'' +
                 '}';
     }
 
@@ -203,6 +216,11 @@ public class Medicine implements Requestable {
 
         public Builder setDescription(String description) {
             Medicine.this.description = description;
+            return this;
+        }
+
+        public Builder setDosage(String dosage) {
+            Medicine.this.dosage = dosage;
             return this;
         }
 
