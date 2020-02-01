@@ -155,8 +155,6 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                                 SqlArray.ARRAY_OF_DATES, SqlReturnListFromArray.of(LocalDate.class)),
                         new SqlOutParameter("p_pi_end_date_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_DATES, SqlReturnListFromArray.of(LocalDate.class)),
-                        new SqlOutParameter("p_pi_duration_days_tbl", OracleTypes.ARRAY,
-                                SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_pi_taking_time_tbl", OracleTypes.ARRAY,
                                 SqlArray.ARRAY_OF_STRINGS, SqlReturnListFromArray.of(String.class)),
                         new SqlOutParameter("p_pi_description_tbl", OracleTypes.ARRAY,
@@ -174,7 +172,6 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
         List<String> medicineNameList = (List<String>) result.get("p_pi_medicine_name_tbl");
         List<LocalDate> startDateList = (List<LocalDate>) result.get("p_pi_start_date_tbl");
         List<LocalDate> endDateList = (List<LocalDate>) result.get("p_pi_end_date_tbl");
-        List<String> durationDaysList = (List<String>) result.get("p_pi_duration_days_tbl");
         List<String> takingTimeList = (List<String>) result.get("p_pi_taking_time_tbl");
         List<String> descriptionList = (List<String>) result.get("p_pi_description_tbl");
         List<String> isReminderEnabledList = (List<String>) result.get("p_pi_is_reminder_enabled_tbl");
@@ -198,7 +195,6 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                     .setMedicine(medicine)
                     .setStartDate(startDateList.get(iterator.nextIndex()))
                     .setEndDate(endDateList.get(iterator.nextIndex()))
-                    .setTakingDurationDays(Integer.parseInt(durationDaysList.get(iterator.nextIndex())))
                     .setTakingTime(takingTimeList.get(iterator.nextIndex()))
                     .setDescription(descriptionList.get(iterator.nextIndex()))
                     .setPrescription(prescription)
@@ -221,7 +217,6 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .addValue("p_pi_medicine_id", prescriptionItem.getMedicine().getId())
                 .addValue("p_pi_start_date", prescriptionItem.getStartDate())
                 .addValue("p_pi_end_date", prescriptionItem.getEndDate())
-                .addValue("p_pi_duration_days", prescriptionItem.getTakingDurationDays())
                 .addValue("p_pi_taking_time", prescriptionItem.getTakingTime())
                 .addValue("p_pi_description", prescriptionItem.getDescription())
                 .addValue("p_pi_is_reminder_enabled", prescriptionItem.getIsReminderEnabled())
@@ -243,7 +238,6 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                         .build())
                 .setStartDate(((Timestamp) result.get("p_pi_start_date")).toLocalDateTime().toLocalDate())
                 .setEndDate(((Timestamp) result.get("p_pi_end_date")).toLocalDateTime().toLocalDate())
-                .setTakingDurationDays(Integer.parseInt((String) result.get("p_pi_duration_days")))
                 .setTakingTime((String) result.get("p_pi_taking_time"))
                 .setDescription((String) result.get("p_pi_description"))
                 .setIsReminderEnabled(Boolean.parseBoolean((String) result.get("p_pi_is_reminder_enabled")))
@@ -290,7 +284,6 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                         .build())
                 .setStartDate(((Timestamp) result.get("p_pi_start_date")).toLocalDateTime().toLocalDate())
                 .setEndDate(((Timestamp) result.get("p_pi_end_date")).toLocalDateTime().toLocalDate())
-                .setTakingDurationDays(Integer.parseInt((String) result.get("p_pi_duration_days")))
                 .setTakingTime((String) result.get("p_pi_taking_time"))
                 .setDescription((String) result.get("p_pi_description"))
                 .setIsReminderEnabled(Boolean.parseBoolean((String) result.get("p_pi_is_reminder_enabled")))
