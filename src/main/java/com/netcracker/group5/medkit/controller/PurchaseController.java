@@ -67,9 +67,9 @@ public class PurchaseController {
     public ResponseEntity<?> editPurchaseItem(@Valid
                                               @RequestBody EditPurchaseItemRequest request) {
         PurchaseItem purchaseItem = new PurchaseItem(request);
-        purchaseService.savePurchaseItem(purchaseItem);
+        PurchaseItem savedPurchaseItem = purchaseService.savePurchaseItem(purchaseItem);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(savedPurchaseItem);
     }
 
     @DeleteMapping

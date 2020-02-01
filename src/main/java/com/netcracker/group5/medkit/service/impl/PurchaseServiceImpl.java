@@ -27,10 +27,10 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public void savePurchaseItem(PurchaseItem purchaseItem) {
+    public PurchaseItem savePurchaseItem(PurchaseItem purchaseItem) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        purchaseRepository.save(currentUser.getId(), purchaseItem);
+        return purchaseRepository.save(currentUser.getId(), purchaseItem);
     }
 
     @Override
