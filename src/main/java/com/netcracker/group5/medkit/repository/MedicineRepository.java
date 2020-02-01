@@ -7,6 +7,8 @@ import java.util.List;
 public interface MedicineRepository {
     List<Medicine> findAll(long limit, long offset, String searchQuery);
 
+    List<Medicine> findAllByParams(long limit, long offset, String searchQuery);
+
     Medicine find(Long id);
 
     Medicine save(Medicine medicine);
