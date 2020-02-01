@@ -22,4 +22,5 @@ public interface PrescriptionRepository {
 
     PrescriptionItem findPrescriptionItem(Long prescriptionItemId);
 
+    void deletePrescriptionItem(Long prescriptionItemId);
 }
