@@ -13,7 +13,6 @@ public class PrescriptionItem implements Requestable {
     private Medicine medicine;
     private LocalDate startDate;
     private LocalDate endDate;
-    private int takingDurationDays;
     private String takingTime;
     private String description;
     private Prescription prescription;
@@ -29,7 +28,6 @@ public class PrescriptionItem implements Requestable {
                 .build();
         this.startDate = addPrescriptionItemRequest.getStartDate();
         this.endDate = addPrescriptionItemRequest.getEndDate();
-        this.takingDurationDays = addPrescriptionItemRequest.getTakingDurationDays();
         this.takingTime = addPrescriptionItemRequest.getTakingTime();
         this.description = addPrescriptionItemRequest.getDescription();
         this.prescription = Prescription.newBuilder()
@@ -70,14 +68,6 @@ public class PrescriptionItem implements Requestable {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public int getTakingDurationDays() {
-        return takingDurationDays;
-    }
-
-    public void setTakingDurationDays(int takingDurationDays) {
-        this.takingDurationDays = takingDurationDays;
     }
 
     public String getTakingTime() {
@@ -125,21 +115,20 @@ public class PrescriptionItem implements Requestable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PrescriptionItem that = (PrescriptionItem) o;
-        return takingDurationDays == that.takingDurationDays &&
-                isReminderEnabled == that.isReminderEnabled &&
-                Double.compare(that.dosage, dosage) == 0 &&
-                Objects.equals(id, that.id) &&
-                Objects.equals(medicine, that.medicine) &&
-                Objects.equals(startDate, that.startDate) &&
-                Objects.equals(endDate, that.endDate) &&
-                Objects.equals(takingTime, that.takingTime) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(prescription, that.prescription);
+        return isReminderEnabled == that.isReminderEnabled &&
+               Double.compare(that.dosage, dosage) == 0 &&
+               Objects.equals(id, that.id) &&
+               Objects.equals(medicine, that.medicine) &&
+               Objects.equals(startDate, that.startDate) &&
+               Objects.equals(endDate, that.endDate) &&
+               Objects.equals(takingTime, that.takingTime) &&
+               Objects.equals(description, that.description) &&
+               Objects.equals(prescription, that.prescription);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, medicine, startDate, endDate, takingDurationDays, takingTime, description, prescription, isReminderEnabled, dosage);
+        return Objects.hash(id, medicine, startDate, endDate, takingTime, description, prescription, isReminderEnabled, dosage);
     }
 
     @Override
@@ -149,7 +138,6 @@ public class PrescriptionItem implements Requestable {
                 ", medicine=" + medicine +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", takingDurationDays=" + takingDurationDays +
                 ", takingTime='" + takingTime + '\'' +
                 ", description='" + description + '\'' +
                 ", prescription=" + prescription +
@@ -184,11 +172,6 @@ public class PrescriptionItem implements Requestable {
 
         public Builder setEndDate(LocalDate endDate) {
             PrescriptionItem.this.endDate = endDate;
-            return this;
-        }
-
-        public Builder setTakingDurationDays(int takingDurationDays) {
-            PrescriptionItem.this.takingDurationDays = takingDurationDays;
             return this;
         }
 

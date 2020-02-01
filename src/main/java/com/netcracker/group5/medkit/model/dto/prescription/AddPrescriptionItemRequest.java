@@ -25,10 +25,6 @@ public class AddPrescriptionItemRequest {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate endDate;
 
-    @NotNull(message = "Prescription taking duration days can not be empty")
-    @Positive(message = "Prescription taking duration days must be at least 1 day")
-    private int takingDurationDays;
-
     @NotBlank(message = "Prescription taking time can not be empty")
     private String takingTime;
 
@@ -76,14 +72,6 @@ public class AddPrescriptionItemRequest {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public int getTakingDurationDays() {
-        return takingDurationDays;
-    }
-
-    public void setTakingDurationDays(int takingDurationDays) {
-        this.takingDurationDays = takingDurationDays;
     }
 
     public String getTakingTime() {
