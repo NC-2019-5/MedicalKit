@@ -20,4 +20,6 @@ public interface NotificationService {
     void bulkDeleteMNotifications();
 
     List<Notification> findMNotifications(Pageable pageable, String searchQuery);
+
+    void deleteNotification(Long id);
 }

@@ -77,4 +77,9 @@ public class NotificationServiceImpl implements NotificationService {
 
         return notificationRepository.findMNotifications(currentUser.getId(), limit, pageable.getOffset(), searchQuery).orElse(null);
     }
+
+    @Override
+    public void deleteNotification(Long id) {
+        notificationRepository.deleteNotification(id);
+    }
 }

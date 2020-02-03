@@ -36,9 +36,9 @@ public class NotificationController {
                                                   @Size(max = 256, message = "Search query is too long")
                                                   @RequestParam(required = false) String searchQuery) {
         List<Notification> notifications = notificationService.findMNotifications(pageable, searchQuery);
-        NotificationResponseItem responseItem = new NotificationResponseItem(notifications);
+        //NotificationResponseItem responseItem = new NotificationResponseItem(notifications);
 
-        return ResponseEntity.ok(responseItem);
+        return ResponseEntity.ok(notifications);
     }
 
 }
