@@ -49,7 +49,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                     .hasAuthority(Role.ADMINISTRATOR.getAuthority())
                 .antMatchers(HttpMethod.PUT, "/all-medicines/**")
                     .hasAuthority(Role.ADMINISTRATOR.getAuthority())
-                .antMatchers("/medicine-kit", "/notification", "/account", "/prescriptions/**", "/purchases")
+                .antMatchers("/medicine-kit", "/notification", "/account", "/prescriptions/**", "/purchases", "/reminder/**")
                     .hasAuthority(Role.PATIENT.getAuthority())
                 .anyRequest().authenticated()
                 .and()

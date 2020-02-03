@@ -22,7 +22,7 @@ public class NotificationRequestItem {
     @NotNull(message = "Notification type can not be empty")
     private NotificationType type;
 
-    @NotBlank(message = "Notification remind time can not be empty")
+    @NotNull(message = "Notification remind time can not be empty")
     private LocalDateTime remindTime;
 
     private Long medicineInstanceId;

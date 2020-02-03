@@ -87,7 +87,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     public Optional<List<Notification>> findNotifications(Long patientId, long limit, long offset, String searchQuery) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_user_id", patientId)
-                .addValue("p_limit", offset + limit)
+                .addValue("p_limit", limit)
                 .addValue("p_offset", offset);
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
@@ -167,7 +167,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     public Optional<List<Notification>> findMNotifications(Long patientId, long limit, long offset, String searchQuery) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("p_user_id", patientId)
-                .addValue("p_limit", offset + limit)
+                .addValue("p_limit", limit)
                 .addValue("p_offset", offset);
 
         Map<String, Object> result = new SimpleJdbcCall(jdbcTemplate)
