@@ -96,6 +96,7 @@ public class UserRepositoryImpl implements UserRepository {
         return Boolean.parseBoolean(result.get("p_return_statement").toString());
     }
 
+    @Transactional
     @Override
     public User update(User user) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
