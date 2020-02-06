@@ -71,4 +71,9 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     public void deletePrescriptionItem(Long prescriptionItemId) {
         prescriptionRepository.deletePrescriptionItem(prescriptionItemId);
     }
+
+    @Override
+    public void setIsReminderEnabled(Long prescriptionItemId, Boolean isReminderEnabled) {
+        prescriptionRepository.setIsReminderEnabled(prescriptionItemId, isReminderEnabled);
+    }
 }

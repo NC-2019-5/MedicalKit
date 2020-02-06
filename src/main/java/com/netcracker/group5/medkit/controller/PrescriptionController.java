@@ -4,6 +4,7 @@ import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
 import com.netcracker.group5.medkit.model.dto.prescription.AddPrescriptionItemRequest;
 import com.netcracker.group5.medkit.model.dto.prescription.AddPrescriptionRequest;
+import com.netcracker.group5.medkit.model.dto.prescription.SetIsReminderEnabledRequest;
 import com.netcracker.group5.medkit.service.PrescriptionService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,6 +125,19 @@ public class PrescriptionController {
                                                     @Positive(message = "Id must be greater than 0")
                                                     @PathVariable("id") Long prescriptionItemId) {
         prescriptionService.deletePrescriptionItem(prescriptionItemId);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/items")
+    @ApiOperation(value = "SetIsReminderEnabled")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
+    public ResponseEntity<?> setIsReminderEnabled(SetIsReminderEnabledRequest request) {
+        prescriptionService.setIsReminderEnabled(request.getPrescriptionItemId(), request.getIsReminderEnabled());
 
         return ResponseEntity.ok().build();
     }
