@@ -223,4 +223,24 @@ public class MedicineRepositoryImpl implements MedicineRepository {
                 .execute(parameterSource);
         logger.info("Medicine deleted!");
     }
+
+    @Override
+    public Long findMedicineIdByMedicineInstanceId(long medicineId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_mi_id", medicineId);
+
+        Map<String, Object> result;
+        try {
+            result = new SimpleJdbcCall(jdbcTemplate)
+                    .withCatalogName("MEDICINE_PKG")
+                    .withProcedureName("getMedicineIdByMIId")
+                    .execute(parameterSource);
+            logger.info("Medicine id find by medicine instance id!");
+        } catch (DataIntegrityViolationException ex){
+            logger.info("Medicine not found, incorrect data!");
+            return null;
+        }
+
+        return ((BigDecimal) result.get("p_medicine_id")).longValue();
+    }
 }
