@@ -15,4 +15,6 @@ public interface MedicineService {
     Medicine findMedicine(Long id);
 
     void deleteMedicine(Long id);
+
+    Long findMedicineIdByMedicineInstanceId(long medicineInstanceId);
 }
