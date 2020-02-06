@@ -23,4 +23,6 @@ public interface PrescriptionRepository {
     PrescriptionItem findPrescriptionItem(Long prescriptionItemId);
 
     void deletePrescriptionItem(Long prescriptionItemId);
+
+    void setIsReminderEnabled(Long prescriptionItemId, Boolean isReminderEnabled);
 }

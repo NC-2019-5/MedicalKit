@@ -302,4 +302,17 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
                 .withProcedureName("deletePrescriptionItem")
                 .execute(parameterSource);
     }
+
+    @Transactional
+    @Override
+    public void setIsReminderEnabled(Long prescriptionItemId, Boolean isReminderEnabled) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("p_prescription_item_id", prescriptionItemId)
+                .addValue("p_is_reminder_enabled", isReminderEnabled);
+
+        new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("PRESCRIPTION_PKG")
+                .withProcedureName("setIsReminderEnabled")
+                .execute(parameterSource);
+    }
 }

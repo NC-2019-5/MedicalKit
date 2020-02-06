@@ -23,4 +23,6 @@ public interface PrescriptionService {
     PrescriptionItem addPrescriptionItem(PrescriptionItem prescriptionItem);
 
     void deletePrescriptionItem(Long prescriptionItemId);
+
+    void setIsReminderEnabled(Long prescriptionItemId, Boolean isReminderEnabled);
 }
