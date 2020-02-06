@@ -1,8 +1,12 @@
 package com.netcracker.group5.medkit.controller;
 
+import com.netcracker.group5.medkit.model.domain.medicine.Medicine;
 import com.netcracker.group5.medkit.model.domain.purchase.PurchaseItem;
+import com.netcracker.group5.medkit.model.dto.purchase.AddPurchaseItemByMIIdRequest;
 import com.netcracker.group5.medkit.model.dto.purchase.AddPurchaseItemRequest;
 import com.netcracker.group5.medkit.model.dto.purchase.EditPurchaseItemRequest;
+import com.netcracker.group5.medkit.service.MedicineService;
+import com.netcracker.group5.medkit.service.NotificationService;
 import com.netcracker.group5.medkit.service.PurchaseService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,9 @@ public class PurchaseController {
 
     @Autowired
     private PurchaseService purchaseService;
+
+    @Autowired
+    private MedicineService medicineService;
 
     @GetMapping
     @ApiOperation(value = "FindPurchaseItems")
@@ -84,5 +91,29 @@ public class PurchaseController {
         purchaseService.bulkDeletePurchaseItems(idList);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/medicine-instance")
+    @ApiOperation(value = "AddPurchaseItemByMedicineInstanceId")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "OK")
+    })
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token",
+            required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
+    public ResponseEntity<?> addPurchaseItemByMedicineInstanceId(@Valid
+                                                                 @RequestBody AddPurchaseItemByMIIdRequest addPurchaseItemByMIRequest) {
+
+        PurchaseItem purchaseItem = PurchaseItem.newBuilder()
+                .setMedicine(Medicine.newBuilder()
+                        .setId(medicineService.findMedicineIdByMedicineInstanceId(addPurchaseItemByMIRequest.getMedicineInstanceId()))
+                        .build())
+                .setAmount(addPurchaseItemByMIRequest.getAmount())
+                .build();
+        purchaseService.savePurchaseItem(purchaseItem);
+
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .build();
     }
 }

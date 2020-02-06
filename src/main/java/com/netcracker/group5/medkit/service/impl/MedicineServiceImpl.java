@@ -43,4 +43,9 @@ public class MedicineServiceImpl implements MedicineService {
     public void deleteMedicine(Long id) {
         medicineRepository.delete(id);
     }
+
+    @Override
+    public Long findMedicineIdByMedicineInstanceId(long medicineInstanceId) {
+        return medicineRepository.findMedicineIdByMedicineInstanceId(medicineInstanceId);
+    }
 }

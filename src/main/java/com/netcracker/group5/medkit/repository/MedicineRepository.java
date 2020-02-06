@@ -14,4 +14,6 @@ public interface MedicineRepository {
     Medicine save(Medicine medicine);
 
     void delete(Long id);
+
+    Long findMedicineIdByMedicineInstanceId(long medicineId);
 }
