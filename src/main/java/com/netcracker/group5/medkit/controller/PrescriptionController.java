@@ -136,7 +136,7 @@ public class PrescriptionController {
     })
     @ApiImplicitParam(name = "Authorization", value = "Bearer token",
             required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
-    public ResponseEntity<?> setIsReminderEnabled(SetIsReminderEnabledRequest request) {
+    public ResponseEntity<?> setIsReminderEnabled(@RequestBody SetIsReminderEnabledRequest request) {
         prescriptionService.setIsReminderEnabled(request.getPrescriptionItemId(), request.getIsReminderEnabled());
 
         return ResponseEntity.ok().build();

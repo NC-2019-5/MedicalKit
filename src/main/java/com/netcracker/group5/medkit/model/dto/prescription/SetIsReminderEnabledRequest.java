@@ -5,6 +5,9 @@ public class SetIsReminderEnabledRequest {
     private Long prescriptionItemId;
     private Boolean isReminderEnabled;
 
+    public SetIsReminderEnabledRequest() {
+    }
+
     public Long getPrescriptionItemId() {
         return prescriptionItemId;
     }
@@ -17,7 +20,7 @@ public class SetIsReminderEnabledRequest {
         return isReminderEnabled;
     }
 
-    public void setIsReminderEnabled(Boolean reminderEnabled) {
-        isReminderEnabled = reminderEnabled;
+    public void setIsReminderEnabled(Boolean isReminderEnabled) {
+        this.isReminderEnabled = isReminderEnabled;
     }
 }
