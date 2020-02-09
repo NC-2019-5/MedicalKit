@@ -28,7 +28,6 @@ public class AddPrescriptionItemRequest {
     @NotBlank(message = "Prescription taking time can not be empty")
     private String takingTime;
 
-    @NotBlank(message = "Prescription description can not be empty")
     private String description;
 
     @NotNull(message = "Field isReminderEnabled is mandatory")
@@ -38,7 +37,7 @@ public class AddPrescriptionItemRequest {
     @Positive(message = "Medicine dosage must be greater than 0")
     private double dosage;
 
-    public AddPrescriptionItemRequest(){
+    public AddPrescriptionItemRequest() {
 
     }
 
