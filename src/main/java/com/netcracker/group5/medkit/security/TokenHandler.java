@@ -9,7 +9,9 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -59,7 +61,9 @@ public class TokenHandler {
     }
 
     public String generateToken(User user) {
-        return createToken(user, LocalDateTime.now().plusDays(tokenTimeToLive));
+        LocalDateTime tomorrowMidnight = LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.MIDNIGHT);
+
+        return createToken(user, tomorrowMidnight.plusMinutes(1));
     }
 
     private String createToken(User user, LocalDateTime expiresIn) {
