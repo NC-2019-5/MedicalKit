@@ -3,6 +3,7 @@ package com.netcracker.group5.medkit.service.impl;
 import com.netcracker.group5.medkit.model.domain.prescription.Prescription;
 import com.netcracker.group5.medkit.model.domain.prescription.PrescriptionItem;
 import com.netcracker.group5.medkit.model.domain.user.User;
+import com.netcracker.group5.medkit.repository.NotificationRepository;
 import com.netcracker.group5.medkit.repository.PatientRepository;
 import com.netcracker.group5.medkit.repository.PrescriptionRepository;
 import com.netcracker.group5.medkit.service.PrescriptionService;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -21,6 +23,9 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     @Override
     public List<Prescription> findPrescriptionsByPatientId(Pageable pageable) {
@@ -64,7 +69,12 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
     @Override
     public PrescriptionItem addPrescriptionItem(PrescriptionItem prescriptionItem) {
-        return prescriptionRepository.savePrescriptionItem(prescriptionItem);
+        PrescriptionItem prescriptionItemResult = prescriptionRepository.savePrescriptionItem(prescriptionItem);
+        if (prescriptionItemResult.getIsReminderEnabled()){
+            User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            notificationRepository.bulkCreateNotifications(currentUser.getId(), Collections.singletonList(prescriptionItemResult.getId()));
+        }
+        return prescriptionItemResult;
     }
 
     @Override
