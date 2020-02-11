@@ -85,5 +85,9 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     @Override
     public void setIsReminderEnabled(Long prescriptionItemId, Boolean isReminderEnabled) {
         prescriptionRepository.setIsReminderEnabled(prescriptionItemId, isReminderEnabled);
+        if (isReminderEnabled){
+            User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            notificationRepository.bulkCreateNotifications(currentUser.getId(), Collections.singletonList(prescriptionItemId));
+        }
     }
 }
