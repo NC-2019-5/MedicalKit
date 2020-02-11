@@ -7,7 +7,6 @@ import com.netcracker.group5.medkit.repository.PatientRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -74,15 +73,15 @@ public class PatientRepositoryImpl implements PatientRepository {
 
     private Patient buildPatientFromResult(Map<String, Object> resultPatient) {
         Patient patient = Patient.newBuilder()
-                .setEmail(resultPatient.get("p_patient_email").toString())
-                .setPassword(resultPatient.get("p_patient_password").toString())
-                .setRole(Role.getRoleByName(resultPatient.get("p_patient_role").toString()))
-                .setName(resultPatient.get("p_patient_name").toString())
-                .setSurname(resultPatient.get("p_patient_surname").toString())
-                .setWeight(Float.parseFloat(resultPatient.get("p_patient_weight").toString()))
-                .setHeight(Float.parseFloat(resultPatient.get("p_patient_height").toString()))
-                .setLocation(resultPatient.get("p_patient_location").toString())
-                .setPhoneNumber(resultPatient.get("p_patient_phone_number").toString())
+                .setEmail((String) resultPatient.get("p_patient_email"))
+                .setPassword((String) resultPatient.get("p_patient_password"))
+                .setRole(Role.getRoleByName((String) resultPatient.get("p_patient_role")))
+                .setName((String) resultPatient.get("p_patient_name"))
+                .setSurname((String) resultPatient.get("p_patient_surname"))
+                .setWeight(Float.parseFloat((String) resultPatient.get("p_patient_weight")))
+                .setHeight(Float.parseFloat((String) resultPatient.get("p_patient_height")))
+                .setLocation((String) resultPatient.get("p_patient_location"))
+                .setPhoneNumber((String) resultPatient.get("p_patient_phone_number"))
                 .build();
 
         Object patientId = resultPatient.get("p_patient_object_id");

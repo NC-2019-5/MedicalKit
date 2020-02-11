@@ -2,7 +2,9 @@ package com.netcracker.group5.medkit.model.dto.user;
 
 import com.netcracker.group5.medkit.model.domain.user.Sex;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 
 public class EditPatientRequestItem {
@@ -16,10 +18,6 @@ public class EditPatientRequestItem {
     @NotBlank(message = "Phone number is mandatory")
     @Pattern(regexp = "^[+][0-9]{12}$")
     private String phoneNumber;
-
-    @NotNull(message = "Email is mandatory")
-    @Email(message = "Invalid email")
-    private String email;
 
     private LocalDate dateOfBirth;
     private Sex gender;
@@ -97,13 +95,5 @@ public class EditPatientRequestItem {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }
