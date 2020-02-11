@@ -40,7 +40,6 @@ public class Patient extends User {
     }
 
     public Patient(EditPatientRequestItem requestItem) {
-        this.email = requestItem.getEmail();
         this.name = requestItem.getFirstName();
         this.surname = requestItem.getLastName();
         this.birthDate = requestItem.getDateOfBirth();
