@@ -1,6 +1,6 @@
 package com.netcracker.group5.medkit.controller;
+
 import com.netcracker.group5.medkit.model.domain.request.Notification;
-import com.netcracker.group5.medkit.model.dto.notification.NotificationResponseItem;
 import com.netcracker.group5.medkit.model.dto.request.NotificationRequestItem;
 import com.netcracker.group5.medkit.service.NotificationService;
 import io.swagger.annotations.*;
@@ -27,6 +27,7 @@ import java.util.List;
 public class ReminderController {
     @Autowired
     private NotificationService notificationService;
+
     @PutMapping
     @ApiOperation(value = "AutoDecrementMI")
     @ApiResponses(value = {
@@ -40,6 +41,7 @@ public class ReminderController {
 
         return ResponseEntity.ok().build();
     }
+
     @GetMapping
     @ApiOperation(value = "FindAllNotifications")
     @ApiResponses(value = {
@@ -51,7 +53,7 @@ public class ReminderController {
                                                   @Size(max = 256, message = "Search query is too long")
                                                   @RequestParam(required = false) String searchQuery) {
         List<Notification> notifications = notificationService.findNotifications(pageable, searchQuery);
-       // NotificationResponseItem responseItem = new NotificationResponseItem(notifications);
+        // NotificationResponseItem responseItem = new NotificationResponseItem(notifications);
 
         return ResponseEntity.ok(notifications);
     }
@@ -65,8 +67,8 @@ public class ReminderController {
     @ApiImplicitParam(name = "Authorization", value = "Bearer token",
             required = true, dataType = "string", paramType = "header", defaultValue = "Bearer")
     public ResponseEntity<?> deleteNotification(@NotNull(message = "Id can not be empty")
-                                                    @Positive(message = "Id must be greater than 0")
-                                                    @PathVariable Long id) {
+                                                @Positive(message = "Id must be greater than 0")
+                                                @PathVariable Long id) {
         try {
             notificationService.deleteNotification(id);
 
