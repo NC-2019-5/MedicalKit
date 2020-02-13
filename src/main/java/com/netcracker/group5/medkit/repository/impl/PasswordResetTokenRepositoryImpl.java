@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -48,6 +49,7 @@ public class PasswordResetTokenRepositoryImpl implements PasswordResetTokenRepos
 
     }
 
+    @Transactional
     @Override
     public PasswordResetToken save(PasswordResetToken token) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
@@ -69,6 +71,7 @@ public class PasswordResetTokenRepositoryImpl implements PasswordResetTokenRepos
         return resetToken;
     }
 
+    @Transactional
     @Override
     public void deleteToken(String token) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
@@ -80,6 +83,7 @@ public class PasswordResetTokenRepositoryImpl implements PasswordResetTokenRepos
                 .execute(parameterSource);
     }
 
+    @Transactional
     @Override
     public void bulkDeleteToken() {
         SqlParameterSource parameterSource = new MapSqlParameterSource();
